@@ -3,7 +3,6 @@
 namespace app\models;
 
 
-use app\behaviors\ImageBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -37,8 +36,7 @@ class Slider extends ActiveRecord
     const TYPE_MAIN_SLIDER = 1;
     const  SLIDE_IS_ACTIVE = 1;
     private $md5;
-    public $imgFile;
-
+    
     /**
      * {@inheritdoc}
      */
@@ -46,16 +44,10 @@ class Slider extends ActiveRecord
     {
         return 'slider';
     }
-
+    
     public function behaviors()
     {
         return [
-//            'imageBehavior' => [
-//                'class' => ImageBehavior::class,
-//                'imageAttribute' => 'image',  //Attribute of model which using to upload image
-//                'uploadPath' => '@webroot/uploads',  //Path to upload dir
-//                'uploadUrl' => '@web/uploads',  //Url to upload dir
-//            ],
             'timestamp' => [
                 'class' => TimestampBehavior::class,
                 'attributes' => [
@@ -68,7 +60,7 @@ class Slider extends ActiveRecord
             ]
         ];
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -76,10 +68,10 @@ class Slider extends ActiveRecord
     {
         return [
             ['imgFile', 'image',
-                'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
-                'checkExtensionByMimeType' => true,
-                'maxSize' => 1024 * 1024 * 1000,
-                'tooBig' => 'Limit is 5 MB'
+             'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
+             'checkExtensionByMimeType' => true,
+             'maxSize' => 1024 * 1024 * 1000,
+             'tooBig' => 'Limit is 5 MB'
             ],
             [['type'], 'required'],
             [['status', 'img_id'], 'integer'],
@@ -88,7 +80,7 @@ class Slider extends ActiveRecord
             [['added_date'], 'string', 'max' => 50],
         ];
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -104,7 +96,20 @@ class Slider extends ActiveRecord
             'added_date' => 'дата добавления',
         ];
     }
-
+    
+    public function getImgFile(){
+        return Images::getImgPathById($this->img_id);
+    }
+    
+    public function setImgFile($imgFile){
+        $file = UploadedFile::getInstance($this, 'imgFile');
+        if ($file){
+            $image = new Images(['dir' => 'slider/menu/']);
+            $this->img_id = $image->upload($file);
+        }
+        return $imgFile;
+    }
+    
     public static function getMainSlides()
     {
         $slidesId = self::find()
@@ -114,17 +119,16 @@ class Slider extends ActiveRecord
             ->column();
         $slidesPath = Images::find()
             ->where(['id' => $slidesId])
-            ->select(['project_path'])
+            ->select(['path'])
             ->column();
         return $slidesPath;
     }
-
-    public function saveImg()
-    {
-        $this->imgFile = UploadedFile::getInstance($this, 'imgFile');
-        $image = new Images(['base_path' => 'slider/menu/']);
-        $this->img_id = $image->upload($this->imgFile);
-        $this->imgFile = null;
-        return true;
+    
+    public function getImgSize(){
+        return ($img = $this->img) ? $img->size : '';
+    }
+    
+    public function getImg(){
+        return $this->hasOne(Images::class, ['id' => 'img_id']);
     }
 }

@@ -2,15 +2,14 @@
 
 namespace app\controllers;
 
-use app\models\ControllerRules;
 use app\models\Images;
 use app\models\ImagesSearch;
 use app\models\Slider;
 use Yii;
 use yii\data\Pagination;
-use app\classes\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -18,20 +17,24 @@ use yii\web\UploadedFile;
  */
 class ImagesController extends Controller
 {
-    public $layout = 'admin-panel';
     /**
      * @inheritDoc
      */
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
-            ],
-        ];
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ],
+            ]
+        );
     }
-
+    
     /**
      * Lists all Images models.
      *
@@ -41,13 +44,13 @@ class ImagesController extends Controller
     {
         $searchModel = new ImagesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
+    
     /**
      * Displays a single Images model.
      * @param int $id Id
@@ -60,7 +63,7 @@ class ImagesController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
+    
     /**
      * Creates a new Images model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -69,20 +72,22 @@ class ImagesController extends Controller
     public function actionCreate()
     {
         $model = new Images();
-
+        $model = Images::find()->one();
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                // && $model->save()
+                var_dump($model->imgFile); exit;
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
         }
-
+        
         return $this->render('create', [
             'model' => $model,
         ]);
     }
-
+    
     /**
      * Updates an existing Images model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -93,22 +98,24 @@ class ImagesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        
         if ($this->request->isPost && $model->load($this->request->post())) {
+            var_dump($model->imgFile); exit;
+            exit;
             $model->imgFile = UploadedFile::getInstance($model, 'imgFile');
-            if ($model->upload()) {
+            if ($model->upload($model->imgFile)) {
                 Yii::$app->session->setFlash('success', 'Изображение загружено');
                 $model->save();
                 return $this->refresh();
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        
         return $this->render('update', [
             'model' => $model,
         ]);
     }
-
+    
     /**
      * Deletes an existing Images model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -119,10 +126,10 @@ class ImagesController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        
         return $this->redirect(['index']);
     }
-
+    
     /**
      * Finds the Images model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -135,23 +142,23 @@ class ImagesController extends Controller
         if (($model = Images::findOne(['id' => $id])) !== null) {
             return $model;
         }
-
+        
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     public function actionOneFile()
     {
         $query=Slider::find();
-
+        
         $pagination=new Pagination([
             'defaultPageSize' => 5,
             'totalCount' => $query->count(),
         ]);
-
+        
         $slides=$query->orderBy('path')
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
-
+        
         return $this->render('index', [
             'slides' => $slides,
             'pagination' => $pagination,

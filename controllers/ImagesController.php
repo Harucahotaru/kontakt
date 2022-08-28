@@ -72,11 +72,8 @@ class ImagesController extends Controller
     public function actionCreate()
     {
         $model = new Images();
-        $model = Images::find()->one();
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                // && $model->save()
-                var_dump($model->imgFile); exit;
+            if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

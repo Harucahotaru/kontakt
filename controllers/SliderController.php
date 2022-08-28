@@ -74,7 +74,7 @@ class SliderController extends Controller
     {
         $model = new Slider();
         
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->saveImg() && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Изображение загружено');
             return $this->redirect(['view', 'id' => $model->id]);
         }

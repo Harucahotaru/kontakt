@@ -23,18 +23,24 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
+
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 <header>
-    <?php if (Yii::$app->request->url == Yii::$app->homeUrl) {
-        echo Slides::widget();
-    } ?>
-    <?= $this->render("@app/views/header/topMenu") ?>
+    <div class="container-blue-100">
+        Сообщение что что-то временно не работает
+    </div>
+    <div class="container-menu bg-warning">
+        <div class="container">
+            <?= $this->render("@app/views/header/searchLine") ?>
+            <?= $this->render("@app/views/header/topMenu") ?>
+            <?= $this->render("@app/views/header/sideMenu") ?>      
+        </div>
+    </div>
 </header>
 
 <main role="main" class="flex-shrink-0">
     <div class="container">
-        <?= NewsList::widget(['title' => 'Последние новости']); ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
@@ -42,16 +48,7 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
 </main>
-
-<footer class="footer mt-auto py-3 text-muted">
-    <div class="container">
-        <p class="float-left">&copy; My Company <?= date('Y') ?></p>
-    </div>
-</footer>
-
 <?php $this->endBody() ?>
-
 </body>
 </html>
-
 <?php $this->endPage() ?>

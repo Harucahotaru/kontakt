@@ -8,6 +8,7 @@ main > .container {
     height: 60px;
 }
 
+
 .footer > .container {
     padding-right: 15px;
     padding-left: 15px;
@@ -86,39 +87,14 @@ a.desc:after {
 .select2-selection__choice {
     float: left !important;
 }
-
-.main-slider .carousel-image {
-    height: 550px;
-    width: 100%;
-}
-
-.admin-tile {
-    height: 260px;
-    width: 260px;
-    border: 2px solid #0d6efc;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 30px;
-    transition: 1s;
-    text-align: center;
-}
-.admin-tile-title{
-    font-size: 35px;
-    color: #0d6efc;
-}
-.admin-tile-description{
-    font-size: 18px;
-    padding: 20px 10px 20px 10px;
+a{
+    text-decoration: none;
     color: black;
 }
-.admin-tile:hover {
-    transform: scale(1.05);
-
-    -webkit-box-shadow: -2px 10px 40px 11px #d3dff8;
-    -moz-box-shadow: -2px 10px 40px 11px  #d3dff8;
-    box-shadow: -2px 10px 40px 11px  #d3dff8;
+a:hover{
+    color: black;
 }
-.bg-img{
-    background: #fddfb9;
-    --bs-bg-opacity: 1;
+.main-slider .carousel-image {
+    height: 350px;
+    width: 100%;
 }

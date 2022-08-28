@@ -21,6 +21,8 @@ use yii\web\UploadedFile;
  * @property string|null $content_options параметры для контента
  * @property string|null $content контент для сладйа
  * @property string|null $added_date дата добавления
+ * @property Images $img изображение слайда
+ * @property Images $imgPath изображение слайда
  */
 class Slider extends ActiveRecord
 {
@@ -36,7 +38,7 @@ class Slider extends ActiveRecord
     const TYPE_MAIN_SLIDER = 1;
     const  SLIDE_IS_ACTIVE = 1;
     private $md5;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +46,7 @@ class Slider extends ActiveRecord
     {
         return 'slider';
     }
-    
+
     public function behaviors()
     {
         return [
@@ -60,7 +62,7 @@ class Slider extends ActiveRecord
             ]
         ];
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -68,10 +70,10 @@ class Slider extends ActiveRecord
     {
         return [
             ['imgFile', 'image',
-             'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
-             'checkExtensionByMimeType' => true,
-             'maxSize' => 1024 * 1024 * 1000,
-             'tooBig' => 'Limit is 5 MB'
+                'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
+                'checkExtensionByMimeType' => true,
+                'maxSize' => 1024 * 1024 * 1000,
+                'tooBig' => 'Limit is 5 MB'
             ],
             [['type'], 'required'],
             [['status', 'img_id'], 'integer'],
@@ -80,7 +82,7 @@ class Slider extends ActiveRecord
             [['added_date'], 'string', 'max' => 50],
         ];
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -96,20 +98,22 @@ class Slider extends ActiveRecord
             'added_date' => 'дата добавления',
         ];
     }
-    
-    public function getImgFile(){
+
+    public function getImgFile()
+    {
         return Images::getImgPathById($this->img_id);
     }
-    
-    public function setImgFile($imgFile){
+
+    public function setImgFile($imgFile)
+    {
         $file = UploadedFile::getInstance($this, 'imgFile');
-        if ($file){
+        if ($file) {
             $image = new Images(['dir' => 'slider/menu/']);
             $this->img_id = $image->upload($file);
         }
         return $imgFile;
     }
-    
+
     public static function getMainSlides()
     {
         $slidesId = self::find()
@@ -117,18 +121,30 @@ class Slider extends ActiveRecord
             ->andWhere(['status' => self::SLIDE_IS_ACTIVE])
             ->select(['img_id'])
             ->column();
-        $slidesPath = Images::find()
+        $images = Images::find()
             ->where(['id' => $slidesId])
-            ->select(['path'])
-            ->column();
+            ->select(['path', 'name'])
+            ->all();
+        /**@var Images $img**/
+        foreach ($images as $num => $img) {
+            $slidesPath[$num] = $img->fullPath;
+        }
         return $slidesPath;
     }
-    
-    public function getImgSize(){
+
+    public function getImgSize()
+    {
         return ($img = $this->img) ? $img->size : '';
     }
-    
-    public function getImg(){
+
+    public function getImg()
+    {exit;
+        var_dump($this->hasOne(Images::class, ['id' => 'img_id']));exit;
         return $this->hasOne(Images::class, ['id' => 'img_id']);
+    }
+
+    public function getImgPath()
+    {
+        return ($this->img) ? $this->img->path : null;
     }
 }

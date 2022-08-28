@@ -20,8 +20,7 @@ class Slides extends Widget
     public function run()
     {
         $slides = Slider::getMainSlides();
-        return $this->render('slider', ['slides' =>$slides]);
-//
+        return $this->render('slider/slider', ['slides' =>$slides]);
 
     }
 }

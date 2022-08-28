@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\FileHelper;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 
 /**
@@ -94,7 +95,7 @@ class Images extends \yii\db\ActiveRecord
     }
     
     public function getFullPath(){
-        return $this->path = Yii::getAlias('@web')."{$this->path}{$this->name}";
+        return URL::to(Yii::getAlias('@web')."{$this->path}{$this->name}",true);
     }
     
     public static function getImgPathById(?int $id) : ?string{

@@ -1,16 +1,16 @@
 <?php
 $slides = \app\models\Slider::getMainSlides();
-
 ?>
 <div id="carouselIndicator" class="carousel slide carousel-fade main-slider" data-bs-ride="true">
     <div class="carousel-indicators">
         <?php foreach ($slides as $slideNum=>$slide): ?>
-        <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="<?= $slideNum ?>" <?=($slideNum == 0) ? 'class = "active"' : ''?>
-                aria-current="true" aria-label="Slide <?= $slideNum ?>"></button>
+            <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="<?= $slideNum ?>" <?=($slideNum == 0) ? 'class = "active"' : ''?>
+                    aria-current="true" aria-label="Slide <?= $slideNum ?>"></button>
         <?php endforeach; ?>
     </div>
     <div class="carousel-inner">
         <?php foreach ($slides as $slideNum=>$slide): ?>
+        <?php /** @var $slide \app\models\Slider **/?>
             <div class="carousel-item <?=($slideNum == 0) ? 'active' : ''?>">
                 <div class="carousel-image" style="background: top/cover url('<?=$slide?>'); "></div>
             </div>

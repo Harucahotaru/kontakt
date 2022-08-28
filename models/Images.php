@@ -11,28 +11,34 @@ use yii\web\UploadedFile;
  * This is the model class for table "images".
  *
  * @property int $id Id
- * @property string $project_path Путь
+ * @property string $path Путь
+ * @property string $name Имя картинки
  * @property int|null $size Размер
  * @property string|null $description Описание
  * @property string|null $date_c Дата создания
+ * @property string $fullPath Полный веб путь к картинке
  * @property string $hash Хэш
  */
 class Images extends \yii\db\ActiveRecord
 {
-    public $imgFile;
-    private $md5;
+    //public $imgFile;
     public $base_directory = 'upload/images/';
-    public $base_path = '';
-
+    public $dir = '';
+    
+    
     /**
      * {@inheritdoc}
      */
-
+    
     public static function tableName()
     {
         return 'images';
     }
-
+    
+    public function beforeDelete(){
+        return unlink(Yii::getAlias('@webroot')."{$this->path}{$this->name}");
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -40,19 +46,19 @@ class Images extends \yii\db\ActiveRecord
     {
         return [
             ['imgFile', 'image',
-                'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
-                'checkExtensionByMimeType' => true,
-                'maxSize' => 1024 * 1024 * 1000,
-                'tooBig' => 'Limit is 5 MB'
+             'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
+             'checkExtensionByMimeType' => true,
+             'maxSize' => 1024 * 1024 * 1000,
+             'tooBig' => 'Limit is 5 MB'
             ],
-            [['project_path', 'hash'], 'required'],
+            [['path', 'hash'], 'required'],
             [['size'], 'integer'],
             [['date_c'], 'safe'],
-            [['description', 'hash'], 'string', 'max' => 255],
+            [['description','imgDir', 'hash','name'], 'string', 'max' => 255],
             [['hash'], 'unique'],
         ];
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -60,58 +66,67 @@ class Images extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'Id',
-            'project_path' => 'Путь',
+            'path' => 'Путь',
             'size' => 'Размер',
             'description' => 'Описание',
             'date_c' => 'Дата создания',
             'hash' => 'Хэш',
+            'name' => 'Имя картинки',
         ];
     }
-
+    
     public function upload(UploadedFile $imgFile): int
     {
-        $dir = $this->base_path; // Директория - должна быть создана
-        $name = $this->randomFileName($imgFile->extension);
-        $sitePath = '/'.$this->base_directory.$dir . $name;
-        $systemPath = Yii::$app->basePath."/web/$sitePath";
-        $hash = md5_file($imgFile->tempName);
-        if (!($imgModel = self::findOne(['hash'=>$hash]))) {
-
-            if (!$imgFile->saveAs($systemPath)) { // Сохраняем файл\{
-                throw new Exception('неудалось сохранить картинку');
+        $this->name = $imgFile->name;
+        $this->path = "/{$this->base_directory}{$this->dir}";
+        $this->hash = md5_file($imgFile->tempName);
+        if (!($imgModel = self::findOne(['hash'=>$this->hash]))) {
+            if (!$imgFile->saveAs("@webroot{$this->path}{$this->name}")) { // Сохраняем файл\{
+                throw new Exception('Не удалось сохранить картинку');
             }
-            $params['size'] = $imgFile->size;
-            $params['hash'] = md5_file($systemPath);
-            $params['project_path'] = $sitePath;
-            if (!$this->saveDb($params)) {
+            $this->size = $imgFile->size;
+            if (!$this->save()) {
                 throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
             }
             $imgModel = $this;
         }
         return $imgModel->id;
     }
-
-    /**
-     * Save image in DB
-     * @param array $params params for save
-     * @return bool
-     */
-    public function saveDb(array $params): bool
-    {
-        $this->hash = $params['hash'];
-        $this->size = $params['size'];
-        $this->project_path = $params['project_path'];
-        return $this->save();
+    
+    public function getFullPath(){
+        return $this->path = Yii::getAlias('@web')."{$this->path}{$this->name}";
     }
-
-    private function randomFileName($extension = false)
-    {
-        $extension = $extension ? '.' . $extension : '';
-        $this->md5 = md5(microtime() . rand(0, 1000));
-        do {
-            $name = $this->md5;
-            $path = $name . $extension;
-        } while (file_exists($path));
-        return $path;
+    
+    public static function getImgPathById(?int $id) : ?string{
+        return ($img = self::findone(['id' => $id])) ? $img->fullPath : null;
+    }
+    
+    public function getImgFile(){
+        //echo 123; exit;
+        return 1;
+    }
+    
+    public function setImgFile($imgFile){
+        $file = UploadedFile::getInstance($this, 'imgFile');
+        if ($file){
+            $image = new Images(['dir' => 'slider/menu/']);
+            $image->upload($file);
+        }
+        return $imgFile;
+    }
+    
+    public function getImgDir(){
+        
+        $res='';
+        if (!empty($this->path)){
+            preg_match('/upload\/images\/(.*)/',$this->path,$matches);
+            $res = $matches[1] ?? '';
+        }
+        return $res;
+    }
+    
+    public function setImgDir($imgDir){
+        $this->dir = $imgDir;
+        return $this->dir;
     }
 }

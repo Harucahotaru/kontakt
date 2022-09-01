@@ -102,7 +102,7 @@ class ControllerRules extends ActiveRecord
         $controllerRules = [];
         foreach ($modelRules as $modelRule) {
             /* @var self $modelRule */
-            if (empty($res[$modelRule->role])) {
+            if (empty($controllerRules[$modelRule->role])) {
                 $controllerRules[$modelRule->role] = [
                     'roles' => [$modelRule->role],
                     'allow' => $modelRule->allow

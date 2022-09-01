@@ -1,91 +1,37 @@
-<?php
-
-use app\classes\Nav;
-use yii\bootstrap5\NavBar;
-
-NavBar::begin([
-    'options' => [
-        'class' => 'navbar navbar-expand-lg navbar-dark bg-dark fixed-top menu',
-    ],
-    'innerContainerOptions' => ['class' => 'container position-relative']
-]);
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav'],
-    'items' => [
-        ['label' => '<i class="fa-solid fa-house-chimney"></i> Home', 'url' => Yii::$app->homeUrl, 'encode' => false, 'options' => ['class' => '']],
-        ['label' => 'Contact', 'url' => ['/site/contact'], 'encode' => false, 'options' => ['class' => '']],
-        [
-            'label' => 'News',
-            'encode' => false,
-            'options' => ['class' => ''],
-            'items' => [
-                [
-                    ['label' => 'Заголовок 1'],
-                    ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
-                    ['label' => 'Level 1 - Dropdown B', 'url' => '#']
-                ],
-                [
-                    ['label' => 'Заголовок 1'],
-                    ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
-                    ['label' => 'Level 1 - Dropdown B', 'url' => '#']
-                ], [
-                    ['label' => 'Заголовок 1'],
-                    ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
-                    ['label' => 'Level 1 - Dropdown B', 'url' => '#']
-                ], [
-                    ['label' => 'Заголовок 1'],
-                    ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
-                    ['label' => 'Level 1 - Dropdown B', 'url' => '#']
-                ],
-                [
-                    'label' => 'Все заголовки',
-                    'tag' => 'a',
-                    'options' => [
-                        'href' => 'as',
-                        'class' => 'btn btn-outline-secondary w-100 mt-2']
-                ]
-            ],
-        ],
-        [
-            'label' => '<i class="fa-solid fa-gears"></i> Admin',
-            'encode' => false,
-            'options' => ['class' => 'red-600   '],
-            'visible' => Yii::$app->user->can('moderator'),
-            'items' => [
-                [
-                    ['label' => 'Site panel'],
-                    ['label' => 'Slider', 'url' => ['/slider']],
-                    ['label' => 'News', 'url' => ['/news']],
-                    ['label' => 'Images', 'url' => ['/images']],
-                ],
-                [
-                    ['label' => 'Users panel'],
-                    ['label' => 'Users', 'url' => ['/user']],
-                    ['label' => 'Roles', 'url' => ['/controller-rules']],
-                ],
-                [
-                    'label' => 'Admin page',
-                    'tag' => 'a',
-                    'options' => [
-                        'href' => '/admin',
-                        'class' => 'btn btn-outline-secondary w-100 mt-2']
-                ]
-            ],
-        ],
-        ['label' => 'Games', 'url' => ['/games']],
-        [
-            'label' => 'User',
-            'encode' => false,
-            'options' => ['class' => 'position-absolute end-0'],
-            'items' => [
-                ['label' => 'Site panel'],
-                ['label' => 'Profile', 'url' => ['#']],
-                ['label' => 'Login', 'url' => ['/user/login'], 'visible' => Yii::$app->user->isGuest,],
-                ['label' => 'Logout', 'url' => ['/user/logout'], 'visible' => !Yii::$app->user->isGuest],
-            ],
-        ],
-
-    ],
-]);
-NavBar::end();
-?>
+<div class="row menu-item-small">
+    <div class="col-lg-3">
+        <a class="" href="<?= Yii::$app->homeUrl ?>">
+            <img src="\upload\images\logo.png" class="top-menu-item-logo">
+        </a>
+    </div>
+    <div class="col-lg-5">
+        <nav class="navbar navbar-expand-lg bg-warning">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav menu-text-size-title ">
+                        <li class="nav-item top-menu-title">
+                            <a class="nav-link active" aria-current="page" href="#">Каталог</a>
+                        </li>
+                        <li class="nav-item top-menu-title">
+                            <a class="nav-link active" aria-current="page" href="#">Новости</a>
+                        </li>
+                        <li class="nav-item top-menu-title">
+                            <a class="nav-link active" aria-current="page" href="#">Акции</a>
+                        </li>
+                        <li class="nav-item top-menu-title">
+                            <a class="nav-link active" aria-current="page" href="#">Контакты</a>
+                        </li>
+                    </ul>
+                </div>
+        </nav>
+    </div>
+    <div class="col-lg-2">
+        <div><i class="fa-solid fa-phone"></i>+718828828288</div>
+        <div><i class="fa-solid fa-phone"></i>+718828828288</div>
+    </div>
+    <div class="col-lg-2">
+        <div class="row menu-text-size-icons">
+            <a class="col-lg-2 " href="#"><i class="fa-brands fa-vk menu-icon-vk social-icon"></i></a>
+            <a class="col-lg-2 " href="#"><i class="fa-brands fa-square-instagram menu-icon-instagram social-icon"></i></a>
+        </div>
+    </div>
+</div>

@@ -5,7 +5,9 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\Brands;
 use app\widgets\Alert;
+use app\widgets\BrandList;
 use app\widgets\NewsList;
 use app\widgets\Slides;
 use yii\bootstrap5\Breadcrumbs;
@@ -35,6 +37,7 @@ AppAsset::register($this);
 <main role="main" class="flex-shrink-0">
     <div class="container">
         <?= NewsList::widget(['title' => 'Последние новости']); ?>
+        <?= BrandList::widget(['title' => 'Бренды', 'brands' => Brands::getBrandList()]); ?>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

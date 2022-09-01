@@ -1,0 +1,21 @@
+.brand-list{
+    width: 80%;
+    margin: 0 auto;
+}
+.brand-list-container{
+    width: 100%;
+}
+.brand-list-item-container{
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(34, 60, 80, 0.5);
+    -moz-box-shadow: 0px 0px 4px 0px rgba(34, 60, 80, 0.5);
+    box-shadow: 0px 0px 4px 0px rgba(34, 60, 80, 0.5);
+    padding: 5px 10px;
+    width: 300px;
+    height: 200px;
+    margin: 10px auto;
+}
+.item-image{
+    width: 80%;
+    height: 100px;
+    margin: 46px auto;
+}

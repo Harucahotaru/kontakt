@@ -3,12 +3,12 @@
 namespace app\widgets;
 
 use app\assets\widget\BrandListAsset;
-use app\models\News;
 use yii\base\Widget;
 
-class BrandsList extends Widget
+class BrandList extends Widget
 {
     public $options = [];
+    public $brands = [];
     public $title = '';
     
     public function init()
@@ -19,10 +19,13 @@ class BrandsList extends Widget
     
     public function run()
     {
-        $news = News::getLastNews();
-        return $this->render('brands/index', [
-            'news'  => $news,
-            'title' => $this->title
-        ]);
+        if ($this->brands){
+            return $this->render('brand-list/index', [
+                'brands'  => $this->brands,
+                'title' => $this->title
+            ]);
+        } else {
+            return false;
+        }
     }
 }

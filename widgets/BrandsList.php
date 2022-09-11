@@ -20,7 +20,7 @@ class BrandsList extends Widget
     public function run()
     {
         $news = News::getLastNews();
-        return $this->render('brands/index', [
+        return $this->render('brands\index', [
             'news'  => $news,
             'title' => $this->title
         ]);

@@ -3,6 +3,7 @@
 namespace app\widgets;
 
 use app\assets\widget\BrandListAsset;
+use app\models\Brands;
 use yii\base\Widget;
 
 class BrandList extends Widget
@@ -19,8 +20,9 @@ class BrandList extends Widget
     
     public function run()
     {
+        $this->brands = Brands::getBrandList();
         if ($this->brands){
-            return $this->render('brand-list/index', [
+            return $this->render('brand-list\index', [
                 'brands'  => $this->brands,
                 'title' => $this->title
             ]);

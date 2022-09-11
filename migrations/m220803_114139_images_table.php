@@ -21,6 +21,7 @@ class m220803_114139_images_table extends Migration
             'description' => $this->string()->comment('Описание'),
             'date_c' => $this->dateTime()->comment('Дата создания'),
             'hash' => $this->string()->unique()->notNull()->comment('Хэш'),
+            'name' => $this->varchar(255)->notNull()->comment('имя изображения'),
         ]);
         $this->addCommentOnTable(self::IMAGES_TABLE, 'Таблица изображений');
         $this->createIndex('image_hash_index', self::IMAGES_TABLE, [

@@ -9,6 +9,8 @@ use yii\web\Controller;
 
 class NewsController extends Controller
 {
+    public $layout = '@app/modules/admin/views/layouts/catalog.php';
+
     public function actionIndex()
     {
         return $this->render('index');

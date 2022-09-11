@@ -30,7 +30,9 @@ a.asc:after, a.desc:after {
     margin: 4px 4px 2px 4px;
     background: transparent;
 }
-
+li{
+    list-style-type:none;
+}
 a.asc:after {
     border-bottom: solid 7px #212529;
     border-top-width: 0;

@@ -1,9 +1,9 @@
 <?php
 $db =[
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=alice_stream',
-    'username' => 'copylice',
-    'password' => 'Vergil1993',
+    'dsn' => 'mysql:host=localhost;dbname=kontact',
+    'username' => 'admin',
+    'password' => '111',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

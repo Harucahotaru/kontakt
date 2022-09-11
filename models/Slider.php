@@ -23,6 +23,7 @@ use yii\web\UploadedFile;
  * @property string|null $added_date дата добавления
  * @property Images $img изображение слайда
  * @property Images $imgPath изображение слайда
+ * @property array $slidesPath путь к слайдам
  */
 class Slider extends ActiveRecord
 {
@@ -126,6 +127,7 @@ class Slider extends ActiveRecord
             ->select(['path', 'name'])
             ->all();
         /**@var Images $img**/
+        /**@var array $slidesPath**/
         foreach ($images as $num => $img) {
             $slidesPath[$num] = $img->fullPath;
         }

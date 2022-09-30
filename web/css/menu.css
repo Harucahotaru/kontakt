@@ -8,6 +8,16 @@
     max-width: 100%;
     height: 450px;
 }
+.container-menu-small {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: 0;
+    margin-left: 0;
+    max-width: 100%;
+    height: 50px;
+}
 
 .container-blue {
     background: #c3e6cb;

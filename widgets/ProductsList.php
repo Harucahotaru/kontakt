@@ -3,12 +3,11 @@
 namespace app\widgets;
 
 use app\assets\widget\ProductsListAsset;
-use app\models\Brands;
+use app\models\Products;
 use yii\base\Widget;
 
 class ProductsList extends Widget
 {
-
     public function init()
     {
         parent::init();
@@ -17,7 +16,10 @@ class ProductsList extends Widget
 
     public function run()
     {
+        $category = 1;
+        $products = Products::getProductsByCategory($category);
         return $this->render('products-list\index', [
+            'products'  => $products,
         ]);
     }
 }

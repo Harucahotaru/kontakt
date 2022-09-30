@@ -34,19 +34,94 @@ AppAsset::register($this);
     <div class="container-100 container-blue">
         Сообщение что что-то временно не работает
     </div>
-    <div class="container-menu bg-warning">
+    <div class="container-menu-small bg-warning">
         <div class="container">
             <?= $this->render("@app/views/header/searchLine") ?>
         </div>
     </div>
 </header>
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+<div class="container-grey">
+    <div class="side-menu">
+        <div class="flex-shrink-0 p-1 bg-warning" style="width: 280px;">
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <div class="menu-tex">
+                        <button class="side-menu-button btn-toggle align-items-center " data-bs-toggle="collapse"
+                                data-bs-target="#first" aria-expanded="true">
+                            <a class="menu-text-size-title">Кабели и растяжки</a>
+                        </button>
+                    </div>
+                    <div class="collapse show px-3" id="first" style="">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
+                            <li><a href="#" class="link-dark rounded">Кабели</a></li>
+                            <li><a href="#" class="link-dark rounded">Разтяжки</a></li>
+                            <li><a href="#" class="link-dark rounded">Разтяжки</a></li>
+                            <li><a href="#" class="link-dark rounded">Разтяжки</a></li>
+                            <li><a href="#" class="link-dark rounded">Разтяжки</a></li>
+                            <li><a href="#" class="link-dark rounded">Разтяжки</a></li>
+                            <li><a href="#" class="link-dark rounded">Разтяжки</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="flex-shrink-0 p-1 bg-warning " style="width: 280px;">
+            <ul class="list-unstyled ps-0">
+                <li class="mb-1">
+                    <div class="menu-tex">
+                        <button class="side-menu-button btn-toggle align-items-center " data-bs-toggle="collapse"
+                                data-bs-target="#second" aria-expanded="true">
+                            <a class="menu-text-size-title">Бытовые приборы</a>
+                        </button>
+                    </div>
+                    <div class="collapse px-3" id="second" style="">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
+                            <li><a href="#" class="link-dark rounded">Инструменты</a></li>
+                            <li><a href="#" class="link-dark rounded">Расходные материалы</a></li>
+                            <li><a href="#" class="link-dark rounded">Расходные материалы</a></li>
+                            <li><a href="#" class="link-dark rounded">Расходные материалы</a></li>
+                            <li><a href="#" class="link-dark rounded">Расходные материалы</a></li>
+                            <li><a href="#" class="link-dark rounded">Расходные материалы</a></li>
+                            <li><a href="#" class="link-dark rounded">Расходные материалы</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
+    <div class="catalog-container">
+        <div class="container pt-3">
+            <div class="row">
+                <div class="col-lg-2 align-self-center">
+                    <select class="catalog-form-select">
+                        <option selected>Сортировать:</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 align-self-center">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            Есть в наличии
+                        </div>
+                        <div class="form-chec col-lg-2 align-self-center">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= ProductsList::widget() ?>
+        </div>
+
+    </div>
+</div>
 </main>
 <footer>
     <?= $this->render("@app/views/footer/footer.php") ?>
@@ -54,4 +129,4 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage()?>
+<?php $this->endPage() ?>

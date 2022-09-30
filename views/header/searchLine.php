@@ -24,6 +24,6 @@
         </a>
     </div>
     <div class="col-lg-2 align-self-end">
-        Следите за нами
+<!--        Следите за нами-->
     </div>
 </div>

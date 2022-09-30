@@ -24,6 +24,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
         'css/navbar.css',
         'css/menu.css',
+        'css/catalog.css'
     ];
     public $js = [
         'js/site.js'

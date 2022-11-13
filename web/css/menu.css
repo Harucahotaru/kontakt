@@ -59,8 +59,7 @@
     width: 25%;
     float: left;
     z-index: 3;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 15px
 }
 
 .menu-item-slider {
@@ -77,8 +76,11 @@
 }
 
 .menu-item {
+    padding-right: 10px;
     transition: 0.5s;
     position: relative;
+    padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .hover-icon {
@@ -86,7 +88,7 @@
     position: absolute;
     left: -27px;
     opacity: 0;
-    bottom: -22px;
+    top: 11px;
     rotate: 90deg;
 }
 
@@ -133,8 +135,8 @@
 
 .submenu {
     position: absolute;
-    right: -1965px;
-    top: -6px;
+    right: -1959px;
+    top: 0px;
     width: 973px;
     height: 350px;
     background: #fdc007;
@@ -157,7 +159,7 @@
 .menu-item:hover .submenu {
     opacity: 1;
     display: block;
-    transform: translateX(-971px);
+    transform: translateX(-986px);
 }
 
 .submenu-item {
@@ -217,8 +219,8 @@
 
 .menu-item-line {
     list-style-type: none;
-    padding: 6px;
     margin: 0;
+    padding-left: 0;
 
 }
 

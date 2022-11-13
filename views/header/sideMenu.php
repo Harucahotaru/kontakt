@@ -8,13 +8,14 @@ use app\widgets\Slides;
         <ul class="menu-item-line">
             <li class="menu-item active" href="#">
                 <div class="menu-text">
-                    <div class="left-icon menu-text-size-title">
-                        <i class="fa-solid fa-plug catalog-menu-hover-icon"></i>
+                    <div class="menu-text-size-title">
+                        <i class="fa-solid fa-plug hover-icon"></i>
                         <i class="fa-solid fa-car-battery"></i>
+                        <a class="menu-item-text menu-text-size-title" href="#">Кабели и растяжки</a>
                     </div>
-                    <a class="menu-item-text menu-text-size-title" href="#">Кабели и растяжки</a>
                 </div>
                 <div class="menu-item-arrow menu-text-size-title"><i class="fa-solid fa-angle-right"></i></div>
+                <div style="clear: both"></div>
                 <div class="submenu">
                     <div class="row">
                         <div class="col-lg-3">

@@ -117,6 +117,7 @@ class Slider extends ActiveRecord
 
     public static function getMainSlides()
     {
+        $slidesPath = [];
         $slidesId = self::find()
             ->where(['type' => self::TYPE_MAIN_SLIDER])
             ->andWhere(['status' => self::SLIDE_IS_ACTIVE])

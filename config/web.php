@@ -30,9 +30,10 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'rules' => [
+                'about' => 'site/about',
                 'images' => 'images/index',
                 'news/category-<category>' => 'news/categories',
-                'news/<urlnews>' => 'news/detail-news',
+                'news/<category>/<urlnews>' => 'news/detail-news',
                 'news' => 'news/categories',
                 '<path:\w+>/<controller:\w+>/<action:\w+>'=>'<path>/<controller>/<action>',
             ],

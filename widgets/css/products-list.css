@@ -12,7 +12,7 @@
     word-wrap: break-word;
     background-color: var(--bs-card-bg);
     background-clip: border-box;
-    width: 300px;
+    width: 300px!important;
     padding: 0;
     margin: 15px;
 }
@@ -43,7 +43,8 @@
     color: white;
 }
 .card-basket{
-
+    padding-right: 0!important;
+    padding-left: 0!important;
 }
 .product-card-button{
     --bs-btn-padding-x: 0.75rem;

@@ -3,13 +3,13 @@
 namespace app\controllers;
 
 use app\models\ControllerRules;
+use app\models\News;
 use Yii;
 use app\classes\AccessControl;
 use yii\web\Controller;
 
 class NewsController extends Controller
 {
-    public $layout = '@app/modules/admin/views/layouts/catalog.php';
 
     public function actionIndex()
     {
@@ -43,7 +43,10 @@ class NewsController extends Controller
         ];
     }
     public function actionCategories($category = null){
+        return $this->render('index');
     }
-    public function actionDetailNews($urlnews){
+    public function actionDetailNews($category, $urlnews){
+        $model = News::find()->where(['url_name' => $urlnews])->one();
+        return $this->render('detail',['model' => $model]);
     }
 }

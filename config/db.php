@@ -1,9 +1,9 @@
 <?php
 $db =[
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=kontact',
-    'username' => 'admin',
-    'password' => '111',
+    'dsn' => 'mysql:host=localhost;dbname=kontakt23_yii',
+    'username' => 'kontakt23_yii',
+    'password' => 'Vergil1993',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

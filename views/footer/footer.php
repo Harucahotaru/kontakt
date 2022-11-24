@@ -58,7 +58,7 @@
                     <div class="col-lg-3">
                         <div class="menu-text-size-title text-white">Обратная связь</div>
                         <div class="text-white">
-                            -Адрес: Rраснодарский край, город Армавир, улица Мичурина, дом 6а, офис 1<br/>
+                            -Адрес: Краснодарский край, город Армавир, улица Мичурина, дом 6А, офис 1<br/>
                             -Номер: 8 (988) 46-00-192<br/>
                             -Социальные сети: <a class="col-lg-2 " href="https://vk.com/kontakt_armavir"><i class="fa-brands fa-vk menu-icon-vk social-icon"></i></a>
                             <a class="col-lg-2 " href="https://www.instagram.com/kontakt_arm/"><i class="fa-brands fa-square-instagram menu-icon-instagram social-icon"></i></a> <br/>

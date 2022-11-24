@@ -10,7 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container">
     <h1><?= $this->title ?></h1>
     <div class="row">
-        <?php foreach (scandir(Yii::$app->basePath . '/web/upload/images/about') as $img): ?>
+        <?php foreach (scandir(Yii::$app->basePath . '/public_html/upload/images/about') as $img): ?>
             <?php if ($img !== '.' && $img != '..'): ?>
                 <div class="col-lg-2" data-bs-toggle="modal" data-bs-target="#id<?=str_replace('.','',$img)?>"
                      style="height: 150px; background: top/cover url('/upload/images/about/<?= $img ?>'); border: 3px white solid">

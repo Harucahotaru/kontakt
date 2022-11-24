@@ -31,8 +31,8 @@ AppAsset::register($this);
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 <header>
-    <div class="container-100 container-blue">
-<!--        Сообщение что что-то временно не работает-->
+    <div class="alert alert-danger mb-0 text-center" role="alert">
+        Сайт находится в разработке. Скоро мы предоставим Вам информацию в лучшем виде!
     </div>
     <div class="container-menu bg-warning">
         <div class="container">

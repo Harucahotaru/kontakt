@@ -17,7 +17,7 @@
                         <div class="menu-text-size-title text-white">Информация</div>
                         <ul>
                             <li>
-                                <a class="footer-list-text" href="#">Котакты</a>
+                                <a class="footer-list-text" href="#">Контакты</a>
                             </li>
                             <li>
                                 <a class="footer-list-text" href="#">Новости</a>

@@ -31,6 +31,7 @@ $config = [
             'enablePrettyUrl' => true,
             'rules' => [
                 'about' => 'site/about',
+                'contacts' => 'site/contact',
                 'images' => 'images/index',
                 'news/category-<category>' => 'news/categories',
                 'news/<category>/<urlnews>' => 'news/detail-news',

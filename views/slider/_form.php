@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Slider;
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -7,6 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Slider */
 /* @var $form yii\widgets\ActiveForm */
+$model->status = $model->isNewRecord ? 1 : $model->status;
 ?>
 
 <div class="slider-form">
@@ -18,9 +20,9 @@ use yii\widgets\ActiveForm;
         'pluginOptions' => ['showUpload' => false]
         ]);?>
 
-    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'type')->dropDownList(Slider::getTypeList()) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(Slider::getStatusList()) ?>
 
     <?= $form->field($model, 'content_options')->textInput(['maxlength' => true]) ?>
 

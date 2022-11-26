@@ -37,7 +37,8 @@ class Slider extends ActiveRecord
      * TYPE_MAIN_SLIDER - main slider
      */
     const TYPE_MAIN_SLIDER = 1;
-    const  SLIDE_IS_ACTIVE = 1;
+    const  IS_ACTIVE = 1;
+    const  NOT_ACTIVE = 0;
     private $md5;
 
     /**
@@ -120,7 +121,7 @@ class Slider extends ActiveRecord
         $slidesPath = [];
         $slidesId = self::find()
             ->where(['type' => self::TYPE_MAIN_SLIDER])
-            ->andWhere(['status' => self::SLIDE_IS_ACTIVE])
+            ->andWhere(['status' => self::IS_ACTIVE])
             ->select(['img_id'])
             ->column();
         $images = Images::find()
@@ -149,5 +150,20 @@ class Slider extends ActiveRecord
     public function getImgPath()
     {
         return ($this->img) ? $this->img->path : null;
+    }
+
+    public static function getStatusList(): array
+    {
+        return [
+            self::NOT_ACTIVE => 'не активен',
+            self::IS_ACTIVE => 'активен'
+        ];
+    }
+
+    public static function getTypeList(): array
+    {
+        return [
+            self::TYPE_MAIN_SLIDER => 'слайдер',
+        ];
     }
 }

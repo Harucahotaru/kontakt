@@ -13,7 +13,7 @@ use yii\grid\GridView;
 $this->title = 'Sliders';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="slider-index">
+<div class="container slider-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Sliders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="slider-view">
+<div class="container slider-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -9,7 +9,7 @@ $this->title = 'Create Slider';
 $this->params['breadcrumbs'][] = ['label' => 'Sliders', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="slider-create">
+<div class="container slider-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

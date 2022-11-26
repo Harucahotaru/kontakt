@@ -112,6 +112,7 @@ class SliderController extends Controller
      */
     public function actionDelete($id)
     {
+        $this->actionDeleteImg($id);
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
@@ -151,14 +152,22 @@ class SliderController extends Controller
             'pagination' => $pagination,
         ]);
     }
-    
-    public function actionDeleteImg($slide_id){
-        $slide = Slider::findOne(['id' => $slide_id]);
-        if ($image = Images::findOne(['id' => $slide->img_id])){
+
+    /**
+     * @param int $slideId
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDeleteImg(int $slideId): void
+    {
+        $slide = Slider::findOne(['id' => $slideId]);
+
+        if ($image = Images::findOne(['id' => $slide->img_id])) {
             $image->delete();
         }
         $slide->img_id = null;
         $slide->save();
-        return true;
+        $this->redirect('/slider');
     }
 }

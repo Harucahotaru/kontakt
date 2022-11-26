@@ -6,7 +6,7 @@ use app\widgets\BrandList;
 use app\widgets\NewsList;
 use app\widgets\ProductsList;
 
-$this->title = 'My Yii Application';
+$this->title = 'Контакт "Электротовары"';
 ?>
 <!--    <div class="container-grey container-100">-->
 <!--        <div class="container container-grey py-4 ">-->

@@ -30,11 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'password')->passwordInput() ?>
 
         <div>
-            <?= Html::a('Create account', ['user/signup']) ?>.
+            <?= Html::a('Create account', ['/user/signup']) ?>.
         </div>
 
         <div>
-            <?= Html::a('Forgot password ?', ['user/request-password-reset']) ?>.
+            <?= Html::a('Forgot password ?', ['/user/request-password-reset']) ?>.
         </div>
 
         <?= $form->field($model, 'rememberMe')->checkbox([

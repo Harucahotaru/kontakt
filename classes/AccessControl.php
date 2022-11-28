@@ -7,7 +7,7 @@ class AccessControl extends \yii\filters\AccessControl
     {
         parent::init();
         if ($this->user !== false) {
-            $this->user->loginUrl = 'user/login';
+            $this->user->loginUrl = '/user/login';
         }
     }
 }

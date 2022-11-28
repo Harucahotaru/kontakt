@@ -148,7 +148,6 @@ class UserController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = 'main';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -177,9 +176,7 @@ class UserController extends Controller
     }
     public function actionSignup()
     {
-        $this->layout = 'main';
         $model = new SignupForm();
-
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {

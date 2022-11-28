@@ -42,6 +42,41 @@ $this->title = 'Контакт "Электротовары"';
     <div class="container-100 bg-warning">
         <div class="container bg-warning py-4">
             <h2>Наши приемущества</h2>
+            <div class="row p-lg-4">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-2" style="font-size: 40px">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div class="col-lg-10">
+                            <h4>Техническая поддержка</h4>
+                            <p>У нас Вы можете ничего и не покупать, но если Вам надо, мы всегда даем информационную и техническую поддержку от специалистов. А на Новый год каждого посетителя ждет бесплатный подарок!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-2" style="font-size: 40px">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <div class="col-lg-10">
+                            <h4>Большой выбор</h4>
+                            <p>Мы предлагаем своим клиентам большой выбор качественных товаров, доступные большинству покупателей цены и высокий уровень обслуживания.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-2" style="font-size: 40px">
+                            <i class="fa-regular fa-face-smile"></i>
+                        </div>
+                        <div class="col-lg-10">
+                            <h4>Дарим позитивный настрой</h4>
+                            <p>У нас Вы не только сможете найти необходимый и качественный товар, но и гарантированно уйдете с позитивным настроением</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container-grey container-100">

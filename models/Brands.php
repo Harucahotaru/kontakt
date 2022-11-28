@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "brands".
@@ -14,7 +15,7 @@ use Yii;
  * @property string|null $date_c Дата создания
  * @property string|null $user_c Дата создания
  * @property int|null $img_id ID изображения
- * @property string $img получить изображение
+ * @property Images $img получить изображение
  * @property string $imgPath получить путь к изображению
  */
 class Brands extends \yii\db\ActiveRecord
@@ -33,6 +34,12 @@ class Brands extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            ['imgFile', 'image',
+                'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
+                'checkExtensionByMimeType' => true,
+                'maxSize' => 1024 * 1024 * 1000,
+                'tooBig' => 'Limit is 5 MB'
+            ],
             [['name', 'urlname'], 'required'],
             [['urlname', 'img_id'], 'integer'],
             [['date_c', 'user_c'], 'safe'],
@@ -40,6 +47,14 @@ class Brands extends \yii\db\ActiveRecord
             [['name'], 'unique'],
             [['urlname'], 'unique'],
         ];
+    }
+
+    public function beforeDelete()
+    {
+        if ($image = Images::findOne(['id' => $this->img_id])) {
+            $image->delete();
+        }
+        return parent::beforeDelete();
     }
 
     /**
@@ -61,12 +76,28 @@ class Brands extends \yii\db\ActiveRecord
     public static function getBrandList(){
         return self::find()->all();
     }
+
+
+    public function getImgFile()
+    {
+        return Images::getImgPathById($this->img_id);
+    }
+
+    public function setImgFile($imgFile)
+    {
+        $file = UploadedFile::getInstance($this, 'imgFile');
+        if ($file) {
+            $image = new Images(['dir' => 'brands/']);
+            $this->img_id = $image->upload($file);
+        }
+        return $imgFile;
+    }
     
     public function getImg(){
-        return false;
+        return $this->hasOne(Images::class,['id' => 'img_id']);
     }
     
     public function getImgPath(){
-        return 'https://legrand.ru/upload/upfails/press/corporate-identity/Legrand_logo_social.jpg';
+        return $this->img ? $this->img->getFullPath() : '';
     }
 }

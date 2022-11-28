@@ -36,7 +36,7 @@ AppAsset::register($this);
     </div>
     <div class="container-menu bg-warning">
         <div class="container">
-            <?php  /** $this->render("@app/views/header/searchLine")**/ ?>
+            <?= $this->render("@app/views/header/searchLine")?>
             <?= $this->render("@app/views/header/topMenu") ?>
             <?= $this->render("@app/views/header/sideMenu") ?>
         </div>

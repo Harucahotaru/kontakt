@@ -24,6 +24,7 @@ use yii\web\UploadedFile;
  * @property Images $img изображение слайда
  * @property Images $imgPath изображение слайда
  * @property array $slidesPath путь к слайдам
+ * @property UploadedFile imgFile
  */
 class Slider extends ActiveRecord
 {

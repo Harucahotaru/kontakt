@@ -22,7 +22,7 @@ class BrandList extends Widget
     {
         $this->brands = Brands::getBrandList();
         if ($this->brands){
-            return $this->render('brand-list\index', [
+            return $this->render('brand-list/index', [
                 'brands'  => $this->brands,
                 'title' => $this->title
             ]);

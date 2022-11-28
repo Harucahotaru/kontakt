@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
+use app\classes\AccessControl;
 use app\models\Brands;
 use app\models\BrandsSearch;
+use app\models\ControllerRules;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +21,12 @@ class BrandsController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
+            ],
+        ];
     }
 
     /**

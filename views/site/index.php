@@ -49,11 +49,11 @@ $this->title = 'Контакт "Электротовары"';
             <h2 class="text-center">Бренды которые мы предлагаем</h2>
             <div class="py-4"><?= BrandList::widget() ?></div>
             <div class="row text-center align-self-center">
-                <a class="col-lg-4 mx-auto menu-text-size-title p-0 " href="#">
-                    <div class="bg-warning products-button-c products-button">
-                        <div>Все бренды</div>
-                    </div>
-                </a>
+<!--                <a class="col-lg-4 mx-auto menu-text-size-title p-0 " href="#">-->
+<!--                    <div class="bg-warning products-button-c products-button">-->
+<!--                        <div>Все бренды</div>-->
+<!--                    </div>-->
+<!--                </a>-->
             </div>
         </div>
     </div>

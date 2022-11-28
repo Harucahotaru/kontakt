@@ -1,7 +1,7 @@
 <?php
 $slides = \app\models\Slider::getMainSlides();
 ?>
-<div id="carouselIndicator" class="carousel slide carousel-fade main-slider" data-bs-ride="true">
+<div id="carouselIndicator" class="carousel slide carousel-fade main-slider" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <?php foreach ($slides as $slideNum=>$slide): ?>
             <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="<?= $slideNum ?>" <?=($slideNum == 0) ? 'class = "active"' : ''?>

@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\Pages;
 use app\models\PagesContent;
 use app\models\PagesSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -19,17 +22,12 @@ class PagesController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
+            ],
+        ];
     }
 
     /**

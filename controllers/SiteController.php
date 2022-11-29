@@ -12,7 +12,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    private Pages $page;
+    private ?Pages $page;
 
     public function behaviors()
     {

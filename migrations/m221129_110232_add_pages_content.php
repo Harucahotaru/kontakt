@@ -17,13 +17,13 @@ class m221129_110232_add_pages_content extends Migration
             'content' => $this->text(),
             'active' => $this->boolean()->defaultValue(true),
         ]);
-        $this->createIndex('image_category_id_index', self::PAGES_CONTENT, [
-            'active',
-            'url',
-        ]);
         $this->createIndex('image_sale_index', self::PAGES_CONTENT, [
             'active',
             'name',
+        ]);
+        $this->createIndex('image_sale_index', self::PAGES_CONTENT, [
+            'active',
+            'page_id',
         ]);
     }
 

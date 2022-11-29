@@ -3,7 +3,7 @@
 /config/db_local.php
 # netbeans project files
 nbproject
-
+/public_html/index.php
 
 # zend studio for eclipse project files
 .buildpath

@@ -9,6 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $page_id
+ * @property string $name
+ * @property string $ru_name
  * @property string|null $content
  * @property int|null $active
  */
@@ -30,10 +32,10 @@ class PagesContent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['page_id'], 'required'],
-            [['content'], 'string'],
+            [['page_id'], 'safe'],
+            [['content','name','ru_name'], 'string'],
             [['active'], 'integer'],
-            [['page_id'], 'string', 'max' => 255],
+            [['page_id'], 'integer', 'max' => 255],
         ];
     }
 

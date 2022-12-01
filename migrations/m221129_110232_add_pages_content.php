@@ -14,6 +14,8 @@ class m221129_110232_add_pages_content extends Migration
         $this->createTable(self::PAGES_CONTENT, [
             'id' => $this->primaryKey(),
             'page_id' => $this->string()->notNull(),
+            'name' => $this->string()->notNull(),
+            'ru_name' => $this->string()->notNull(),
             'content' => $this->text(),
             'active' => $this->boolean()->defaultValue(true),
         ]);
@@ -21,7 +23,7 @@ class m221129_110232_add_pages_content extends Migration
             'active',
             'name',
         ]);
-        $this->createIndex('image_sale_index', self::PAGES_CONTENT, [
+        $this->createIndex('active_page_id_index', self::PAGES_CONTENT, [
             'active',
             'page_id',
         ]);

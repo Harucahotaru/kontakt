@@ -91,15 +91,7 @@ class PagesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($this->request->isPost && $model->load($post = $this->request->post()) && 1==1) {
-            if(!empty($contents = $post['Pages']['pagesContent'])){
-                foreach ($contents as $id => $content){
-                    $pagesContent = PagesContent::findOne($id);
-                    $pagesContent->content = $content;
-                    $pagesContent->save();
-                }
-            }
-            $model->save();
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

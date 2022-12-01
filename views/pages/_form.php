@@ -19,16 +19,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->textInput() ?>
 
-    <?php foreach ($model->pagesContent as $key => $content): ?>
-
-        <?=
-            Summernote::widget([
-                'name' => "Pages[pagesContent][{$content->id}]content",
-                'value' => $content->content,
-            ]);
-        ?>
-
-    <?php endforeach; ?>
+    <?=
+     $form->field($model, 'content[main][content]')->widget(Summernote::class, [
+        'useKrajeePresets' => true,
+    ]);
+    ?>
+    <?= $form->field($model, 'content[main][name]')->hiddenInput()->label('') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

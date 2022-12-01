@@ -12,7 +12,7 @@ use Yii;
  * @property string $url
  * @property string $name
  * @property int|null $active
- * @property PagesContent $pagesContent
+ * @property PagesContent $content
  */
 class Pages extends \yii\db\ActiveRecord
 {
@@ -32,7 +32,7 @@ class Pages extends \yii\db\ActiveRecord
                 SaveRelationsBehavior::class => [
                     'class' => SaveRelationsBehavior::class,
                     'relations' => [
-                        'pagesContent',
+                        'content',
                     ],
                 ],
             ]
@@ -47,6 +47,7 @@ class Pages extends \yii\db\ActiveRecord
         return [
             [['url', 'name'], 'required'],
             [['active'], 'integer'],
+            [['content'], 'safe'],
             [['url', 'name'], 'string', 'max' => 255],
         ];
     }
@@ -64,8 +65,11 @@ class Pages extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getPagesContent()
+    public function getContent()
     {
-        return $this->hasMany(PagesContent::class, ['page_id' => 'id'])->andWhere(['pages_content.active' => PagesContent::IS_ACTIVE]);
+        return $this
+            ->hasMany(PagesContent::class, ['page_id' => 'id'])
+            ->indexBy('name')
+            ->andWhere(['pages_content.active' => PagesContent::IS_ACTIVE]);
     }
 }

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\classes\AccessControl;
 use app\models\ControllerRules;
 use app\models\Pages;
+use app\models\PagesContent;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -13,6 +14,7 @@ use app\models\ContactForm;
 class SiteController extends Controller
 {
     private ?Pages $page;
+    private array  $content = [];
 
     public function behaviors()
     {
@@ -30,10 +32,10 @@ class SiteController extends Controller
 
     public function beforeAction($action)
     {
-        if (!($this->page = Pages::find()->where(['url' => Yii::$app->request->pathInfo])->one())) {
-            $this->page = new Pages();
+        $this->page = Pages::find()->where(['url' => Yii::$app->request->pathInfo])->one();
+        if (!empty($this->page) && !empty($this->page->content) ) {
+            $this->content = $this->page->content;
         }
-
         return parent::beforeAction($action);
     }
 
@@ -71,7 +73,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        return $this->render('contact');
+        return $this->render('contact', ['content' => $this->content]);
     }
 
     /**
@@ -81,6 +83,6 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about', ['content' => $this->page->pagesContent[0]->content]);
+        return $this->render('about', ['content' => $this->content]);
     }
 }

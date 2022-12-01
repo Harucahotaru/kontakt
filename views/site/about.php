@@ -37,5 +37,5 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
-    <?= $content ?>
+    <?= $content['main']->content ?>
 </div>

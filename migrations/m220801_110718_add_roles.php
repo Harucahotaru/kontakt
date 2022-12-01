@@ -16,6 +16,7 @@ class m220801_110718_add_roles extends Migration
     public $adminMailList = [
         'alissian.2002@gmail.com',
         'alissian.1993@gmail.com',
+        'yayug_@mail.ru',
     ];
     public $role_admin = 'admin';
     public $role_moderator = 'moderator';

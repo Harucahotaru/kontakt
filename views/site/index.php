@@ -41,7 +41,7 @@ $this->title = 'Контакт "Электротовары"';
 <!--    </div>-->
     <div class="container-100 bg-warning">
         <div class="container bg-warning py-4">
-            <h2>Наши приемущества</h2>
+            <h2>Наши преимущества</h2>
             <div class="row p-lg-4">
                 <div class="col-lg-4">
                     <div class="row">

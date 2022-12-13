@@ -159,7 +159,7 @@ class SliderController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteImg(int $slideId): void
+    public function actionDeleteImg(int $slideId): bool
     {
         $slide = Slider::findOne(['id' => $slideId]);
 
@@ -168,6 +168,6 @@ class SliderController extends Controller
         }
         $slide->img_id = null;
         $slide->save();
-        $this->redirect('/slider');
+        return true;
     }
 }

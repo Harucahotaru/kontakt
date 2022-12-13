@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Slider', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать новый слайд', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'type',
-            'status',
-            'content_options',
-            'content',
+//            'status',
+//            'content_options',
+//            'content',
             'added_date',
             [
                 'class' => ActionColumn::class,

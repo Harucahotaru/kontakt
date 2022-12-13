@@ -143,14 +143,13 @@ class Slider extends ActiveRecord
     }
 
     public function getImg()
-    {exit;
-        var_dump($this->hasOne(Images::class, ['id' => 'img_id']));exit;
+    {
         return $this->hasOne(Images::class, ['id' => 'img_id']);
     }
 
     public function getImgPath()
     {
-        return ($this->img) ? $this->img->path : null;
+        return ($this->img) ? $this->img->fullPath : null;
     }
 
     public static function getStatusList(): array

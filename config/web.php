@@ -36,6 +36,7 @@ $config = [
                 'news/category-<category>' => 'news/categories',
                 'news/<category>/<urlnews>' => 'news/detail-news',
                 'news' => 'news/categories',
+                'admin' => 'admin/main/index',
                 '<path:\w+>/<controller:\w+>/<action:\w+>'=>'<path>/<controller>/<action>',
             ],
             'showScriptName' => false,

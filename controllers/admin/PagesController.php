@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\controllers\admin;
 
 use app\classes\AccessControl;
 use app\models\ControllerRules;

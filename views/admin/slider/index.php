@@ -27,18 +27,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'type',
-//            'status',
+            [
+                'format' => 'html',
+                'value' => function ($data) {
+                    return Html::img($data->imgPath,['style' => 'max-width: 250px']);
+                }
+            ],
+            'sort',
 //            'content_options',
 //            'content',
-            'added_date',
+        [
+            'attribute' => 'added_date',
+            'format' => ['datetime', 'php:d.m.Y H:i:s']
+        ],
             [
                 'class' => ActionColumn::class,
                 'urlCreator' => function ($action, Slider $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

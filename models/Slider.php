@@ -24,6 +24,7 @@ use yii\web\UploadedFile;
  * @property Images $img изображение слайда
  * @property Images $imgPath изображение слайда
  * @property array $slidesPath путь к слайдам
+ * @property integer $sort путь к слайдам
  * @property UploadedFile imgFile
  */
 class Slider extends ActiveRecord
@@ -40,6 +41,8 @@ class Slider extends ActiveRecord
     const TYPE_MAIN_SLIDER = 1;
     const  IS_ACTIVE = 1;
     const  NOT_ACTIVE = 0;
+
+    const POSITION_DEFAULT = 'cover';
     private $md5;
 
     /**
@@ -78,11 +81,11 @@ class Slider extends ActiveRecord
                 'maxSize' => 1024 * 1024 * 1000,
                 'tooBig' => 'Limit is 5 MB'
             ],
+            [['img_id', 'status', 'sort'], 'integer'],
             [['type'], 'required'],
-            [['status', 'img_id'], 'integer'],
+            [['content_options', 'added_date'], 'safe'],
             [['type'], 'string', 'max' => 30],
-            [['content_options'], 'string', 'max' => 50],
-            [['added_date'], 'string', 'max' => 50],
+            [['content'], 'string', 'max' => 250],
         ];
     }
 
@@ -95,10 +98,12 @@ class Slider extends ActiveRecord
             'id' => 'id',
             'type' => 'Тип',
             'img_id' => 'id изображения',
-            'status' => 'Активност(0,1)',
+            'status' => 'Активность',
             'content_options' => 'параметры контента',
             'content' => 'контент',
             'added_date' => 'дата добавления',
+            'sort' => 'Сортировка',
+            'imgPath' => 'Картинка'
         ];
     }
 
@@ -120,19 +125,21 @@ class Slider extends ActiveRecord
     public static function getMainSlides()
     {
         $slidesPath = [];
-        $slidesId = self::find()
+        $slidesIds = self::find()
             ->where(['type' => self::TYPE_MAIN_SLIDER])
             ->andWhere(['status' => self::IS_ACTIVE])
             ->select(['img_id'])
+            ->orderBy(['sort' => SORT_ASC])
             ->column();
         $images = Images::find()
-            ->where(['id' => $slidesId])
-            ->select(['path', 'name'])
+            ->where(['id' => $slidesIds])
+            ->select(['path', 'name', 'id'])
+            ->indexBy('id')
             ->all();
-        /**@var Images $img**/
-        /**@var array $slidesPath**/
-        foreach ($images as $num => $img) {
-            $slidesPath[$num] = $img->fullPath;
+        /**@var Images $img * */
+        /**@var array $slidesPath * */
+        foreach ($slidesIds as $imgId) {
+            $slidesPath[] = $images[$imgId]->fullPath;
         }
         return $slidesPath;
     }
@@ -160,10 +167,23 @@ class Slider extends ActiveRecord
         ];
     }
 
+    public static function getStatusName($value) {
+        return self::getStatusList()[$value];
+    }
+
     public static function getTypeList(): array
     {
         return [
             self::TYPE_MAIN_SLIDER => 'слайдер',
         ];
     }
+
+    public function getSliderPosition() {
+        $co = $this->content_options;
+        if (!empty($co) && !empty($co['slider']) && !empty($co['slider']['css'] && !empty($co['slider']['css']['position']))){
+            return $co['slider']['css']['position'];
+        }
+        return self::POSITION_DEFAULT;
+    }
+
 }

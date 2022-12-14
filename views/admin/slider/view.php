@@ -29,13 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'path',
-            'type',
-            'status',
-            'content_options',
-            'content',
-            'added_date'
+            [
+                'attribute' => 'added_date',
+                'format' => ['datetime', 'php:d.m.Y H:i:s']
+            ],
+            [
+                'attribute' => 'status',
+                'value' => \app\models\Slider::getStatusName($model->status)
+            ],
+            [
+                'attribute' => 'imgPath',
+                'value' => Html::img($model->imgPath,['style' => 'max-width: 500px']),
+                'format' => 'raw',
+            ]
+
         ],
     ]) ?>
 

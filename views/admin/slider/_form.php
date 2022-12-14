@@ -10,7 +10,6 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Slider */
 /* @var $form yii\widgets\ActiveForm */
 $model->status = $model->isNewRecord ? 1 : $model->status;
-
 ?>
 
 <div class="slider-form">
@@ -34,7 +33,7 @@ $model->status = $model->isNewRecord ? 1 : $model->status;
 
     <?= $form->field($model, 'status')->dropDownList(Slider::getStatusList()) ?>
 
-    <?php $form->field($model, 'content_options')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'sort')->textInput() ?>
 
     <?php $form->field($model, 'content')->textInput(['maxlength' => true]) ?>
 

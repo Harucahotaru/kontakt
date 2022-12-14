@@ -44,7 +44,7 @@ AppAsset::register($this);
 </header>
 <?= $this->render("@app/views/admin/templates/admin-panel") ?>
 <main role="main" class="flex-shrink-0">
-    <div class="container">
+    <div class="container mt-0">
         <?= Breadcrumbs::widget([
             'homeLink' => [
                 'label' => 'На главную',

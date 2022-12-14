@@ -12,7 +12,7 @@ $slides = \app\models\Slider::getMainSlides();
         <?php foreach ($slides as $slideNum=>$slide): ?>
         <?php /** @var $slide \app\models\Slider **/?>
             <div class="carousel-item <?=($slideNum == 0) ? 'active' : ''?>">
-                <div class="carousel-image" style="background: top/cover url('<?=$slide?>'); "></div>
+                <div class="carousel-image" style="background: top/<?=$slide->sliderPosition?> no-repeat url('<?=$slide->imgPath?>'); "></div>
             </div>
         <?php endforeach; ?>
     </div>

@@ -42,7 +42,7 @@ AppAsset::register($this);
         </div>
     </div>
 </header>
-
+<?= $this->render("@app/views/admin/templates/admin-panel") ?>
 <main role="main" class="flex-shrink-0">
     <div class="container">
         <?= Breadcrumbs::widget([

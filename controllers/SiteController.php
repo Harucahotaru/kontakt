@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\classes\AccessControl;
+use app\classes\ParseExcel;
 use app\models\ControllerRules;
 use app\models\Pages;
 use app\models\PagesContent;
@@ -62,7 +63,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+//        $a = new ParseExcel();
+//        $a->parse();
+        return $this->render('index', ['time' => date('H:i:s')]);
     }
 
 

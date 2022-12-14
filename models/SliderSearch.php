@@ -18,7 +18,7 @@ class SliderSearch extends Slider
     {
         return [
             [['id', 'status'], 'integer'],
-            [['type', 'content_options', 'content', 'added_date'], 'safe'],
+            [['type', 'content_options', 'content', 'added_date', 'sort'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class SliderSearch extends Slider
      */
     public function search($params)
     {
-        $query = Slider::find();
+        $query = Slider::find()->orderBy(['sort' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -58,6 +58,7 @@ class SliderSearch extends Slider
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
+            'sort' => $this->sort,
         ]);
 
         $query->andFilterWhere(['like', 'type', $this->type])

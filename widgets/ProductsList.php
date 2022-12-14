@@ -18,8 +18,8 @@ class ProductsList extends Widget
     {
         $category = 1;
         $products = Products::getProductsByCategory($category);
-        return $this->render('products-list\index', [
-//            'products'  => $products,
+        return $this->render('products-list/index', [
+            'products'  => $products,
         ]);
     }
 }

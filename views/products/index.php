@@ -13,15 +13,13 @@ use yii\grid\GridView;
 $this->title = 'Products';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="products-index">
+<div class="products-index container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Create Products', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,16 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name',
-            'description',
+//            'description',
             'cost',
             'on_sale',
-            //'sale',
+            'sale',
             //'img_id',
-            //'category_id',
-            //'parent_id',
+            'category_id',
+            'parent_id',
             //'date_c',
             //'date_m',
-            //'active',
+            'active',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Products $model, $key, $index, $column) {

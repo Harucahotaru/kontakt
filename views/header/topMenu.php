@@ -20,6 +20,9 @@
                         <li class="nav-item top-menu-title">
                             <a class="nav-link active" aria-current="page" href="/contacts">Контакты</a>
                         </li>
+                        <li class="nav-item top-menu-title">
+                            <a class="nav-link active" aria-current="page" href="/catalog">Каталог</a>
+                        </li>
 
 <!--                        <li class="nav-item top-menu-title">-->
 <!--                            <a class="nav-link active" aria-current="page" href="#">Акции</a>-->

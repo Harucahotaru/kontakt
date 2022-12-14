@@ -2,11 +2,16 @@
 
 namespace app\controllers;
 
+use app\models\Images;
 use app\models\Products;
 use app\models\ProductsSearch;
+use Yii;
+use yii\data\Pagination;
+use yii\db\StaleObjectException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * ProductsController implements the CRUD actions for Products model.
@@ -71,6 +76,7 @@ class ProductsController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Изображение загружено');
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -94,6 +100,7 @@ class ProductsController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Изображение загружено');
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -106,11 +113,14 @@ class ProductsController extends Controller
      * Deletes an existing Products model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
-     * @return \yii\web\Response
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws StaleObjectException
      */
     public function actionDelete($id)
     {
+        $this->actionDeleteImg($id);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -130,5 +140,43 @@ class ProductsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionOneFile()
+    {
+        $query = Products::find();
+
+        $pagination = new Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => $query->count(),
+        ]);
+
+        $slides = $query->orderBy('path')
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        return $this->render('index', [
+            'slides' => $slides,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @param int $slideId
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDeleteImg(int $slideId): void
+    {
+        $slide = Products::findOne(['id' => $slideId]);
+
+        if ($image = Images::findOne(['id' => $slide->img_id])) {
+            $image->delete();
+        }
+        $slide->img_id = null;
+        $slide->save();
+        $this->redirect('/slider');
     }
 }

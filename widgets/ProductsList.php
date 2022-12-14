@@ -16,6 +16,7 @@ class ProductsList extends Widget
 
     public function run()
     {
+        var_dump(1);exit;
         $category = 1;
         $products = Products::getProductsByCategory($category);
         return $this->render('products-list\index', [

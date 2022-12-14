@@ -24,6 +24,7 @@ use yii\web\UploadedFile;
  * @property Images $img изображение слайда
  * @property Images $imgPath изображение слайда
  * @property array $slidesPath путь к слайдам
+ * @property array $sliderPosition позиционирование картинки
  * @property integer $sort путь к слайдам
  * @property UploadedFile imgFile
  */
@@ -35,6 +36,9 @@ class Slider extends ActiveRecord
      */
     const VISIBLE_ON = 1;
     const VISIBLE_OFF = 0;
+
+    const POSITION_COVER = 'cover';
+    const POSITION_CONTAIN = 'contain';
     /**
      * TYPE_MAIN_SLIDER - main slider
      */
@@ -124,24 +128,12 @@ class Slider extends ActiveRecord
 
     public static function getMainSlides()
     {
-        $slidesPath = [];
-        $slidesIds = self::find()
+        $slides = self::find()
             ->where(['type' => self::TYPE_MAIN_SLIDER])
             ->andWhere(['status' => self::IS_ACTIVE])
-            ->select(['img_id'])
             ->orderBy(['sort' => SORT_ASC])
-            ->column();
-        $images = Images::find()
-            ->where(['id' => $slidesIds])
-            ->select(['path', 'name', 'id'])
-            ->indexBy('id')
             ->all();
-        /**@var Images $img * */
-        /**@var array $slidesPath * */
-        foreach ($slidesIds as $imgId) {
-            $slidesPath[] = $images[$imgId]->fullPath;
-        }
-        return $slidesPath;
+        return $slides;
     }
 
     public function getImgSize()
@@ -164,6 +156,14 @@ class Slider extends ActiveRecord
         return [
             self::NOT_ACTIVE => 'не активен',
             self::IS_ACTIVE => 'активен'
+        ];
+    }
+
+    public static function getPositionList(): array
+    {
+        return [
+            self::POSITION_COVER => 'Растягивать',
+            self::POSITION_CONTAIN => 'Не растягивать'
         ];
     }
 

@@ -35,7 +35,7 @@ $model->status = $model->isNewRecord ? 1 : $model->status;
 
     <?= $form->field($model, 'sort')->textInput() ?>
 
-    <?php $form->field($model, 'content')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'content_options[slider][css][position]')->label('Растяжение картинки')->dropDownList(Slider::getPositionList()) ?>
 
     <div class="form-group mt-2">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

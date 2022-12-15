@@ -12,12 +12,12 @@ use yii\web\UploadedFile;
  * This is the model class for table "products".
  *
  * @property int $id
- * @property string $name наименование товара
- * @property string|null $description описание товара
- * @property int $cost цена товара
- * @property int $on_sale статус скидки
- * @property int|null $sale размер скиидки на товар
- * @property int|null $img_id id изображения
+ * @property string $name Наименование товара
+ * @property string|null $description Описание товара
+ * @property int $cost Цена
+ * @property int $on_sale Статус скидки(1-есть, 0-нету)
+ * @property int|null $sale Скидка
+ * @property int|null $img_id Изображение
  * @property string|null $category_id id категории
  * @property string $parent_id id подходящих товаров
  * @property string|null $date_c Дата создания
@@ -26,6 +26,8 @@ use yii\web\UploadedFile;
  */
 class Products extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_DISABLE = 0;
     const IS_ACTIVE = 1;
 
     /**
@@ -78,12 +80,12 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'наименование товара',
-            'description' => 'описание товара',
-            'cost' => 'цена товара',
-            'on_sale' => 'статус скидки',
-            'sale' => 'размер скиидки на товар',
-            'img_id' => 'id изображения',
+            'name' => 'Наименование товара',
+            'description' => 'Описание товара',
+            'cost' => 'Цена',
+            'on_sale' => 'Статус скидки',
+            'sale' => 'Скидка',
+            'img_id' => 'Изображение',
             'category_id' => 'id категории',
             'parent_id' => 'id подходящих товаров',
             'date_c' => 'Дата создания',
@@ -92,10 +94,6 @@ class Products extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @param $limit
-     * @return array
-     */
     public static function getAllProducts($limit = 20): array
     {
         return self::find()->orderBy(['active' => self::IS_ACTIVE])->limit($limit)->all();
@@ -169,5 +167,21 @@ class Products extends \yii\db\ActiveRecord
     public function getImgPath()
     {
         return $this->img ? $this->img->getFullPath() : '';
+    }
+
+    public static function getStatusList()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активен',
+            self::STATUS_DISABLE => 'Не активен',
+        ];
+    }
+
+    public static function getSaleStatusList()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Есть скидка',
+            self::STATUS_DISABLE => 'Нет скидки',
+        ];
     }
 }

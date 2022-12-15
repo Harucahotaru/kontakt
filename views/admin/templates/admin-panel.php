@@ -27,6 +27,11 @@
 <!--                    <i class="fa-solid fa-tags fa-4x"></i>-->
 <!--                </a>-->
 <!--            </div>-->
+            <div class="row mt-2 text-center">
+                <a href="/admin/products" data-bs-toggle="tooltip" data-bs-placement="left" title="Товары">
+                    <i class="fa-solid fa-basket-shopping fa-4x"></i>
+                </a>
+            </div>
         </div>
     </div>
     <div class="position-fixed" style="right:10%; top:10%">

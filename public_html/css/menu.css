@@ -312,3 +312,15 @@
 .footer-list-text:hover {
     color: white;
 }
+.breadcrumbs-container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 100%;
+    max-width: 1320px;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
+}

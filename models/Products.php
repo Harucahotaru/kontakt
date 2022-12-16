@@ -23,6 +23,7 @@ use yii\web\UploadedFile;
  * @property string|null $date_c Дата создания
  * @property string|null $date_m Дата изменения
  * @property int $active Активность
+ * @property int $article Артикул
  */
 class Products extends \yii\db\ActiveRecord
 {
@@ -69,7 +70,7 @@ class Products extends \yii\db\ActiveRecord
             [['name', 'cost', 'parent_id'], 'required'],
             [['cost', 'on_sale', 'sale', 'active'], 'integer'],
             [['date_c', 'date_m'], 'safe'],
-            [['name', 'description', 'category_id', 'parent_id'], 'string', 'max' => 255],
+            [['name', 'description', 'category_id', 'parent_id', 'article'], 'string', 'max' => 255],
         ];
     }
 
@@ -91,13 +92,28 @@ class Products extends \yii\db\ActiveRecord
             'date_c' => 'Дата создания',
             'date_m' => 'Дата изменения',
             'active' => 'Активность',
+            'article' => 'Артикул'
         ];
     }
 
-    public static function getAllProducts($limit = 20): array
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public static function getAllProducts(int $limit = 20): array
     {
         return self::find()->orderBy(['active' => self::IS_ACTIVE])->limit($limit)->all();
     }
+
+    /**
+     * @param $id
+     * @return Products
+     */
+    public static function getProductById($id): Products
+    {
+        return self::find()->where(['id' => $id])->one();
+    }
+
 
     /**
      * @param int $categoryId

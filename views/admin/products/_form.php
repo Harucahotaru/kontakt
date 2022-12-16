@@ -31,6 +31,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'article')->textInput() ?>
+
     <?= $form->field($model, 'cost')->textInput() ?>
 
     <?= $form->field($model, 'on_sale')->dropDownList(\app\models\Products::getSaleStatusList()) ?>

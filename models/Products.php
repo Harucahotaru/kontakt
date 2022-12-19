@@ -141,14 +141,15 @@ class Products extends \yii\db\ActiveRecord
     }
 
     /**
+     * @param int|null $pagination
      * @return ActiveDataProvider
      */
-    public static function getAllProductsProvider(): ActiveDataProvider
+    public static function getAllProductsProvider(?int $pagination = 20): ActiveDataProvider
     {
         return new ActiveDataProvider([
             'query' => self::find(),
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => $pagination,
             ],
             'sort' => [
                 'defaultOrder' => [

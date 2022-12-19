@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <div class="swiper-wrapper">
                                         <?php foreach ($model->getImagesPath() as $image): ?>
                                             <div class="swiper-slide">
-                                                <div class="slider__image"><img src="<?= $image ?>" alt=""/></div>
+                                                <div class="slider__image slider-image-view-prew"><img src="<?= $image ?>" alt=""/></div>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="swiper-wrapper">
                                     <?php foreach ($model->getImagesPath() as $image): ?>
                                         <div class="swiper-slide">
-                                            <div class="slider__image"><img src="<?= $image ?>" alt=""/></div>
+                                            <div class="slider__image slider-image-view"><img src="<?= $image ?>" alt=""/></div>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>

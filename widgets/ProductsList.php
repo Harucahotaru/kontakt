@@ -8,6 +8,8 @@ use yii\base\Widget;
 
 class ProductsList extends Widget
 {
+    public ?int $maxPagination = null;
+
     public function init()
     {
         parent::init();
@@ -20,6 +22,7 @@ class ProductsList extends Widget
         $products = Products::getProductsByCategory($category);
         return $this->render('products-list/index', [
             'products'  => $products,
+            'pagination' => $this->maxPagination,
         ]);
     }
 }

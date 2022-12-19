@@ -595,6 +595,9 @@ button.swiper-pagination-bullet {
 }
 .slider-image-view-prew {
     max-width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .slider__image {
     width: 100%;

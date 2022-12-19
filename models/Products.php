@@ -209,9 +209,9 @@ class Products extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMainImagePath(): string
+    public function getMainImagePath(): ?string
     {
         $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
         $image = Images::find()->where(['id' => json_decode($imagesIds->main_img_id)])->one();

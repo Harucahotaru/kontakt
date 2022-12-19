@@ -1,5 +1,6 @@
 <?php
 
+use kartik\editors\Summernote;
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -14,22 +15,29 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'imgFile')->widget(FileInput::classname(), [
-        'options' => ['accept' => 'image/*'],
+    <?= $form->field($model, 'imgFile[]')->widget(FileInput::classname(), [
+        'options' => [
+            'accept' => 'image/*',
+            'multiple' => true,
+        ],
+        'language' => 'ru',
         'pluginOptions' => [
+            'maxFileCount' => 10,
             'deleteUrl' => Url::toRoute(["slider/delete-img", 'slideId' => $model->id]),
             'showUpload' => false,
             'showRemove' => false,
-            'initialPreview' => [
-                $model->imgPath
-            ],
+            'initialPreview' => $model->getImagesPath(),
             'initialPreviewAsData' => true,
         ]
     ]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?=
+    $form->field($model, 'description')->widget(Summernote::class, [
+        'useKrajeePresets' => true,
+    ]);
+    ?>
 
     <?= $form->field($model, 'article')->textInput() ?>
 
@@ -50,5 +58,4 @@ use yii\widgets\ActiveForm;
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

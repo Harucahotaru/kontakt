@@ -4,6 +4,7 @@ namespace app\controllers\admin;
 
 use app\models\Images;
 use app\models\Products;
+use app\models\ProductsImgs;
 use app\models\ProductsSearch;
 use Yii;
 use yii\data\Pagination;
@@ -142,41 +143,25 @@ class ProductsController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function actionOneFile()
-    {
-        $query = Products::find();
-
-        $pagination = new Pagination([
-            'defaultPageSize' => 5,
-            'totalCount' => $query->count(),
-        ]);
-
-        $slides = $query->orderBy('path')
-            ->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
-        return $this->render('index', [
-            'slides' => $slides,
-            'pagination' => $pagination,
-        ]);
-    }
-
     /**
-     * @param int $slideId
-     * @return bool
+     * @param int $productId
+     * @return void
+     * @throws StaleObjectException
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteImg(int $slideId): void
+    public function actionDeleteImg(int $productId): void
     {
-        $slide = Products::findOne(['id' => $slideId]);
+        $product = Products::findOne(['id' => $productId]);
 
-        if ($image = Images::findOne(['id' => $slide->img_id])) {
-            $image->delete();
+        $imagesIds = ProductsImgs::findOne(['id' => $product->img_id]);
+        $imagesIds->delete();
+        if ($images = Images::findAll(['id' => json_decode($imagesIds->imgs_ids)])) {
+           foreach ($images as $image) {
+               $image->delete();
+           }
         }
-        $slide->img_id = null;
-        $slide->save();
-        $this->redirect('/slider');
+        $product->img_id = null;
+        $product->save();
+        $this->redirect('/products');
     }
 }

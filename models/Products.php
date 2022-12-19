@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 use yii\web\UploadedFile;
 
 /**
@@ -61,16 +62,20 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            ['imgFile', 'image',
+            [
+                'imgFile',
+                'image',
                 'extensions' => ['jpg', 'jpeg', 'png', 'gif'],
                 'checkExtensionByMimeType' => true,
+                'maxFiles' => 10,
                 'maxSize' => 1024 * 1024 * 1000,
                 'tooBig' => 'Limit is 5 MB'
             ],
             [['name', 'cost', 'parent_id'], 'required'],
             [['cost', 'on_sale', 'sale', 'active'], 'integer'],
             [['date_c', 'date_m'], 'safe'],
-            [['name', 'description', 'category_id', 'parent_id', 'article'], 'string', 'max' => 255],
+            [['description'], 'string'],
+            [['name', 'category_id', 'parent_id', 'article'], 'string', 'max' => 255],
         ];
     }
 
@@ -107,11 +112,19 @@ class Products extends \yii\db\ActiveRecord
 
     /**
      * @param $id
+     *
      * @return Products
+     *
+     * @throws Exception
      */
     public static function getProductById($id): Products
     {
-        return self::find()->where(['id' => $id])->one();
+        $product = self::find()->where(['id' => $id])->one();
+        if(empty($product)) {
+            throw new Exception('Такого товара нет в нашей базе, извините');
+        }
+
+        return $product;
     }
 
 
@@ -161,30 +174,57 @@ class Products extends \yii\db\ActiveRecord
      */
     public function setImgFile($imgFile)
     {
-        $file = UploadedFile::getInstance($this, 'imgFile');
-        if ($file) {
-            $image = new Images(['dir' => 'products/']);
-            $this->img_id = $image->upload($file);
+        $files = UploadedFile::getInstances($this, 'imgFile');
+        if ($files) {
+            foreach ($files as $file) {
+                $image = new Images(['dir' => 'products/']);
+                $imagesIds[] = $image->upload($file);
+            }
+
+            $productImgs = new ProductsImgs();
+            $productImgs->imgs_ids = json_encode($imagesIds);
+            $productImgs->main_img_id = $imagesIds[0];
+            $productImgs->save();
+            $this->img_id = $productImgs->id;
         }
+
         return $imgFile;
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return array
      */
-    public function getImg()
+    public function getImagesPath(): array
     {
-        return $this->hasOne(Images::class, ['id' => 'img_id']);
+        $imagesPath = [];
+        $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
+        if($imagesIds) {
+            $images = Images::find()->where(['id' => json_decode($imagesIds->imgs_ids)])->all();
+            foreach ($images as $image) {
+                $imagesPath[] = $image->getFullPath();
+            }
+        }
+
+        return $imagesPath;
     }
 
     /**
      * @return string
      */
-    public function getImgPath()
+    public function getMainImagePath(): string
     {
-        return $this->img ? $this->img->getFullPath() : '';
+        $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
+        $image = Images::find()->where(['id' => json_decode($imagesIds->main_img_id)])->one();
+        if (!$image) {
+            return $imagesIds->main_img_id;
+        }
+
+        return $image->getFullPath();
     }
 
+    /**
+     * @return string[]
+     */
     public static function getStatusList()
     {
         return [
@@ -193,6 +233,9 @@ class Products extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSaleStatusList()
     {
         return [

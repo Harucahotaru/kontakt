@@ -9,6 +9,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $data Products */
 
 $this->title = 'Products';
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format'    => 'html',
                 'value'     => function ($data) {
-                    return Html::img($data->imgPath, ['style' => 'max-width: 100px']);
+                    return Html::img($data->getMainImagePath(), ['style' => 'max-width: 100px']);
                 }
             ],
             'id',

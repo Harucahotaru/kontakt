@@ -100,12 +100,12 @@
     border-bottom-left-radius: 0;
 }
 .product-card-description {
-    height: 45px;
+    height: 65px;
     color: #282828;
     font-size: 16px;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     line-height: 1.4em;
 }

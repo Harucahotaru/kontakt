@@ -31,12 +31,17 @@ AppAsset::register($this);
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 <header>
-    <div class="alert alert-danger mb-0 text-center" role="alert">
-        Сайт находится в разработке. Скоро мы предоставим Вам информацию в лучшем виде!
+    <div class="mb-0 text-center p-0">
+        <?php Yii::$app->session->addFlash('success', 'Сайт находится в разработке. Скоро мы предоставим Вам информацию в лучшем виде!');?>
+        <?= Alert::widget([
+            'options' => [
+                'class' => 'main-alert m-0',
+            ],
+        ]); ?>
     </div>
     <div class="container-menu bg-warning">
         <div class="container">
-            <?= $this->render("@app/views/header/searchLine")?>
+            <?= $this->render("@app/views/header/searchLine") ?>
             <?= $this->render("@app/views/header/topMenu") ?>
             <?= $this->render("@app/views/header/sideMenu") ?>
         </div>
@@ -53,7 +58,9 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
     </div>
-    <?= $content ?>
+    <div>
+        <?= $content ?>
+    </div>
 </main>
 <footer>
     <?= $this->render("@app/views/footer/footer.php") ?>

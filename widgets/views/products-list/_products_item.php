@@ -4,7 +4,18 @@
 ?>
 <div class="product-card my-3">
     <a href="catalog/view?id=<?= $model->id ?>">
-        <img src="<?= $model->getImgPath() ?>" class="card-img-top pt-3 product-card-image">
+        <section class="swiper-container pt-3">
+            <div class="swiper-wrapper">
+                <?php foreach ($model->getImagesPath() as $image): ?>
+                    <div class="swiper-slide" style="height: 250px">
+                        <img style="height: 300px; width: 100%" src="<?= $image ?>" alt=""/>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="swiper-pagination swiper-pagination-white"></div>
+        </section>
+        <script type="module" src="/js/swiper.js"></script>
+        <script type="module" src="/js/product-list-slider.js"></script>
         <div class="product-card-body">
             <h5 class="product-card-title"><?= $model->name ?></h5>
             <div class="product-card-description"><?= $model->description ?></div>
@@ -16,28 +27,10 @@
                 <!--                <i class="fas fa-ruble-sign card-price-icon"></i>-->
                 <!--            </div>-->
                 <div class="card-basket col-lg-6">
-                    <!--                <div>-->
-                    <!--                    <div class="input-group">-->
-                    <!--                        <button type="button"-->
-                    <!--                                class="product-card-button product-card-button-add bg-warning btn-number"-->
-                    <!--                                disabled="disabled"-->
-                    <!--                                data-type="minus" data-field="quant[1]">-->
-                    <!--                            <span class="fa fa-minus"></span>-->
-                    <!--                        </button>-->
-                    <!--                        <input type="text" name="quant[1]" class="product-card-form input-number" value="1" min="1"-->
-                    <!--                               max="10">-->
-                    <!--                        <button type="button"-->
-                    <!--                                class="product-card-button product-card-button-add bg-warning btn-number"-->
-                    <!--                                data-type="plus"-->
-                    <!--                                data-field="quant[1]">-->
-                    <!--                            <span class="fa fa-plus"></span>-->
-                    <!--                        </button>-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
                 </div>
             </div>
             <div class="row">
-                <a href="catalog/view?id=<?= $model->id ?>" class="col-lg-9 ">
+                <a href="/catalog/view?id=<?= $model->id ?>" class="col-lg-9 ">
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
                 <!--            <div class="col-lg-3">-->

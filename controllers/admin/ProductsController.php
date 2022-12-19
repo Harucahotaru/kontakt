@@ -154,11 +154,13 @@ class ProductsController extends Controller
         $product = Products::findOne(['id' => $productId]);
 
         $imagesIds = ProductsImgs::findOne(['id' => $product->img_id]);
-        $imagesIds->delete();
-        if ($images = Images::findAll(['id' => json_decode($imagesIds->imgs_ids)])) {
-           foreach ($images as $image) {
-               $image->delete();
-           }
+        if (!empty($imagesIds)) {
+            $imagesIds->delete();
+            if ($images = Images::findAll(['id' => json_decode($imagesIds->imgs_ids)])) {
+                foreach ($images as $image) {
+                    $image->delete();
+                }
+            }
         }
         $product->img_id = null;
         $product->save();

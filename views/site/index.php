@@ -92,7 +92,7 @@ $this->title = 'Контакт "Электротовары"';
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container mb-4">
         <?= NewsList::widget() ?>
         <div class="row text-center align-self-center">
             <a class="col-lg-4 mx-auto menu-text-size-title p-0 " href="/news">

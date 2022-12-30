@@ -2,7 +2,6 @@
 
 use app\models\Products;
 use app\widgets\ParentProducts;
-use yii\imagine\Image;
 
 /** @var  Products $model */
 
@@ -59,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="slider__thumbs">
                                 <div class="swiper-container">
                                     <div class="swiper-wrapper">
-                                        <?php foreach ($model->getImagesPath() as $image): ?>
+                                        <?php foreach ($model->getThumbnailsPath() as $image): ?>
                                             <!-- Превью слайда-->
                                             <div class="swiper-slide">
                                                 <div class="slider__image slider-image-view-prew"><img
@@ -75,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="slider__images">
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                    <?php foreach ($model->getImagesPath() as $key => $image): ?>
+                                    <?php foreach ($model->getThumbnailsPath() as $key => $image): ?>
                                         <!-- Большой слайд -->
                                         <div class="swiper-slide">
                                             <div class="slider__image slider-image-view"><img src="<?= $image ?>"

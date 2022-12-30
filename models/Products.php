@@ -200,7 +200,10 @@ class Products extends \yii\db\ActiveRecord
         $files = UploadedFile::getInstances($this, 'imgFile');
         if ($files) {
             foreach ($files as $file) {
-                $image = new Images(['dir' => 'products/']);
+                $image = new Images([
+                    'dir' => 'products/',
+                    'createPrew' => true,
+                ]);
                 $imagesIds[] = $image->upload($file);
             }
 
@@ -229,6 +232,23 @@ class Products extends \yii\db\ActiveRecord
         }
 
         return $imagesPath;
+    }
+
+    /**
+     * @return array
+     */
+    public function getThumbnailsPath(): array
+    {
+        $iThumbnailsPath = [];
+        $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
+        if($imagesIds) {
+            $images = Images::find()->where(['id' => json_decode($imagesIds->imgs_ids)])->all();
+            foreach ($images as $image) {
+                $iThumbnailsPath[] = $image->getThumbnailsFullPath();
+            }
+        }
+
+        return $iThumbnailsPath;
     }
 
     /**

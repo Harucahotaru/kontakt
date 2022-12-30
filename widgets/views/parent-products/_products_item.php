@@ -5,9 +5,9 @@
     <a href="/catalog/view/<?= $model->id ?>">
         <section class="swiper-container pt-3">
             <div class="swiper-wrapper">
-                <?php foreach ($model->getImagesPath() as $image): ?>
+                <?php foreach ($model->getThumbnailsPath() as $image): ?>
                     <div class="swiper-slide" style="height: 250px">
-                        <img style="height: 300px; width: 100%" src="<?= $image ?>" alt=""/>
+                        <img style="width: 100%" src="<?= $image ?>" alt=""/>
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -98,7 +98,6 @@ class ProductsController extends Controller
      */
     public function actionUpdate($id)
     {
-//        var_dump($this->request->post());exit();
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {

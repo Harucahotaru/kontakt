@@ -25,6 +25,7 @@ use yii\web\UploadedFile;
  * @property string|null $date_m Дата изменения
  * @property int $active Активность
  * @property int $article Артикул
+ * @property int $brand_id Id бренда
  */
 class Products extends \yii\db\ActiveRecord
 {
@@ -72,10 +73,10 @@ class Products extends \yii\db\ActiveRecord
                 'tooBig' => 'Limit is 5 MB'
             ],
             [['name', 'cost', 'parent_id'], 'required'],
-            [['cost', 'on_sale', 'sale', 'active'], 'integer'],
+            [['cost', 'on_sale', 'sale', 'active', 'brand_id'], 'integer'],
             [['date_c', 'date_m'], 'safe'],
             [['description'], 'string'],
-            [['name', 'category_id', 'parent_id', 'article'], 'string', 'max' => 255],
+            [['name', 'category_id', 'article'], 'string', 'max' => 255],
         ];
     }
 
@@ -90,14 +91,15 @@ class Products extends \yii\db\ActiveRecord
             'description' => 'Описание товара',
             'cost' => 'Цена',
             'on_sale' => 'Статус скидки',
-            'sale' => 'Скидка',
+            'sale' => 'Стоимость товара со скидкой',
             'img_id' => 'Изображение',
-            'category_id' => 'id категории',
-            'parent_id' => 'id подходящих товаров',
+            'category_id' => 'Категория',
+            'parent_id' => 'Подходящие товары',
             'date_c' => 'Дата создания',
             'date_m' => 'Дата изменения',
             'active' => 'Активность',
-            'article' => 'Артикул'
+            'article' => 'Артикул',
+            'brand_id' => 'Производитель',
         ];
     }
 
@@ -105,7 +107,7 @@ class Products extends \yii\db\ActiveRecord
      * @param int $limit
      * @return array
      */
-    public static function getAllProducts(int $limit = 20): array
+    public static function getAllProducts(int $limit = 40): array
     {
         return self::find()->orderBy(['active' => self::IS_ACTIVE])->limit($limit)->all();
     }
@@ -129,10 +131,10 @@ class Products extends \yii\db\ActiveRecord
 
 
     /**
-     * @param int $categoryId
+     * @param int|null $categoryId
      * @return array
      */
-    public static function getProductsByCategory(int $categoryId): array
+    public static function getProductsByCategory(?int $categoryId): array
     {
         return self::find()
             ->where(['category_id' => $categoryId])
@@ -148,6 +150,26 @@ class Products extends \yii\db\ActiveRecord
     {
         return new ActiveDataProvider([
             'query' => self::find(),
+            'pagination' => [
+                'pageSize' => $pagination,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
+    }
+
+    /**
+     * @param int|null $pagination
+     * @param int|null $catalogId
+     * @return ActiveDataProvider
+     */
+    public static function getProductsByCategoryProvider(?int $pagination = 20, ?int $categoryId = null): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => self::find()->where(['category_id' => $categoryId]),
             'pagination' => [
                 'pageSize' => $pagination,
             ],
@@ -215,6 +237,9 @@ class Products extends \yii\db\ActiveRecord
     public function getMainImagePath(): ?string
     {
         $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
+        if (empty($imagesIds)) {
+            return '';
+        }
         $image = Images::find()->where(['id' => json_decode($imagesIds->main_img_id)])->one();
         if (!$image) {
             return $imagesIds->main_img_id;
@@ -243,5 +268,54 @@ class Products extends \yii\db\ActiveRecord
             self::STATUS_ACTIVE => 'Есть скидка',
             self::STATUS_DISABLE => 'Нет скидки',
         ];
+    }
+
+    /**
+     * @param array $parentIds
+     * @return array
+     */
+    public function getParentProductsList(bool $onlySelectedIds = false): array
+    {
+        $sql = self::find();
+        if ($onlySelectedIds) {
+            $sql->where(['id' => $this->parent_id]);
+        }
+        $products = $sql->all();
+
+        if (empty($products)) {
+            return [];
+        }
+        /** @var Products $product */
+        foreach ($products as $product) {
+            $productsList[$product->id] = $product->name;
+        }
+
+        return $productsList;
+    }
+
+    public static function getParentProducts(array $parentIds): array
+    {
+        $products = self::find()->where(['id' => $parentIds])->all();
+
+        return !empty($products) ? $products : [];
+    }
+
+    /**
+     * @param $parentIds
+     * @return ActiveDataProvider
+     */
+    public static function getParentProductsProvider($parentIds): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => self::find()->where(['id' => $parentIds]),
+            'pagination' => [
+                'pageSize' => 4,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
     }
 }

@@ -3,7 +3,7 @@
 /** @var \app\models\Products $model * */
 ?>
 <div class="product-card my-3">
-    <a href="catalog/view?id=<?= $model->id ?>">
+    <a href="catalog/view/<?= $model->id ?>">
         <section class="swiper-container pt-3">
             <div class="swiper-wrapper">
                 <?php foreach ($model->getImagesPath() as $image): ?>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="row">
-                <a href="/catalog/view?id=<?= $model->id ?>" class="col-lg-9 ">
+                <a href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
                 <!--            <div class="col-lg-3">-->

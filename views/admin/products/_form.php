@@ -1,7 +1,11 @@
 <?php
 
+use app\models\Brands;
+use app\models\Products;
+use app\models\ProductsCategories;
 use kartik\editors\Summernote;
 use kartik\file\FileInput;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -33,25 +37,37 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'article')->textInput() ?>
+
+    <?= $form->field($model, 'cost')->textInput() ?>
+
+    <?= $form->field($model, 'on_sale')->dropDownList(Products::getSaleStatusList()) ?>
+
+    <?= $form->field($model, 'sale')->textInput() ?>
+
+    <?= $form->field($model, 'category_id')->dropDownList(ProductsCategories::getAllCategoriesList()) ?>
+
+    <?= $form->field($model, 'brand_id')->dropDownList(Brands::getBrandNamesList(), ['prompt'=>'Выбрать производителя...']) ?>
+
+    <?= $form->field($model, 'parent_id[]')->widget(Select2::className(), [
+        'data' => $model->getParentProductsList(),
+        'size' => Select2::MEDIUM,
+        'options' => [
+            'placeholder' => 'Выбрать подходящие товары ...',
+            'multiple' => true
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
+
+    <?= $form->field($model, 'active')->dropDownList(Products::getStatusList()) ?>
+
     <?=
     $form->field($model, 'description')->widget(Summernote::class, [
         'useKrajeePresets' => true,
     ]);
     ?>
-
-    <?= $form->field($model, 'article')->textInput() ?>
-
-    <?= $form->field($model, 'cost')->textInput() ?>
-
-    <?= $form->field($model, 'on_sale')->dropDownList(\app\models\Products::getSaleStatusList()) ?>
-
-    <?= $form->field($model, 'sale')->textInput() ?>
-
-    <?= $form->field($model, 'category_id')->textInput(['maxlength' => true, 'value' => 1]) ?>
-
-    <?= $form->field($model, 'parent_id')->textInput(['maxlength' => true, 'value' => 1]) ?>
-
-    <?= $form->field($model, 'active')->dropDownList(\app\models\Products::getStatusList()) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success my-3']) ?>

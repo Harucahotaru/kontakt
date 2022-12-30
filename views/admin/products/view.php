@@ -38,7 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'sale',
             'img_id',
             'category_id',
-            'parent_id',
             'date_c',
             'date_m',
             'active',

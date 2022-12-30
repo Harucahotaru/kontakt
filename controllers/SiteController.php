@@ -63,8 +63,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $a = new ParseExcel();
-//        $a->parse();
+        $layout = 'main-menu';
         return $this->render('index', ['time' => date('H:i:s')]);
     }
 

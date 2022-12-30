@@ -64,19 +64,52 @@ class Brands extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'Id',
-            'name' => 'Путь',
+            'name' => 'Имя',
             'description' => 'Описание',
-            'urlname' => 'Размер',
+            'urlname' => 'Адрес',
             'date_c' => 'Дата создания',
-            'user_c' => 'Дата создания',
+            'user_c' => 'Id пользователя',
             'img_id' => 'ID изображения',
         ];
     }
     
-    public static function getBrandList(){
+    public static function getBrandList()
+    {
         return self::find()->all();
     }
 
+
+    /**
+     * Получение бренда по id
+     *
+     * @param $brandId
+     *
+     * @return Brands|null
+     */
+    public static function getBrandById($brandId): ?Brands
+    {
+        return self::find()->where(['id' => $brandId])->one();
+    }
+
+    /**
+     * Получение списка брендов в формате id => название
+     *
+     * @return array
+     */
+    public static function getBrandNamesList(): array
+    {
+        $brands = self::find()->select(['id', 'name'])->all();
+
+        if (empty($brands)) {
+            return [];
+        }
+
+        foreach ($brands as $brand) {
+            $brandsNameList[$brand->id] = $brand->name;
+        }
+
+        return $brandsNameList;
+    }
 
     public function getImgFile()
     {

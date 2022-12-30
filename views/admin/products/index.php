@@ -40,25 +40,24 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format'    => 'html',
                 'attribute' => 'on_sale',
-                'filter'    => array(0 => "Скидка выключена", 1 => "Скидка активна"),
+                'filter'    => array(0 => "Не активна", 1 => "Активна"),
                 'value'     => function ($data) {
-                    return ($data->on_sale === 0) ? 'Скидка выключена' : 'Скидка активна';
+                    return ($data->on_sale === 0) ? 'Не активна' : 'Активна';
                 },
             ],
             'sale',
 //            'category_id',
-//            'parent_id',
             [
                 'format'    => 'html',
                 'attribute' => 'active',
-                'filter'    =>array(0 => "Товар не активен", 1 => "Товар активен"),
+                'filter'    =>array(0 => "Не активен", 1 => "Активен"),
                 'value'     => function ($data) {
-                    return ($data->on_sale === 0) ? 'Товар не активен' : 'Товар активен';
+                    return ($data->on_sale === 0) ? 'Не активен' : 'Активен';
                 }
             ],
             [
                 'attribute' => 'date_m',
-                'format' => ['datetime', 'php:d.m.Y H:i:s']
+                'format' => ['datetime', 'php:d.m.y H:i']
             ],
             [
                 'class' => ActionColumn::className(),

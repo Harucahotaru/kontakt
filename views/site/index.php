@@ -28,7 +28,7 @@ $this->title = 'Контакт "Электротовары"';
 <!--                </a>-->
 <!--            </div>-->
             <div class="py-4">
-                <?= ProductsList::widget(['maxPagination' => 4]) ?>
+                <?= ProductsList::widget(['maxPagination' => 8]) ?>
             </div>
             <div class="row text-center align-self-center">
                 <a class="col-lg-4 mx-auto menu-text-size-title p-0 " href="/catalog">

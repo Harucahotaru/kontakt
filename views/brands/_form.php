@@ -19,11 +19,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'urlname')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'date_c')->textInput() ?>
-
-    <?= $form->field($model, 'user_c')->textInput() ?>
-
-
     <?= $form->field($model, 'imgFile')->widget(FileInput::classname(), [
         'options' => ['accept' => 'image/*'],
         'pluginOptions' => ['showUpload' => false]

@@ -37,12 +37,18 @@ $config = [
                 'news/<category>/<urlnews>' => 'news/detail-news',
                 'news' => 'news/categories',
                 'admin' => 'admin/main/index',
+                'catalog/view/<productId>' => 'catalog/view',
+                [
+                    'pattern' => 'catalog/<mainCategory>/<subCategory>/<subCategory2>',
+                    'route' => 'catalog',
+                    'defaults' => ['mainCategory' => null, 'subCategory' => null, 'subCategory2' => null],
+                ],
                 '<path:\w+>/<controller:\w+>/<action:\w+>'=>'<path>/<controller>/<action>',
             ],
             'showScriptName' => false,
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\DummyCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',

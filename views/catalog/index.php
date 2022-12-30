@@ -6,9 +6,9 @@ use app\widgets\ProductsList;
 /* @var $searchModel app\models\ProductsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Каталог';
-$this->params['breadcrumbs'][] = $this->title;
-
+$urlPattern = "/catalog";
+$this->params['breadcrumbs'] = $model ? array_reverse($model->breadCrumbs) : [['label' => 'Каталог', 'url' => '/catalog']];
+//var_dump($this->params['breadcrumbs']);exit();
 ?>
 <div class="container-grey">
     <div class="container py-4">
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!--                </div>-->
     <!--            </div>-->
         </div>
-        <?= ProductsList::widget() ?>
+        <?= ProductsList::widget(['categoryId' => $model ? $model->id : null]) ?>
     </div>
 </div>
 

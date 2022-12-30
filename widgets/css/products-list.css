@@ -123,3 +123,26 @@
     -webkit-box-orient: vertical;
     line-height: 1.4em;
 }
+.parent-products-pagination {
+    font-size: 20px;
+    padding-left: 40px !important;
+}
+.parent-products-pagination li {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.parent-products-pagination-active {
+    background-color: #fdc007;
+}
+.parent-products-pagination-disable {
+    background-color: #d5d5d5 !important;
+    color: #595959;
+}
+.parent-products-pagination-prev {
+    background-color: #b7b7b7;
+    margin-right: 10px;
+}
+.parent-products-pagination-next {
+    background-color: #c4c4c4;
+    margin-left: 10px;
+}

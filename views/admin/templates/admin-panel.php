@@ -22,19 +22,24 @@
                     <i class="fa-regular fa-file-word fa-4x"></i>
                 </a>
             </div>
-<!--            <div class="row mt-2 text-center">-->
-<!--                <a href="/admin/products" data-bs-toggle="tooltip" data-bs-placement="left" title="Продукты">-->
-<!--                    <i class="fa-solid fa-tags fa-4x"></i>-->
-<!--                </a>-->
-<!--            </div>-->
             <div class="row mt-2 text-center">
                 <a href="/admin/products" data-bs-toggle="tooltip" data-bs-placement="left" title="Товары">
                     <i class="fa-solid fa-basket-shopping fa-4x"></i>
                 </a>
             </div>
+            <div class="row mt-2 text-center">
+                <a href="/admin/products-categories" data-bs-toggle="tooltip" data-bs-placement="left" title="Категории товаров">
+                    <i class="fa-solid fa-list fa-4x"></i>
+                </a>
+            </div>
+            <div class="row mt-2 text-center">
+                <a href="/brands" data-bs-toggle="tooltip" data-bs-placement="left" title="Производители">
+                    <i class="fa-solid fa-industry fa-4x"></i>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="position-fixed" style="right:10%; top:10%">
+    <div class="position-fixed" style="right:10%; top:10%; z-index: 300">
         <a class="btn btn-dark" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
            aria-controls="offcanvasExample">
             <i class="fa-solid fa-gear"></i>

@@ -1,5 +1,6 @@
 <?php
 
+use app\controllers\CatalogController;
 use app\models\Products;
 use app\widgets\ParentProducts;
 
@@ -9,6 +10,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+CatalogController::setViewedProductsCookie($model->id);
 ?>
 <div class="container catalog-view-container">
     <div>
@@ -159,5 +161,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="container py-4">
         <h2>Вместе с этим вы можете приобрести</h2>
         <?= (is_array($model->parent_id)) ? ParentProducts::widget(['parentIds' => $model->parent_id]) : '' ?>
+    </div>
+</div>
+<?php $cookieProducts = CatalogController::getViewedProductsIds($model->id); ?>
+<div class="container-grey <?= (empty($cookieProducts)) ? 'catalog-view-display-none' : '' ?>">
+    <div class="container py-4">
+        <h2>Вы недавно смотрели</h2>
+        <?= !empty($cookieProducts) ? ParentProducts::widget(['parentIds' => $cookieProducts]) : '' ?>
     </div>
 </div>

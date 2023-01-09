@@ -329,3 +329,13 @@
     border: 0;
     border-radius: 0;
 }
+input::placeholder {
+    color: black !important;
+}
+.select2-search--inline {
+    display: block;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    max-width: 386px;
+}

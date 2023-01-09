@@ -20,54 +20,105 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'imgFile[]')->widget(FileInput::classname(), [
-        'options' => [
-            'accept' => 'image/*',
-            'multiple' => true,
-        ],
-        'language' => 'ru',
-        'pluginOptions' => [
-            'maxFileCount' => 10,
-            'deleteUrl' => Url::toRoute(["slider/delete-img", 'slideId' => $model->id]),
-            'showUpload' => false,
-            'showRemove' => false,
-            'initialPreview' => $model->getImagesPath(),
-            'initialPreviewAsData' => true,
+            'options' => [
+                'accept' => 'image/*',
+                'multiple' => true,
+            ],
+            'language' => 'ru',
+            'pluginOptions' => [
+                'maxFileCount' => 10,
+                'deleteUrl' => Url::toRoute(["slider/delete-img", 'slideId' => $model->id]),
+                'showUpload' => false,
+                'showRemove' => false,
+                'initialPreview' => $model->getImagesPath(),
+                'initialPreviewAsData' => true,
+            ]
         ]
-    ]); ?>
+    ); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'name')->textInput(
+                [
+                    'maxlength' => true,
+                ]
+            ) ?>
+        </div>
 
-    <?= $form->field($model, 'article')->textInput() ?>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'article')->textInput(
+                [
+                    'maxlength' => true,
+                ]
+            ) ?>
+        </div>
 
-    <?= $form->field($model, 'cost')->textInput() ?>
+        <div class="col-lg-2">
+            <?= $form->field($model, 'active')->dropDownList(Products::getStatusList(), [
+                ]
+            ) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'on_sale')->dropDownList(Products::getSaleStatusList()) ?>
+    <div class="row">
+        <div class="col-lg-4">
+            <?= $form->field($model, 'cost')->textInput(
+                [
+                    'maxlength' => true,
+                ]
+            ) ?>
+        </div>
 
-    <?= $form->field($model, 'sale')->textInput() ?>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'sale')->textInput(
+                [
+                    'maxlength' => true,
+                ]
+            ) ?>
+        </div>
 
-    <?= $form->field($model, 'category_id')->dropDownList(ProductsCategories::getAllCategoriesList()) ?>
+        <div class="col-lg-2">
+            <?= $form->field($model, 'on_sale')->dropDownList(Products::getSaleStatusList(), [
+                ]
+            ) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'brand_id')->dropDownList(Brands::getBrandNamesList(), ['prompt'=>'Выбрать производителя...']) ?>
+    <?= $form->field($model, 'category_id')->dropDownList(ProductsCategories::getAllCategoriesList(), [
+            'style' => 'width: 30%',
+        ]
+    ) ?>
 
-    <?= $form->field($model, 'parent_id[]')->widget(Select2::className(), [
-        'data' => $model->getParentProductsList(),
-        'size' => Select2::MEDIUM,
-        'options' => [
-            'placeholder' => 'Выбрать подходящие товары ...',
-            'multiple' => true
-        ],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]) ?>
+    <?= $form->field($model, 'brand_id')->dropDownList(Brands::getBrandNamesList(), [
+            'prompt' => 'Выбрать производителя...',
+            'style' => 'width: 30%',
+        ]
+    ) ?>
 
-    <?= $form->field($model, 'active')->dropDownList(Products::getStatusList()) ?>
+    <?= $form->field($model, 'parent_id[]')->widget(Select2::class, [
+            'data' => $model->getParentProductsList(),
+            'size' => Select2::MEDIUM,
+            'language' => 'ru',
+            'options' => [
+                'placeholder' => 'Выбрать подходящие товары ...',
+                'multiple' => true
+            ],
+            'pluginOptions' => [
+                'width' => '30%',
+                'color' => 'red'
+            ],
+        ]
+    ) ?>
 
-    <?=
-    $form->field($model, 'description')->widget(Summernote::class, [
-        'useKrajeePresets' => true,
-    ]);
-    ?>
+    <?= $form->field($model, 'description')->widget(Summernote::class, [
+            'useKrajeePresets' => true,
+            'language' => 'ru',
+            'pluginOptions' => [
+                'allowClear' => true,
+                'toolbarOptions' => false,
+            ],
+        ]
+    ); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success my-3']) ?>

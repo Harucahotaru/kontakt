@@ -72,10 +72,10 @@ class Products extends \yii\db\ActiveRecord
                 'maxSize' => 1024 * 1024 * 1000,
                 'tooBig' => 'Limit is 5 MB'
             ],
-            [['name', 'cost', 'parent_id'], 'required'],
+            [['name', 'cost'], 'required'],
             [['cost', 'on_sale', 'sale', 'active', 'brand_id'], 'integer'],
             [['date_c', 'date_m'], 'safe'],
-            [['description'], 'string'],
+            [['description', 'parent_id'], 'string'],
             [['name', 'category_id', 'article'], 'string', 'max' => 255],
         ];
     }

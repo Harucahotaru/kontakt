@@ -160,3 +160,13 @@
 .catalog-view-display-none {
     display: none;
 }
+.catalog-title-size {
+    font-weight: 600;
+    font-size: 36px;
+}
+.btn {
+    border-radius: 0 !important;
+}
+.modal-content {
+    border-radius: 0 !important;
+}

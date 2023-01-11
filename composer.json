@@ -19,6 +19,7 @@
         "yiisoft/yii2-bootstrap5": "2.0.x-dev",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "kartik-v/yii2-widget-fileinput": "*",
+        "kartik-v/yii2-widget-rating": "dev-master",
         "kartik-v/yii2-widget-select2": "*",
         "bower-asset/font-awesome": "*",
         "kartik-v/yii2-editors": "dev-master",

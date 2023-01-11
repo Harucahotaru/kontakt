@@ -32,7 +32,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <header>
     <div class="mb-0 text-center p-0">
-        <?php Yii::$app->session->addFlash('success', 'Сайт находится в разработке. Скоро мы предоставим Вам информацию в лучшем виде!');?>
+        <?php Yii::$app->session->addFlash('error', 'Сайт находится в разработке. Скоро мы предоставим Вам информацию в лучшем виде!');?>
         <?= Alert::widget([
             'options' => [
                 'class' => 'main-alert m-0',

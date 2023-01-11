@@ -2,7 +2,12 @@
 
 use app\controllers\CatalogController;
 use app\models\Products;
+use app\models\Reviews;
 use app\widgets\ParentProducts;
+use kartik\editors\Summernote;
+use kartik\rating\StarRating;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 /** @var  Products $model */
 
@@ -16,39 +21,26 @@ CatalogController::setViewedProductsCookie($model->id);
     <div>
         <h1> <?= $model->name; ?> </h1>
     </div>
+
     <div class="row">
-        <!--        <svg width="0" height="0" viewBox="0 0 32 32">-->
-        <!--            <defs>-->
-        <!--                <mask id="half">-->
-        <!--                    <rect x="0" y="0" width="32" height="32" fill="white"/>-->
-        <!--                    <rect x="50%" y="0" width="32" height="32" fill="grey"/>-->
-        <!--                </mask>-->
-        <!--                <symbol viewBox="0 0 32 32" id="star">-->
-        <!--                    <path d="M31.547 12a.848.848 0 00-.677-.577l-9.427-1.376-4.224-8.532a.847.847 0 00-1.516 0l-4.218 8.534-9.427 1.355a.847.847 0 00-.467 1.467l6.823 6.664-1.612 9.375a.847.847 0 001.23.893l8.428-4.434 8.432 4.432a.847.847 0 001.229-.894l-1.615-9.373 6.822-6.665a.845.845 0 00.214-.869z"/>-->
-        <!--                </symbol>-->
-        <!--            </defs>-->
-        <!--        </svg>-->
-        <!--        <div class="col-lg-2">-->
-        <!--            <p class="c-rate" style="position: relative; margin: 0;">-->
-        <!--                <svg class="c-icon" width="20" height="20" viewBox="0 0 10 10">-->
-        <!--                    <use xlink:href="#star" mask="url(#half)"></use>-->
-        <!--                </svg>-->
-        <!--                <svg class="c-icon" width="20" height="20" viewBox="0 0 10 10">-->
-        <!--                    <use xlink:href="#star" mask="url(#half)"></use>-->
-        <!--                </svg>-->
-        <!--                <svg class="c-icon" width="20" height="20" viewBox="0 0 10 10">-->
-        <!--                    <use xlink:href="#star" mask="url(#half)"></use>-->
-        <!--                </svg>-->
-        <!--                <svg class="c-icon" width="20" height="20" viewBox="0 0 10 10">-->
-        <!--                    <use xlink:href="#star" mask="url(#half)"></use>-->
-        <!--                </svg>-->
-        <!--                <svg class="c-icon" width="20" height="20" viewBox="0 0 32 32">-->
-        <!--                    <use xlink:href="#star" mask="url(#half)"></use>-->
-        <!--                </svg>-->
-        <!--            </p>-->
-        <!--        </div>-->
-        <!--                <a href="#" class="col-lg-1 products-manufacturer">23 отзыва</a>-->
-        <div class="col-lg-3">Артикул: <?= $model->article; ?></div>
+        <div class="col-lg-2 product-view-rate">
+            <?= StarRating::widget([
+                'name' => 'review_rating_' . $model->id,
+                'value' => $model->getRate(),
+                'pluginOptions' => [
+                    'displayOnly' => true,
+                    'size' => 'sm',
+                    'showCaption' => false,
+                    'clearButton' => '',
+                    'step' => 0.1,
+                ]
+            ]); ?>
+        </div>
+        <a href="#reviews" class="col-lg-1 products-manufacturer align-self-center">
+            <?= \app\helpers\WordsHelper::declinationAfterNumber($model->getReviewsCount(), array('отзыв', 'отзыва', 'отзывов'))?>
+        </a>
+        <div class="col-lg-3 align-self-center">Артикул: <?= $model->article; ?>
+        </div>
     </div>
     <div class="row py-3">
         <div class="col-lg-5">
@@ -81,7 +73,7 @@ CatalogController::setViewedProductsCookie($model->id);
                                         <div class="swiper-slide">
                                             <div class="slider__image slider-image-view"><img src="<?= $image ?>"
                                                                                               data-bs-toggle="modal"
-                                                                                              data-bs-target="<?='#Modal_' . $key ?>"/>
+                                                                                              data-bs-target="<?= '#Modal_' . $key ?>"/>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
@@ -91,8 +83,8 @@ CatalogController::setViewedProductsCookie($model->id);
                         <div>
                             <?php foreach ($model->getImagesPath() as $key => $image): ?>
                                 <!-- Модальное окно -->
-                                <div class="modal fade" id="<?='Modal_' . $key ?>" tabindex="-1"
-                                     aria-labelledby="<?='Modal_' . $key , 'label'?>" aria-hidden="true">
+                                <div class="modal fade" id="<?= 'Modal_' . $key ?>" tabindex="-1"
+                                     aria-labelledby="<?= 'Modal_' . $key, 'label' ?>" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-body">
@@ -118,9 +110,9 @@ CatalogController::setViewedProductsCookie($model->id);
         <div class="col-lg-7">
             <div class="pb-2 <?= ($model->brand_id) ?? 'catalog-view-display-none' ?>">
                 <b>Производитель: </b>
-                <a href="#" class="products-manufacturer">
+                <s class="products-manufacturer">
                     <?= ($model->brand_id) ? \app\models\Brands::getBrandById($model->brand_id)->name : 'Не найдено' ?>
-                </a>
+                </s>
             </div>
             <!--            <div class="py-4" style="overflow: hidden; width: 100%">-->
             <!--                <div class="product-view-cost-item product-view-additional -->
@@ -159,14 +151,117 @@ CatalogController::setViewedProductsCookie($model->id);
 </div>
 <div class="container-grey <?= (!is_array($model->parent_id)) ? 'catalog-view-display-none' : '' ?>">
     <div class="container py-4">
-        <h2>Вместе с этим вы можете приобрести</h2>
+        <div class="catalog-title-size py-2">Вместе с этим вы можете приобрести</div>
         <?= (is_array($model->parent_id)) ? ParentProducts::widget(['parentIds' => $model->parent_id]) : '' ?>
     </div>
 </div>
 <?php $cookieProducts = CatalogController::getViewedProductsIds($model->id); ?>
 <div class="container-grey <?= (empty($cookieProducts)) ? 'catalog-view-display-none' : '' ?>">
     <div class="container py-4">
-        <h2>Вы недавно смотрели</h2>
+        <div class="catalog-title-size py-2">Вы недавно смотрели</div>
         <?= !empty($cookieProducts) ? ParentProducts::widget(['parentIds' => $cookieProducts]) : '' ?>
+    </div>
+</div>
+<div class="container-grey">
+    <a name="reviews"></a>
+    <div class="container py-4">
+        <div class="catalog-title-size py-2">Отзывы и оценки</div>
+        <div class="p-2">
+            <button type="button"
+                    class="btn btn-warning  <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Оставить свой отзыв
+            </button>
+            <!-- Modal -->
+            <?php $form = ActiveForm::begin(['action' => '/products-reviews/create']); ?>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Отзыв на товар: <?= $model->name ?></h5>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <?php $reviewModel = new Reviews(); ?>
+                                <div>
+                                    Общая оценка:
+                                    <?= $form->field($reviewModel, 'rate')->widget(StarRating::class, [
+                                        'id' => 'test',
+                                        'language' => 'ru',
+                                        'value' => 3,
+                                        'pluginOptions' => [
+                                            'showCaption' => false,
+                                            'clearButton' => '',
+                                            'step' => 1,
+                                        ]
+                                    ])->label(false); ?>
+                                </div>
+                                <div class="py-1">Срок использования:</div>
+                                <?= $form->field($reviewModel, 'experience')->dropDownList(Products::UseTermList(), [
+                                        'prompt' => 'Сколько вы использовали товар?',
+                                    ]
+                                )->label(false) ?>
+                                <div class="py-1">Преимущества:</div>
+                                    <?= $form->field($reviewModel, 'benefits')->widget(Summernote::class, [
+                                        'useKrajeeStyle' => true,
+                                        'useKrajeePresets' => true,
+                                        'language' => 'ru',
+                                        'enableFullScreen' => false,
+                                        'pluginOptions' => [
+                                            'height' => 100,
+                                            'allowClear' => true,
+                                            'toolbarOptions' => false,
+                                            'toolbar' => false,
+                                        ],
+                                    ]
+                                )->label(false); ?>
+                                <div class="py-1">Недостатки:</div>
+                                <?= $form->field($reviewModel, 'limitations')->widget(Summernote::class, [
+                                        'useKrajeeStyle' => true,
+                                        'useKrajeePresets' => true,
+                                        'language' => 'ru',
+                                        'enableFullScreen' => false,
+                                        'pluginOptions' => [
+                                            'height' => 100,
+                                            'allowClear' => true,
+                                            'toolbarOptions' => false,
+                                            'toolbar' => false,
+                                        ],
+                                    ]
+                                )->label(false); ?>
+                                <div class="py-1">Опыт использования:</div>
+                                <?= $form->field($reviewModel, 'content')->widget(Summernote::class, [
+                                        'useKrajeeStyle' => true,
+                                        'useKrajeePresets' => true,
+                                        'language' => 'ru',
+                                        'enableFullScreen' => false,
+                                        'pluginOptions' => [
+                                            'height' => 100,
+                                            'allowClear' => true,
+                                            'toolbarOptions' => false,
+                                            'toolbar' => false,
+                                        ],
+                                    ]
+                                )->label(false); ?>
+                                <?= $form->field($reviewModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
+                                <?= $form->field($reviewModel, 'entity_id')->hiddenInput(['value' => $model->id])->label(false); ?>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <div class="form-group">
+                                <?= Html::submitButton('Сохранить отзыв', ['class' => 'btn btn-warning']) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php ActiveForm::end(); ?>
+        </div>
+        <div>
+            <?= \app\widgets\Reviews::widget(['type' => Reviews::REVIEW_TYPE_PRODUCTS, 'entityId' => $model->id]) ?>
+        </div>
     </div>
 </div>

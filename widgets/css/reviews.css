@@ -1,0 +1,36 @@
+.review-card {
+    --bs-card-spacer-y: 1rem;
+    --bs-card-spacer-x: 1rem;
+    --bs-card-bg: #fff;
+    --bs-card-img-overlay-padding: 1rem;
+    --bs-card-group-margin: 0.75rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: var(--bs-card-height);
+    word-wrap: break-word;
+    background-color: var(--bs-card-bg);
+    background-clip: border-box;
+    width: 100% !important;
+    padding: 0;
+    margin: 0;
+}
+.review-card-name {
+    font-size: 22px;
+    font-weight: 400;
+}
+.review-card-date {
+
+}
+.review-card-category {
+    font-size: 18px;
+    font-weight: 400;
+}
+.rating-container .filled-stars {
+    color: #626262 !important;
+}
+.product-view-rate {
+    width: 12% !important;
+    height: 42px;
+}

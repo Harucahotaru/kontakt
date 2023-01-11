@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\classes\Dropdown;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -75,7 +76,8 @@ class Products extends \yii\db\ActiveRecord
             [['name', 'cost'], 'required'],
             [['cost', 'on_sale', 'sale', 'active', 'brand_id'], 'integer'],
             [['date_c', 'date_m'], 'safe'],
-            [['description', 'parent_id'], 'string'],
+            ['parent_id', 'each', 'rule' => ['integer']],
+            [['description'], 'string'],
             [['name', 'category_id', 'article'], 'string', 'max' => 255],
         ];
     }
@@ -337,5 +339,49 @@ class Products extends \yii\db\ActiveRecord
                 ]
             ],
         ]);
+    }
+
+    public function getRate()
+    {
+        $rateSum = 0;
+
+        $reviews = $this->getProductReviews();
+        if (empty($reviews)) {
+            return 0;
+        }
+        /** @var Reviews $review */
+        foreach ($reviews as $review) {
+            $rateSum += $review->rate;
+        }
+        return $rateSum / count($reviews);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getProductReviews(): ?array
+    {
+        return Reviews::getReviewsByEntityId($this->id, Reviews::REVIEW_TYPE_PRODUCTS);
+    }
+
+    /**
+     * @return int
+     */
+    public function getReviewsCount(): int
+    {
+        return count($this->getProductReviews());
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function UseTermList()
+    {
+        return [
+            'Менее месяца',
+            'Менее 5 месяцев',
+            'Менее года',
+            'Более 2 лет',
+        ];
     }
 }

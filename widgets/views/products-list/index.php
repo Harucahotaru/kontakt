@@ -3,6 +3,7 @@
 use app\models\Products;
 use app\models\ProductsCategories;
 use yii\widgets\ListView;
+use yii\widgets\Pjax;
 
 /* @var $pagination */
 /* @var $categoryId */
@@ -15,7 +16,7 @@ $category = !empty($categoryId) ? ProductsCategories::getById($categoryId) : nul
 //]); ?>
 <?= ListView::widget([
     'dataProvider' => ($categoryId === null)
-        ? Products::getAllProductsProvider()
+        ? Products::getAllProductsProvider($pagination)
         : Products::getProductsByCategoryProvider($pagination, $categoryId),
     'itemView'     => '_products_item',
     'itemOptions'  => [

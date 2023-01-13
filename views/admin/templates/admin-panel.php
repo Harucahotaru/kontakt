@@ -37,6 +37,11 @@
                     <i class="fa-solid fa-industry fa-4x"></i>
                 </a>
             </div>
+            <div class="row mt-2 text-center">
+                <a href="/reviews" data-bs-toggle="tooltip" data-bs-placement="left" title="Отзывы">
+                    <i class="fa-solid fa-users-line fa-4x"></i>
+                </a>
+            </div>
         </div>
     </div>
     <div class="position-fixed" style="right:10%; top:10%; z-index: 300">

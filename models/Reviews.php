@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\exceptions\ReviewException;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -24,12 +25,16 @@ use yii\db\ActiveRecord;
  * @property string|null $date_m Дата изменения
  * @property boolean $accepted Подтверждение комментария
  */
-class Reviews extends \yii\db\ActiveRecord
+class Reviews extends ActiveRecord
 {
     public const REVIEW_STATUS_ACCEPTED = true;
     public const REVIEW_STATUS_CLOSED = false;
     public const REVIEW_TYPE_PRODUCTS = 1;
     public const REVIEW_TYPE_NEWS = 2;
+    public const REVIEW_TYPE_PRODUCTS_NAME = 'products';
+    public const REVIEW_TYPE_NEWS_NAME = 'news';
+    public const REVIEW_ACCEPTED = 1;
+    public const REVIEW_NOT_ACCEPTED = 0;
 
     /**
      * {@inheritdoc}
@@ -98,15 +103,87 @@ class Reviews extends \yii\db\ActiveRecord
         return User::find()->where(['id' => $this->user_id])->select('username')->one()->getAttribute('username');
     }
 
+    /**
+     * @return string
+     */
     public function getExperience(): string
     {
         return Products::UseTermList()[$this->experience];
     }
 
+    /**
+     * @param $entityId
+     * @param $entityType
+     * @return array|null
+     */
     public static function getReviewsByEntityId($entityId, $entityType): ?array
     {
         return self::find()->where(['entity_id' => $entityId, 'type' => $entityType])->all();
     }
+
+    /**
+     * @param $reviewType
+     * @param bool $onlyNotAccepted
+     *
+     * @return ActiveDataProvider
+     *
+     * @throws ReviewException
+     */
+    public static function getAllReviewsByTypeProvider(
+        ?string $reviewType,
+        bool    $onlyNotAccepted = false
+    ): ActiveDataProvider
+    {
+        $query = self::find();
+
+        if (!empty($reviewType)) {
+            try {
+                $query->where(['type' => (new Reviews)->getIntReviewType($reviewType)]);
+            } catch (ReviewException $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        if ($onlyNotAccepted === true) {
+            $query->where(['accepted' => self::REVIEW_NOT_ACCEPTED]);
+        }
+
+        return new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 6,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getIntReviewType($reviewType)
+    {
+        $intType = array_search($reviewType, self::getIntReviewTypeList());
+        if (empty($intType)) {
+            throw new ReviewException('неподдерживаемый тип отзывов');
+        }
+        return $intType;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getIntReviewTypeList(): array
+    {
+        return [
+            self::REVIEW_TYPE_PRODUCTS => self::REVIEW_TYPE_PRODUCTS_NAME,
+            self::REVIEW_TYPE_NEWS => self::REVIEW_TYPE_NEWS_NAME,
+        ];
+    }
+
 
     /**
      * @param int $type
@@ -141,5 +218,15 @@ class Reviews extends \yii\db\ActiveRecord
         }
 
         return true;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setAccepted(): self
+    {
+        $this->accepted = self::REVIEW_STATUS_ACCEPTED;
+
+        return $this;
     }
 }

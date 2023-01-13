@@ -20,7 +20,7 @@ use yii\widgets\Pjax;
         'data-pjax' => true
     ],
     'layout'       => "{pager}\n{items}\n",
-    'emptyText' => 'Мы не нашли для этого товара подходящих, извините',
+    'emptyText' => 'Здесь пока нету товаров...',
     'pager' => [
         'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
         'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',

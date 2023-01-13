@@ -119,7 +119,7 @@ class ProductsController extends Controller
      * @throws \Throwable
      * @throws StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response
     {
         $this->actionDeleteImg($id);
         $this->findModel($id)->delete();

@@ -37,6 +37,10 @@ $config = [
                 'news/<category>/<urlnews>' => 'news/detail-news',
                 'news' => 'news/categories',
                 'admin' => 'admin/main/index',
+                'reviews/delete/<reviewId>' => 'admin/reviews/delete',
+                'reviews/accept/<reviewId>' => 'admin/reviews/accept',
+                'reviews' => 'admin/reviews/index',
+                'reviews/<reviewType>' => 'admin/reviews',
                 'catalog/view/<productId>' => 'catalog/view',
                 [
                     'pattern' => 'catalog/<mainCategory>/<subCategory>/<subCategory2>',

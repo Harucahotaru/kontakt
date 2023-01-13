@@ -25,7 +25,8 @@ class AppAsset extends AssetBundle
         'css/navbar.css',
         'css/menu.css',
         'css/catalog.css',
-        'css/swiper.css'
+        'css/swiper.css',
+        'css/adminReview.css',
     ];
     public $js = [
         'js/site.js',

@@ -96,9 +96,9 @@ class Images extends \yii\db\ActiveRecord
 
             $this->size = $imgFile->size;
 
-            if ($this->createPrew === true) {
-                $this->createThumbnails();
-            }
+//            if ($this->createPrew === true) {
+//                $this->createThumbnails();
+//            }
             if (!$this->save()) {
                 throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
             }

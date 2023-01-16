@@ -113,13 +113,16 @@ class Images extends \yii\db\ActiveRecord
     private function createThumbnails(): bool
     {
         $thumbnailsPath = $this->getPreviewPath();
-        Image::thumbnail($this->fullPath, 400, 400)
+        $result = Image::thumbnail($this->fullPath, 400, 400)
             ->save(
                 Yii::getAlias('@webroot') . $thumbnailsPath,
                 ['quality' => 80]
             );
 
         $this->prew_path = $thumbnailsPath;
+        echo '<pre>';
+        print_r($result);exit();
+        echo '</pre>';
 
         return true;
     }

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\exceptions\ImageException;
 use Gumlet\ImageResize;
 use Gumlet\ImageResizeException;
 use Yii;
@@ -19,7 +20,7 @@ use yii\web\UploadedFile;
  * @property string|null $description Описание
  * @property string|null $date_c Дата создания
  * @property string $fullPath Полный веб путь к картинке
- * @property string $appFullPath Полный путь к картинке
+ * @property string $thumbPath Полный путь к картинке
  * @property string $hash Хэш
  * @property string $prew_path Путь к превью
  */
@@ -86,15 +87,20 @@ class Images extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @param UploadedFile $imgFile
+     * @return int
+     *
+     * @throws \yii\db\Exception|ImageException
+     */
     public function upload(UploadedFile $imgFile): int
     {
-        var_dump($imgFile);exit();
         $this->name = $imgFile->name;
         $this->path = "/{$this->base_directory}{$this->dir}";
         $this->hash = md5_file($imgFile->tempName);
         if (!($imgModel = self::findOne(['hash' => $this->hash]))) {
             if (!$imgFile->saveAs("@webroot{$this->path}{$this->name}")) { // Сохраняем файл
-                throw new Exception('Не удалось сохранить картинку');
+                throw new ImageException('Не удалось сохранить картинку');
             }
 
             $this->size = $imgFile->size;
@@ -104,12 +110,11 @@ class Images extends \yii\db\ActiveRecord
                 try {
                     $this->createThumbnails();
                 } catch (ImageResizeException $e) {
-                    var_dump($e->getMessage());exit();
-                    throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
+                    throw new ImageException("Ошибка при создании превью", $this->errors);
                 }
             }
             if (!$this->save()) {
-                throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
+                throw new ImageException('Ошибка сохранения изображения', $this->errors);
             }
             $imgModel = $this;
         }
@@ -123,15 +128,18 @@ class Images extends \yii\db\ActiveRecord
      */
     private function createThumbnails(): bool
     {
+        $result = false;
 
         $thumbnailsPath = $this->getPreviewPath();
-        var_dump($this->fullPath);exit();
-        $image = new ImageResize('https://kontakt-arm.ru/upload/images/products/1.jpg');
+        $image = new ImageResize($this->thumbPath);
         $image->resize(400, 400, true);
         $image->save(Yii::getAlias('@webroot') . $thumbnailsPath, IMAGETYPE_PNG);
         $this->prew_path = $thumbnailsPath;
 
-        return true;
+        if (!empty($image)) {
+            $result = true;
+        }
+        return $result;
     }
 
 
@@ -143,7 +151,7 @@ class Images extends \yii\db\ActiveRecord
         return '/'
             . $this->base_directory
             . $this->dir
-            . $this-> prewDir
+            . $this->prewDir
             . $this->name;
     }
 
@@ -158,15 +166,15 @@ class Images extends \yii\db\ActiveRecord
     /**
      * @return string
      */
-    public function getAppFullPath(): string
+    public function getThumbPath(): string
     {
-        return str_replace('/', '\\', Yii::getAlias('@app') . '\\public_html' ."{$this->path}{$this->name}")    ;
+        return substr("{$this->path}{$this->name}", 1);
     }
 
     /**
      * @return string
      */
-    public function getFullPath():string
+    public function getFullPath(): string
     {
         return URL::to(Yii::getAlias('@web') . "{$this->path}{$this->name}", true);
     }

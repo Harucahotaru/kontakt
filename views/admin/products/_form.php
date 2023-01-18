@@ -95,17 +95,13 @@ use yii\widgets\ActiveForm;
         ]
     ) ?>
 
-    <?= $form->field($model, 'parent_id[]')->widget(Select2::class, [
+    <?= $form->field($model, 'parent_id')->widget(Select2::class, [
             'data' => $model->getParentProductsList(),
-            'size' => Select2::MEDIUM,
-            'language' => 'ru',
-            'options' => [
-                'placeholder' => 'Выбрать подходящие товары ...',
-                'multiple' => true
-            ],
+            'maintainOrder' => true,
+            'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
             'pluginOptions' => [
-                'width' => '30%',
-                'color' => 'red'
+                'tags' => true,
+                'maximumInputLength' => 10
             ],
         ]
     ) ?>

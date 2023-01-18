@@ -55,6 +55,13 @@ class CatalogController extends Controller
         ]);
     }
 
+    public function actionSearch(string $searchString = null)
+    {
+        return $this->render('index', [
+            'searchString' => $searchString,
+        ]);
+    }
+
     /**
      * Сохраняет id товара для работы блока "просмотренные товары"
      *

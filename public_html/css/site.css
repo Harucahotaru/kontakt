@@ -102,3 +102,19 @@ a:hover{
     height: 350px;
     width: 100%;
 }
+
+.form-control {
+    border-radius: 0 !important;
+}
+.form-control:focus {
+    border-color: #000000 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+.tt-menu {
+    border-radius: 0 !important;
+}
+.tt-selectable{
+    font-size: 16px;
+    padding-left: 10px !important;;
+    padding-right: 10px !important;;
+}

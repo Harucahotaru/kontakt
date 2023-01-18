@@ -6,27 +6,40 @@ use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 /* @var $pagination */
+
 /* @var $categoryId */
+
+/* @var $searchString */
+
 /* @var ProductsCategories $category */
+
 $category = !empty($categoryId) ? ProductsCategories::getById($categoryId) : null;
 ?>
 <h2 class="py-3"><?= !empty($category) ? $category->name : 'Каталог' ?></h2>
 <?php //Pjax::begin([
 //    'timeout' => 1000
 //]); ?>
+
+<?php
+if (!empty($searchString)) {
+    $provider = Products::getProductsBySearchProvider($searchString, $pagination);
+} elseif (!empty($categoryId)) {
+    $provider = Products::getProductsByCategoryProvider($pagination, $categoryId);
+} else {
+    $provider = Products::getAllProductsProvider($pagination);
+}
+?>
 <?= ListView::widget([
-    'dataProvider' => ($categoryId === null)
-        ? Products::getAllProductsProvider($pagination)
-        : Products::getProductsByCategoryProvider($pagination, $categoryId),
-    'itemView'     => '_products_item',
-    'itemOptions'  => [
+    'dataProvider' => $provider,
+    'itemView' => '_products_item',
+    'itemOptions' => [
         'tag' => false,
     ],
-    'options'      => [
+    'options' => [
         'class' => 'row'
     ],
-    'layout'       => "{pager}\n{items}\n",
-    'emptyText' => 'В этой категории пока нет товаров, извините',
+    'layout' => "{pager}\n{items}\n",
+    'emptyText' => 'Мы не смогли найти тут товары ...',
     'pager' => [
         'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
         'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',

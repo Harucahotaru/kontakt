@@ -4,14 +4,14 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'layout'=>'main',
+    'layout' => 'main',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-        '@resourses'   => '@app/resourses',
+        '@npm' => '@vendor/npm-asset',
+        '@resourses' => '@app/resourses',
     ],
     'components' => [
         'request' => [
@@ -41,13 +41,14 @@ $config = [
                 'reviews/accept/<reviewId>' => 'admin/reviews/accept',
                 'reviews' => 'admin/reviews/index',
                 'reviews/<reviewType>' => 'admin/reviews',
+                'catalog/search/<searchString>' => 'catalog/search',
                 'catalog/view/<productId>' => 'catalog/view',
                 [
                     'pattern' => 'catalog/<mainCategory>/<subCategory>/<subCategory2>',
                     'route' => 'catalog',
                     'defaults' => ['mainCategory' => null, 'subCategory' => null, 'subCategory2' => null],
                 ],
-                '<path:\w+>/<controller:\w+>/<action:\w+>'=>'<path>/<controller>/<action>',
+                '<path:\w+>/<controller:\w+>/<action:\w+>' => '<path>/<controller>/<action>',
             ],
             'showScriptName' => false,
         ],

@@ -226,7 +226,7 @@ class Products extends \yii\db\ActiveRecord
     {
         $imagesPath = [];
         $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
-        if($imagesIds) {
+        if ($imagesIds) {
             $images = Images::find()->where(['id' => json_decode($imagesIds->imgs_ids)])->all();
             foreach ($images as $image) {
                 $imagesPath[] = $image->getFullPath();
@@ -243,7 +243,7 @@ class Products extends \yii\db\ActiveRecord
     {
         $iThumbnailsPath = [];
         $imagesIds = ProductsImgs::findOne(['id' => $this->img_id]);
-        if($imagesIds) {
+        if ($imagesIds) {
             $images = Images::find()->where(['id' => json_decode($imagesIds->imgs_ids)])->all();
             foreach ($images as $image) {
                 $iThumbnailsPath[] = $image->getThumbnailsFullPath();
@@ -383,5 +383,38 @@ class Products extends \yii\db\ActiveRecord
             'Менее года',
             'Более 2 лет',
         ];
+    }
+
+    public static function getSearchList(string $searchString = ''): string
+    {
+        $searchList = [];
+
+        $query = self::find();
+        if (!empty($searchString)) {
+            $query->filterWhere(['like', 'name' , $searchString]);
+        }
+        $products = $query->all();
+
+        /** @var Products $product */
+        foreach ($products as $product) {
+            $searchList[] = ['value' => $product->name, 'url' => "/catalog/view/$product->id"];
+        }
+
+        return json_encode($searchList);
+    }
+
+    public static function getProductsBySearchProvider(string $searchString, ?int $pagination = 20): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => self::find()->filterWhere(['like', 'name' , $searchString]),
+            'pagination' => [
+                'pageSize' => $pagination,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
     }
 }

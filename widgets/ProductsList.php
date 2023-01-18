@@ -12,6 +12,8 @@ class ProductsList extends Widget
 
     public ?int $maxPagination = null;
 
+    public ?string $searchString = null;
+
     public function init()
     {
         parent::init();
@@ -25,6 +27,7 @@ class ProductsList extends Widget
             'categoryId' => $this->categoryId,
             'products'  => $products,
             'pagination' => $this->maxPagination,
+            'searchString' => $this->searchString,
         ]);
     }
 }

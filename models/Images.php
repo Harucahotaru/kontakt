@@ -124,7 +124,7 @@ class Images extends \yii\db\ActiveRecord
     {
 
         $thumbnailsPath = $this->getPreviewPath();
-        var_dump($this->fullPath);exit();
+        var_dump($this->appFullPath);exit();
         $image = new ImageResize($this->fullPath);
         $image->resize(400, 400, true);
         $image->save(Yii::getAlias('@webroot') . $thumbnailsPath, IMAGETYPE_PNG);

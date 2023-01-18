@@ -103,6 +103,7 @@ class Images extends \yii\db\ActiveRecord
                 try {
                     $this->createThumbnails();
                 } catch (ImageResizeException $e) {
+                    var_dump($e->getMessage());exit();
                     throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
                 }
             }

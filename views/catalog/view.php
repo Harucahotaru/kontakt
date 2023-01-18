@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\CatalogController;
+use app\helpers\WordsHelper;
 use app\models\Products;
 use app\models\Reviews;
 use app\widgets\ParentProducts;
@@ -36,7 +37,7 @@ CatalogController::setViewedProductsCookie($model->id);
             ]); ?>
         </div>
         <a href="#reviews" class="col-lg-1 products-manufacturer align-self-center">
-            <?= \app\helpers\WordsHelper::declinationAfterNumber($model->getReviewsCount(), array('отзыв', 'отзыва', 'отзывов'))?>
+            <?= WordsHelper::declinationAfterNumber($model->getReviewsCount(), array('отзыв', 'отзыва', 'отзывов'))?>
         </a>
         <div class="col-lg-3 align-self-center">Артикул: <?= $model->article; ?>
         </div>

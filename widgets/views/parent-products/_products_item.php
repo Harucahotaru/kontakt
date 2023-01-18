@@ -1,9 +1,13 @@
 <?php
-/** @var \app\models\Products $model * */
+
+/** @var Products $model * */
+
+use app\models\Products;
+
 ?>
 <div class="product-card my-3">
     <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
-        <section class="swiper-container pt-3">
+        <section class="swiper-container swiper1 pt-3">
             <div class="swiper-wrapper">
                 <?php foreach ($model->getThumbnailsPath() as $image): ?>
                     <div class="swiper-slide" style="height: 250px">
@@ -11,7 +15,7 @@
                     </div>
                 <?php endforeach; ?>
             </div>
-            <div class="swiper-pagination swiper-pagination-white"></div>
+            <div class="swiper-pagination swiper1 swiper-pagination-white"></div>
         </section>
         <div class="product-card-body">
             <h5 class="product-card-title"><?= $model->name ?></h5>
@@ -23,3 +27,5 @@
         </div>
     </a>
 </div>
+<script type="module" src="/js/swiper.js"></script>
+<script type="module" src="/js/product-list-slider.js"></script>

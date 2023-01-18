@@ -88,6 +88,7 @@ class Images extends \yii\db\ActiveRecord
 
     public function upload(UploadedFile $imgFile): int
     {
+        var_dump($imgFile);exit();
         $this->name = $imgFile->name;
         $this->path = "/{$this->base_directory}{$this->dir}";
         $this->hash = md5_file($imgFile->tempName);
@@ -124,7 +125,7 @@ class Images extends \yii\db\ActiveRecord
     {
 
         $thumbnailsPath = $this->getPreviewPath();
-//        var_dump($this->appFullPath);exit();
+        var_dump($this->fullPath);exit();
         $image = new ImageResize('https://kontakt-arm.ru/upload/images/products/1.jpg');
         $image->resize(400, 400, true);
         $image->save(Yii::getAlias('@webroot') . $thumbnailsPath, IMAGETYPE_PNG);

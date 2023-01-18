@@ -2,10 +2,11 @@
 
 namespace app\models;
 
+use Gumlet\ImageResize;
+use Gumlet\ImageResizeException;
 use Yii;
 use yii\base\Exception;
 use yii\helpers\Url;
-use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -18,6 +19,7 @@ use yii\web\UploadedFile;
  * @property string|null $description Описание
  * @property string|null $date_c Дата создания
  * @property string $fullPath Полный веб путь к картинке
+ * @property string $appFullPath Полный путь к картинке
  * @property string $hash Хэш
  * @property string $prew_path Путь к превью
  */
@@ -97,7 +99,12 @@ class Images extends \yii\db\ActiveRecord
             $this->size = $imgFile->size;
 
             if ($this->createPrew === true) {
-                $this->createThumbnails();
+
+                try {
+                    $this->createThumbnails();
+                } catch (ImageResizeException $e) {
+                    throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
+                }
             }
             if (!$this->save()) {
                 throw new \yii\db\Exception('Ошибка сохранения изображения', $this->errors);
@@ -109,20 +116,22 @@ class Images extends \yii\db\ActiveRecord
 
     /**
      * @return bool
+     *
+     * @throws ImageResizeException
      */
     private function createThumbnails(): bool
     {
-        $thumbnailsPath = $this->getPreviewPath();
-        $result = Image::thumbnail($this->fullPath, 400, 400)
-            ->save(
-                Yii::getAlias('@webroot') . $thumbnailsPath,
-                ['quality' => 80]
-            );
 
+        $thumbnailsPath = $this->getPreviewPath();
+        $image = new ImageResize($this->appFullPath);
+        $image->resize(400, 400, true);
+        $image->save(Yii::getAlias('@webroot') . $thumbnailsPath, IMAGETYPE_PNG);
         $this->prew_path = $thumbnailsPath;
 
         return true;
     }
+
+
     /**
      * @return string
      */
@@ -146,10 +155,19 @@ class Images extends \yii\db\ActiveRecord
     /**
      * @return string
      */
+    public function getAppFullPath(): string
+    {
+        return str_replace('/', '\\', Yii::getAlias('@app') . '\\public_html' ."{$this->path}{$this->name}")    ;
+    }
+
+    /**
+     * @return string
+     */
     public function getFullPath():string
     {
         return URL::to(Yii::getAlias('@web') . "{$this->path}{$this->name}", true);
     }
+
 
     /**
      * @param int|null $id

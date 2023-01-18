@@ -27,6 +27,7 @@
         "kartik-v/yii2-password": "dev-master",
         "la-haute-societe/yii2-save-relations-behavior": "*",
         "phpoffice/phpspreadsheet": "^1.23",
+        "gumlet/php-image-resize": "2.0.*",
         "ext-json": "*"
     },
     "require-dev": {

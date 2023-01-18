@@ -207,7 +207,6 @@ class Images extends \yii\db\ActiveRecord
 
     public function getImgFile()
     {
-        echo 123;
     }
 
     /**

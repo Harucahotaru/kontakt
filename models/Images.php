@@ -89,15 +89,17 @@ class Images extends \yii\db\ActiveRecord
 
     /**
      * @param UploadedFile $imgFile
+     *
      * @return int
      *
-     * @throws \yii\db\Exception|ImageException
+     * @throws ImageException
      */
     public function upload(UploadedFile $imgFile): int
     {
         $this->name = $imgFile->name;
         $this->path = "/{$this->base_directory}{$this->dir}";
         $this->hash = md5_file($imgFile->tempName);
+
         if (!($imgModel = self::findOne(['hash' => $this->hash]))) {
             if (!$imgFile->saveAs("@webroot{$this->path}{$this->name}")) { // Сохраняем файл
                 throw new ImageException('Не удалось сохранить картинку');
@@ -123,31 +125,26 @@ class Images extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return bool
+     * @return ImageResize
      *
      * @throws ImageResizeException
      */
-    private function createThumbnails(): bool
+    private function createThumbnails(): ImageResize
     {
-        $result = false;
-
         $thumbnailsPath = $this->getPreviewPath();
         $image = new ImageResize($this->thumbPath);
         $image->resize(400, 400, true);
         $image->save(Yii::getAlias('@webroot') . $thumbnailsPath, IMAGETYPE_PNG);
         $this->prew_path = $thumbnailsPath;
 
-        if (!empty($image)) {
-            $result = true;
-        }
-        return $result;
+        return $image;
     }
 
 
     /**
      * @return string
      */
-    private function getPreviewPath()
+    private function getPreviewPath(): string
     {
         return '/'
             . $this->base_directory
@@ -183,6 +180,7 @@ class Images extends \yii\db\ActiveRecord
 
     /**
      * @param int|null $id
+     *
      * @return string|null
      */
     public static function getImgPathById(?int $id): ?string
@@ -192,9 +190,10 @@ class Images extends \yii\db\ActiveRecord
 
     /**
      * @param $imgFile
+     *
      * @return mixed
-     * @throws Exception
-     * @throws \yii\db\Exception
+     *
+     * @throws \yii\db\Exception|ImageException
      */
     public function setImgFile($imgFile)
     {
@@ -226,6 +225,7 @@ class Images extends \yii\db\ActiveRecord
 
     /**
      * @param $imgDir
+     *
      * @return string
      */
     public function setImgDir($imgDir)

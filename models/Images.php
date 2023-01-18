@@ -98,7 +98,7 @@ class Images extends \yii\db\ActiveRecord
         $this->name = $imgFile->name;
         $this->path = "/{$this->base_directory}{$this->dir}";
         $this->hash = md5_file($imgFile->tempName);
-        if (!($imgModel = self::findOne(['hash' => $this->hash]))) {
+//        if (!($imgModel = self::findOne(['hash' => $this->hash]))) {
             if (!$imgFile->saveAs("@webroot{$this->path}{$this->name}")) { // Сохраняем файл
                 throw new ImageException('Не удалось сохранить картинку');
             }
@@ -117,7 +117,8 @@ class Images extends \yii\db\ActiveRecord
                 throw new ImageException('Ошибка сохранения изображения', $this->errors);
             }
             $imgModel = $this;
-        }
+//        }
+        
         return $imgModel->id;
     }
 

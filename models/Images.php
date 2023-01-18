@@ -120,9 +120,6 @@ class Images extends \yii\db\ActiveRecord
             );
 
         $this->prew_path = $thumbnailsPath;
-        echo '<pre>';
-        print_r($result);exit();
-        echo '</pre>';
 
         return true;
     }

@@ -23,7 +23,7 @@
         "kartik-v/yii2-widget-select2": "*",
         "bower-asset/font-awesome": "*",
         "kartik-v/yii2-editors": "dev-master",
-        "yiisoft/yii2-imagine": "^2.3",
+        "yiisoft/yii2-imagine": "*",
         "kartik-v/yii2-password": "dev-master",
         "la-haute-societe/yii2-save-relations-behavior": "*",
         "phpoffice/phpspreadsheet": "^1.23",

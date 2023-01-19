@@ -2,6 +2,7 @@
 
 use app\controllers\CatalogController;
 use app\helpers\WordsHelper;
+use app\models\Brands;
 use app\models\Products;
 use app\models\Reviews;
 use app\widgets\ParentProducts;
@@ -110,9 +111,9 @@ CatalogController::setViewedProductsCookie($model->id);
         <div class="col-lg-7">
             <div class="pb-2 <?= ($model->brand_id) ?? 'catalog-view-display-none' ?>">
                 <b>Производитель: </b>
-                <s class="products-manufacturer">
-                    <?= ($model->brand_id) ? \app\models\Brands::getBrandById($model->brand_id)->name : 'Не найдено' ?>
-                </s>
+                <a href="/catalog/brand/<?=$model->brand_id?>" class="products-manufacturer">
+                    <?= ($model->brand_id) ? Brands::getBrandById($model->brand_id)->name : 'Не найдено' ?>
+                </a>
             </div>
             <!--            <div class="py-4" style="overflow: hidden; width: 100%">-->
             <!--                <div class="product-view-cost-item product-view-additional -->

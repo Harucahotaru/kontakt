@@ -28,6 +28,15 @@ use kartik\typeahead\Typeahead;
                                 'url' => '/site/search' . '?string=%QUERY',
                                 'wildcard' => '%QUERY'
                             ]
+                        ],
+                        [
+                            'datumTokenizer' => "Bloodhound.tokenizers.obj.whitespace('value')",
+                            'display' => 'value',
+                            'minLength' => 3,
+                            'remote' => [
+                                'url' => '/brands/search' . '?string=%QUERY',
+                                'wildcard' => '%QUERY'
+                            ]
                         ]
                     ]
                 ]); ?>

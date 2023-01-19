@@ -42,6 +42,8 @@ $config = [
                 'reviews' => 'admin/reviews/index',
                 'reviews/<reviewType>' => 'admin/reviews',
                 'catalog/search/<searchString>' => 'catalog/search',
+                'catalog/brand/<brandId>' => 'catalog/brand',
+                'brands/search/<searchString>' => 'brands/search',
                 'catalog/view/<productId>' => 'catalog/view',
                 [
                     'pattern' => 'catalog/<mainCategory>/<subCategory>/<subCategory2>',

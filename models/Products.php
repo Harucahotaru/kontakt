@@ -461,6 +461,21 @@ class Products extends \yii\db\ActiveRecord
         ]);
     }
 
+    public static function getProductsByBrandProvider(int $brandId, ?int $pagination = 20): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => self::find()->where(['brand_id' => $brandId]),
+            'pagination' => [
+                'pageSize' => $pagination,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
+    }
+
     /**
      * Получение крайней даты для статуса товара "новинка"
      *

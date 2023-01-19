@@ -128,4 +128,15 @@ class BrandsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionSearch(): string
+    {
+        $string = '';
+
+        if (isset($_GET['string'])) {
+            $string = $_GET['string'];
+        }
+
+        return Brands::getSearchList($string);
+    }
 }

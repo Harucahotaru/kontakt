@@ -13,14 +13,13 @@ use yii\widgets\ListView;
 
 /* @var $systemCategory */
 
+/* @var $brandId */
+
 /* @var ProductsCategories $category */
 
 $category = !empty($categoryId) ? ProductsCategories::getById($categoryId) : null;
 ?>
 <h2 class="py-3"><?= !empty($category) ? $category->name : 'Каталог' ?></h2>
-<?php //Pjax::begin([
-//    'timeout' => 1000
-//]); ?>
 
 <?php
 try {
@@ -30,6 +29,8 @@ try {
         $provider = Products::getProductsByCategoryProvider($pagination, $categoryId);
     } elseif (!empty($systemCategory)) {
         $provider = Products::getProductsBySystemCategoryProvider($systemCategory, $pagination);
+    } elseif (!empty($brandId)) {
+        $provider = Products::getProductsByBrandProvider($brandId, $pagination);
     } else {
         $provider = Products::getAllProductsProvider($pagination);
     }
@@ -61,5 +62,4 @@ try {
         'nextPageCssClass' => 'parent-products-pagination-next',
     ],
 ]);
-//Pjax::end();
 ?>

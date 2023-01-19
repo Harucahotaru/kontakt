@@ -3,7 +3,7 @@
 /** @var \app\models\Products $model * */
 ?>
 <div class="product-card my-3">
-    <a data-pjax=0 href="catalog/view/<?= $model->id ?>">
+    <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
         <section class="swiper-container pt-3">
             <div class="swiper-wrapper">
                 <?php foreach ($model->getThumbnailsPath() as $image): ?>

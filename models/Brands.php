@@ -126,11 +126,31 @@ class Brands extends \yii\db\ActiveRecord
         return $imgFile;
     }
     
-    public function getImg(){
-        return $this->hasOne(Images::class,['id' => 'img_id']);
+    public function getImg()
+    {
+        return $this->hasOne(Images::class, ['id' => 'img_id']);
     }
     
-    public function getImgPath(){
+    public function getImgPath()
+    {
         return $this->img ? $this->img->getFullPath() : '';
+    }
+
+    public static function getSearchList(string $searchString = ''): string
+    {
+        $searchList = [];
+
+        $query = self::find();
+        if (!empty($searchString)) {
+            $query->filterWhere(['like', 'name', $searchString]);
+        }
+        $brands = $query->all();
+
+        /** @var Brands $brand */
+        foreach ($brands as $brand) {
+            $searchList[] = ['value' => $brand->name, 'url' => "/catalog/brand/$brand->id"];
+        }
+
+        return json_encode($searchList);
     }
 }

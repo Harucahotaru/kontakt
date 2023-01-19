@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\CookieHelper;
+use app\models\Brands;
 use app\models\Products;
 use app\models\ProductsCategories;
 use Yii;
@@ -67,10 +68,17 @@ class CatalogController extends Controller
         ]);
     }
 
-    public function actionSearch(string $searchString = null)
+    public function actionSearch(string $searchString = null): string
     {
         return $this->render('index', [
             'searchString' => $searchString,
+        ]);
+    }
+
+    public function actionBrand($brandId): string
+    {
+        return $this->render('brand-view', [
+            'brand' => Brands::getBrandById($brandId),
         ]);
     }
 

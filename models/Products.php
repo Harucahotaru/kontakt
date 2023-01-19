@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\classes\Dropdown;
+use app\exceptions\ProductException;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
@@ -31,8 +32,12 @@ use yii\web\UploadedFile;
 class Products extends \yii\db\ActiveRecord
 {
     const STATUS_ACTIVE = 1;
+
     const STATUS_DISABLE = 0;
+
     const IS_ACTIVE = 1;
+
+    const NEW_PRODUCTS_PERIOD_DAYS = 30;
 
     /**
      * {@inheritdoc}
@@ -124,7 +129,7 @@ class Products extends \yii\db\ActiveRecord
     public static function getProductById($id): Products
     {
         $product = self::find()->where(['id' => $id])->one();
-        if(empty($product)) {
+        if (empty($product)) {
             throw new Exception('Такого товара нет в нашей базе, извините');
         }
 
@@ -391,7 +396,7 @@ class Products extends \yii\db\ActiveRecord
 
         $query = self::find();
         if (!empty($searchString)) {
-            $query->filterWhere(['like', 'name' , $searchString]);
+            $query->filterWhere(['like', 'name', $searchString]);
         }
         $products = $query->all();
 
@@ -406,7 +411,7 @@ class Products extends \yii\db\ActiveRecord
     public static function getProductsBySearchProvider(string $searchString, ?int $pagination = 20): ActiveDataProvider
     {
         return new ActiveDataProvider([
-            'query' => self::find()->filterWhere(['like', 'name' , $searchString]),
+            'query' => self::find()->filterWhere(['like', 'name', $searchString]),
             'pagination' => [
                 'pageSize' => $pagination,
             ],
@@ -416,5 +421,63 @@ class Products extends \yii\db\ActiveRecord
                 ]
             ],
         ]);
+    }
+
+    /**
+     * @param string $categoryName
+     * @param int|null $pagination
+     *
+     * @return ActiveDataProvider
+     *
+     * @throws ProductException
+     */
+    public static function getProductsBySystemCategoryProvider(string $categoryName, ?int $pagination = 20): ActiveDataProvider
+    {
+        switch ($categoryName) {
+            case 'new-products':
+                $query = self::find()->where(['>=', 'date_c', (new Products)->getNewProductsLastDay()]);
+                break;
+            case 'sale':
+                $query = self::find()->where(['on_sale' => self::STATUS_ACTIVE]);
+                break;
+            case 'handshake':
+                $query = self::find()->where(['on_sale' => 1]);
+                break;
+            default:
+                $query = self::find();
+                break;
+        }
+
+        return new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => $pagination,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
+    }
+
+    /**
+     * Получение крайней даты для статуса товара "новинка"
+     *
+     * @return false|string
+     *
+     * @throws ProductException
+     */
+    private function getNewProductsLastDay(): string
+    {
+        $time = time();
+        $time -= (self::NEW_PRODUCTS_PERIOD_DAYS * 24 * 60 * 60);
+
+        if (!$time) {
+            var_dump(1);exit();
+            throw new ProductException('ошибка при поиске товара, некоренная дата');
+        }
+
+        return date('Y-m-d h:i:s', $time);
     }
 }

@@ -1,15 +1,17 @@
 <?php
 
+use app\exceptions\ProductException;
 use app\models\Products;
 use app\models\ProductsCategories;
 use yii\widgets\ListView;
-use yii\widgets\Pjax;
 
 /* @var $pagination */
 
 /* @var $categoryId */
 
 /* @var $searchString */
+
+/* @var $systemCategory */
 
 /* @var ProductsCategories $category */
 
@@ -21,12 +23,18 @@ $category = !empty($categoryId) ? ProductsCategories::getById($categoryId) : nul
 //]); ?>
 
 <?php
-if (!empty($searchString)) {
-    $provider = Products::getProductsBySearchProvider($searchString, $pagination);
-} elseif (!empty($categoryId)) {
-    $provider = Products::getProductsByCategoryProvider($pagination, $categoryId);
-} else {
-    $provider = Products::getAllProductsProvider($pagination);
+try {
+    if (!empty($searchString)) {
+        $provider = Products::getProductsBySearchProvider($searchString, $pagination);
+    } elseif (!empty($categoryId)) {
+        $provider = Products::getProductsByCategoryProvider($pagination, $categoryId);
+    } elseif (!empty($systemCategory)) {
+        $provider = Products::getProductsBySystemCategoryProvider($systemCategory, $pagination);
+    } else {
+        $provider = Products::getAllProductsProvider($pagination);
+    }
+} catch (ProductException $e) {
+    throw new ProductException('Не удалось найти товар');
 }
 ?>
 <?= ListView::widget([

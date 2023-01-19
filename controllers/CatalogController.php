@@ -13,6 +13,12 @@ class CatalogController extends Controller
 {
     public const VIEWED_PRODUCTS_COOKIE = 'viewed_products';
 
+    public const SYSTEM_CATEGORIES = [
+        'new-products',
+        'sale',
+        'handshake',
+    ];
+
     /**
      * @param $mainCategory
      * @param $subCategory
@@ -20,17 +26,23 @@ class CatalogController extends Controller
      *
      * @return string
      */
-    public function actionIndex($mainCategory, $subCategory = null, $subCategory2 = null)
+    public function actionIndex($mainCategory, $subCategory = null, $subCategory2 = null): string
     {
+        $model = null;
+        $systemCategory = null;
+
         $categoryList = array_diff([$mainCategory, $subCategory, $subCategory2], ['']);
         $categoryName = end($categoryList);
-        if ($categoryName !== false) {
+
+        if ($this->isSystemCategories($categoryName)) {
+            $systemCategory = $categoryName;
+        } elseif ($categoryName !== false) {
             $model = ProductsCategories::getByName($categoryName);
-        } else {
-            $model = null;
         }
+
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
+            'systemCategory' => $systemCategory,
         ]);
     }
 
@@ -99,5 +111,10 @@ class CatalogController extends Controller
     public static function getViewedProductsIds(int $productId): array
     {
         return array_diff(self::getCookieValue(), array($productId));
+    }
+
+    private function isSystemCategories($categoryName): bool
+    {
+        return in_array($categoryName, self::SYSTEM_CATEGORIES);
     }
 }

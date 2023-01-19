@@ -14,6 +14,8 @@ class ProductsList extends Widget
 
     public ?string $searchString = null;
 
+    public ?string $systemCategory = null;
+
     public function init()
     {
         parent::init();
@@ -28,6 +30,7 @@ class ProductsList extends Widget
             'products'  => $products,
             'pagination' => $this->maxPagination,
             'searchString' => $this->searchString,
+            'systemCategory' => $this->systemCategory,
         ]);
     }
 }

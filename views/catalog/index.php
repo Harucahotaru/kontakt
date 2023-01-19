@@ -3,7 +3,10 @@
 use app\widgets\ProductsList;
 
 /* @var $this yii\web\View */
+
 /* @var $searchString */
+
+/* @var $systemCategory */
 
 $urlPattern = "/catalog";
 $this->params['breadcrumbs'] = isset($model)
@@ -35,7 +38,8 @@ $this->params['breadcrumbs'] = isset($model)
         <?= ProductsList::widget(
             [
                 'categoryId' => isset($model) ? $model->id : null,
-                'searchString' => isset($searchString) ? $searchString : null
+                'searchString' => isset($searchString) ? $searchString : null,
+                'systemCategory' => isset($systemCategory) ? $systemCategory : null,
             ]
         ) ?>
     </div>

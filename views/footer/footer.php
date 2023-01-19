@@ -6,7 +6,7 @@
                     <img src="\upload\images\logo.png" class="top-menu-item-logo">
                 </a>
                 <div class="text-white menu-text-size-secondary py-3">
-                    Copyright © 2022 <br/>
+                    Copyright © 2023 <br/>
                     Интернет магазин Контакт. <br/>
                     Все права защищены.
                 </div>
@@ -17,44 +17,47 @@
                         <div class="menu-text-size-title text-white">Информация</div>
                         <ul>
                             <li>
-                                <a class="footer-list-text" href="#">Контакты</a>
+                                <a class="footer-list-text" href="/contacts">Контакты</a>
                             </li>
                             <li>
-                                <a class="footer-list-text" href="#">Новости</a>
+                                <a class="footer-list-text" href="/news">Новости</a>
                             </li>
-                            <li>
-                                <a class="footer-list-text" href="#">Доставка</a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a class="footer-list-text" href="#">Доставка</a>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                     <div class="col-lg-3">
                         <div class="menu-text-size-title text-white">Сервисы</div>
                         <ul>
+<!--                            <li>-->
+<!--                                <a class="footer-list-text" href="#">Производители</a>-->
+<!--                            </li>-->
                             <li>
-                                <a class="footer-list-text" href="#">Производители</a>
+                                <a class="footer-list-text" href="/catalog/new-products">Новинки</a>
                             </li>
                             <li>
-                                <a class="footer-list-text" href="#">Новинки</a>
+                                <a class="footer-list-text" href="/catalog/sale">Товары по акции</a>
                             </li>
                             <li>
-                                <a class="footer-list-text" href="#">Рекомендуемые</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="menu-text-size-title text-white">Личные</div>
-                        <ul>
-                            <li>
-                                <a class="footer-list-text" href="#">Личный кабинет</a>
-                            </li>
-                            <li>
-                                <a class="footer-list-text" href="#">Заказы</a>
-                            </li>
-                            <li>
-                                <a class="footer-list-text" href="#">Корзина</a>
+                                <a class="footer-list-text" href="/catalog/handshake">Рекомендуемые</a>
                             </li>
                         </ul>
                     </div>
+<!--                    <div class="col-lg-3">-->
+<!--                        <div class="menu-text-size-title text-white">Личные</div>-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                                <a class="footer-list-text" href="#">Личный кабинет</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a class="footer-list-text" href="#">Заказы</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a class="footer-list-text" href="#">Корзина</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
                     <div class="col-lg-3">
                         <div class="menu-text-size-title text-white">Обратная связь</div>
                         <div class="text-white">

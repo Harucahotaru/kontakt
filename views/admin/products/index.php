@@ -46,11 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'sale',
-//            'category_id',
+            'category_id',
             [
                 'format'    => 'html',
                 'attribute' => 'active',
-                'filter'    =>array(0 => "Не активен", 1 => "Активен"),
+                'filter'    => array(0 => "Не активен", 1 => "Активен"),
                 'value'     => function ($data) {
                     return ($data->on_sale === 0) ? 'Не активен' : 'Активен';
                 }

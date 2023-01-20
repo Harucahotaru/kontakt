@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
             'language' => 'ru',
             'pluginOptions' => [
                 'maxFileCount' => 10,
-                'deleteUrl' => Url::toRoute(["slider/delete-img", 'slideId' => $model->id]),
+                'deleteUrl' => Url::toRoute(["products/delete-img", 'productId' => $model->id,]),
                 'showUpload' => false,
                 'showRemove' => false,
                 'initialPreview' => $model->getImagesPath(),
@@ -38,49 +38,31 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'name')->textInput(
-                [
-                    'maxlength' => true,
-                ]
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true,]
             ) ?>
         </div>
 
         <div class="col-lg-4">
-            <?= $form->field($model, 'article')->textInput(
-                [
-                    'maxlength' => true,
-                ]
+            <?= $form->field($model, 'article')->textInput(['maxlength' => true,]
             ) ?>
         </div>
 
         <div class="col-lg-2">
-            <?= $form->field($model, 'active')->dropDownList(Products::getStatusList(), [
-                ]
-            ) ?>
+            <?= $form->field($model, 'active')->dropDownList(Products::getStatusList(), []) ?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'cost')->textInput(
-                [
-                    'maxlength' => true,
-                ]
-            ) ?>
+            <?= $form->field($model, 'cost')->textInput(['maxlength' => true,]) ?>
         </div>
 
         <div class="col-lg-4">
-            <?= $form->field($model, 'sale')->textInput(
-                [
-                    'maxlength' => true,
-                ]
-            ) ?>
+            <?= $form->field($model, 'sale')->textInput(['maxlength' => true,]) ?>
         </div>
 
         <div class="col-lg-2">
-            <?= $form->field($model, 'on_sale')->dropDownList(Products::getSaleStatusList(), [
-                ]
-            ) ?>
+            <?= $form->field($model, 'on_sale')->dropDownList(Products::getSaleStatusList(), []) ?>
         </div>
     </div>
 

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 
 /**
@@ -46,6 +48,21 @@ class Brands extends \yii\db\ActiveRecord
             [['name', 'description'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['urlname'], 'unique'],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'date_c',
+                ],
+                'value' => function () {
+                    return Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
+                },
+            ]
         ];
     }
 

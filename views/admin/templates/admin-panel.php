@@ -2,7 +2,7 @@
     <div class="offcanvas offcanvas-end" style="width: 150px" tabindex="-1" id="offcanvasExample"
          aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header text-center" style="display: block">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel"><a href="/admin" class="badge bg-success ps-4 pe-4">Админка</a>
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel"><a href="#/admin" class="badge bg-success ps-4 pe-4">Админка</a>
             </h5>
         </div>
         <div class="offcanvas-body">

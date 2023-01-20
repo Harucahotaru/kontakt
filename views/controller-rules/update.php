@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\ControllerRules */
 
-$this->title = 'Update Controller Rules: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Controller Rules', 'url' => ['index']];
+$this->title = 'Изменить правило: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Управление доступом', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="controller-rules-update">
+<div class="controller-rules-update container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

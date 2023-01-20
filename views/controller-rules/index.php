@@ -10,18 +10,16 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ControllerRulesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Controller Rules';
+$this->title = 'Управление доступом';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="controller-rules-index">
+<div class="controller-rules-index container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Controller Rules', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать правило', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -34,8 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'action',
             'role',
             'allow',
-            //'user_creator',
-            //'date_m',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, ControllerRules $model, $key, $index, $column) {

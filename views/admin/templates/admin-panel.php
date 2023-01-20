@@ -42,6 +42,11 @@
                     <i class="fa-solid fa-users-line fa-4x"></i>
                 </a>
             </div>
+            <div class="row mt-2 text-center">
+                <a href="/controller-rules" data-bs-toggle="tooltip" data-bs-placement="left" title="Управление доступом">
+                    <i class="fa-solid fa-pen-ruler fa-4x"></i>
+                </a>
+            </div>
         </div>
     </div>
     <div class="position-fixed" style="right:10%; top:10%; z-index: 300">

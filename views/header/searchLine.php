@@ -55,7 +55,7 @@ use kartik\typeahead\Typeahead;
             <i class="fa-regular fa-circle fa-stack-2x"></i>
             <i class="fa-solid fa-cart-shopping fa-stack-1x"></i>
         </a>
-        <a class="fa-stack menu-icon" href="#" style="vertical-align: top;">
+        <a class="fa-stack menu-icon" href="<?=Yii::$app->user->isGuest ? '/user/login' : '/user/profile'?>" style="vertical-align: top;">
             <i class="fa-regular fa-circle fa-stack-2x"></i>
             <i class="fa-solid fa-user fa-stack-1x"></i>
         </a>

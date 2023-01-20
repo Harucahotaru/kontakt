@@ -8,45 +8,42 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Login';
+$this->title = 'Вход в аккаунт';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
-    <div class="site-login col-md-8 mx-auto center-block">
-        <h1 class="text-center mb-4"><?= Html::encode($this->title) ?></h1>
-        <?php $form = ActiveForm::begin([
-            'id' => 'login-form',
-            'layout' => 'horizontal',
-            'options' => [
-                'class' => 'col-lg-5 ms-auto me-auto',
-                'enctype' => 'multipart/form-data'
-            ],
-            'fieldConfig' => [
-                'template' => "{label}\n{input}\n{error}",
-            ],
-        ]); ?>
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-        <?= $form->field($model, 'password')->passwordInput() ?>
-
+<div class="row py-5">
+    <div class="site-login col-md-4 mx-auto center-block">
         <div>
-            <?= Html::a('Create account', ['/user/signup']) ?>.
-        </div>
+            <h1 class="text-center mb-4"><?= Html::encode($this->title) ?></h1>
 
-        <div>
-            <?= Html::a('Forgot password ?', ['/user/request-password-reset']) ?>.
-        </div>
+            <?php $form = ActiveForm::begin() ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\" col-lg-8 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
+            <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'placeholder' => "example@mail.ru"])->label('Имя пользователя') ?>
 
-        <div class="form-group">
-            <div>
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary col-lg-12', 'name' => 'login-button']) ?>
+            <?= $form->field($model, 'password')->passwordInput(['placeholder' => "********"])->label('Пароль') ?>
+
+            <?= $form->field($model, 'rememberMe')->checkbox([
+                'id' => 'feed-status',
+                'class' => 'form-check-input',
+                'value' => 0,
+            ])->label('Запомнить меня', [
+                'class' => 'form-check-label',
+                'for' => 'feed-status',
+            ]) ?>
+
+            <div class="form-group py-2">
+                <?= Html::submitButton('Войти', ['class' => 'btn btn-success col-lg-12', 'name' => 'login-button']) ?>
             </div>
-        </div>
 
-        <?php ActiveForm::end(); ?>
+            <div class="py-1">
+                <?= Html::a('Создать аккаунт', ['/user/signup']) ?>.
+            </div>
+
+            <div class="py-1">
+                <?= Html::a('Востановить пароль', ['/user/request-password-reset']) ?>.
+            </div>
+
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
 </div>

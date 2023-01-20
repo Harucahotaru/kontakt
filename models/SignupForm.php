@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Exception;
 use yii\base\Model;
 
 /**
@@ -23,15 +24,34 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Такое имя пользователя уже занято.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Такая почта уже зарегистрирована'],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'password_hash' => 'хэш',
+            'password_reset_token' => 'токен',
+            'email' => 'Почта',
+            'auth_key' => 'ключ авторизации',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
+            'password' => 'Пароль',
         ];
     }
 
@@ -39,6 +59,8 @@ class SignupForm extends Model
      * Signs user up.
      *
      * @return User|null the saved model or null if saving fails
+     *
+     * @throws Exception
      */
     public function signup()
     {

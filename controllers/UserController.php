@@ -220,11 +220,12 @@ class UserController extends Controller
         ]);
     }
 
-
     /**
      * Requests password reset.
      *
      * @return mixed
+     *
+     * @throws BadRequestHttpException
      */
 
     public function actionResetPassword($token)
@@ -236,13 +237,23 @@ class UserController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($resetPasswordModel->load(Yii::$app->request->post()) && $resetPasswordModel->validate() && $resetPasswordModel->resetPassword()) {
+        if ($resetPasswordModel->load(Yii::$app->request->post())
+            && $resetPasswordModel->validate()
+            && $resetPasswordModel->resetPassword()
+        ) {
             Yii::$app->session->setFlash('success', 'New password was saved.');
             return $this->goHome();
         }
 
         return $this->render('resetPassword', [
             'resetPasswordModel' => $resetPasswordModel,
+        ]);
+    }
+
+    public function actionProfile()
+    {
+        return $this->render('profile', [
+
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Exception;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\bootstrap5\Html;
@@ -59,6 +60,25 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'password_hash' => 'хэш',
+            'password_reset_token' => 'токен',
+            'email' => 'Почта',
+            'auth_key' => 'ключ авторизации',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
+            'password' => 'Пароль',
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public static function findIdentity($id)
@@ -78,6 +98,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Finds user by username
      *
      * @param string $username
+     *
      * @return static|null
      */
     public static function findByUsername($username)
@@ -113,6 +134,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Validates password
      *
      * @param string $password password to validate
+     *
      * @return bool if password provided is valid for current user
      */
     public function validatePassword($password)
@@ -124,6 +146,8 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates password hash from password and sets it to the model
      *
      * @param string $password
+     *
+     * @throws Exception
      */
     public function setPassword($password)
     {
@@ -137,6 +161,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
+
     public static function findByPasswordResetToken($token)
     {
 
@@ -178,9 +203,13 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /** updating the role when updating the user
+     *
      * @param array $newRoles added roles
      * @param array $oldRoles deleted roles
+     *
      * @return bool
+     *
+     * @throws \Exception
      */
     public function updateRoles(array $newRoles, array $oldRoles): bool
     {
@@ -190,7 +219,9 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /** delete role for user
+     *
      * @param array $roles roles for delete
+     *
      * @return boolean
      */
     public function deleteRoles(array $roles): bool
@@ -204,8 +235,11 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /** add new role for user
+     *
      * @param array $roles roles for add
+     *
      * @return bool
+     *
      * @throws \Exception
      */
     public function addRoles(array $roles): bool
@@ -217,7 +251,9 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return true;
     }
-    public static function generateLogoutButton(){
+
+    public static function generateLogoutButton()
+    {
         $userName = Yii::$app->user->isGuest ? '': Yii::$app->user->identity->username;
         return Html::beginForm(['/user/logout'], 'post', ['class' => 'form-inline'])
         . Html::submitButton(

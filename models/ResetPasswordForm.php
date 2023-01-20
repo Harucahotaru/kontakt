@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use yii\base\Exception;
 use yii\base\Model;
 use yii\base\InvalidParamException;
 
@@ -53,9 +54,29 @@ class ResetPasswordForm extends Model
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'password_hash' => 'хэш',
+            'password_reset_token' => 'токен',
+            'email' => 'Почта',
+            'auth_key' => 'ключ авторизации',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
+            'password' => 'Пароль',
+        ];
+    }
+
+    /**
      * Resets password.
      *
      * @return bool if password was reset.
+     * @throws Exception
      */
     public function resetPassword()
     {

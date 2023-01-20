@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'language' => 'ru-RU',
     'layout' => 'main',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
@@ -86,14 +87,6 @@ $config = [
             'defaultTimeZone' => 'Europe/Moscow',
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
     ],
     'params' => $params,
 ];

@@ -78,7 +78,7 @@ class Products extends \yii\db\ActiveRecord
                 'maxSize' => 1024 * 1024 * 1000,
                 'tooBig' => 'Limit is 5 MB'
             ],
-            [['name'], 'required', 'message' => '{attribute} не может быть пустой'],
+            [['name'], 'required'],
             [['cost', 'on_sale', 'sale', 'active', 'brand_id', 'cost'], 'integer'],
             [['date_c', 'date_m'], 'safe'],
             ['parent_id', 'each', 'rule' => ['integer']],

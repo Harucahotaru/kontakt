@@ -1,6 +1,11 @@
 <?php
 
 /** @var \app\models\Products $model * */
+
+use app\models\UserBasket;
+use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
+
 ?>
 <div class="product-card my-3">
     <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
@@ -33,12 +38,37 @@
                 <a href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
-                <!--            <div class="col-lg-3">-->
-                <!--                <button type="submit" class="product-card-button product-card-button-add bg-warning"-->
-                <!--                        data-field="quant[1]">-->
-                <!--                    <span class="fas fa-cart-plus"></span>-->
-                <!--                </button>-->
-                <!--            </div>-->
+                <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : ''?>">
+
+                    <?php Pjax::begin(['enablePushState' => false])?>
+
+                    <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/card/add-to-cart', 'options' => ['data' => ['pjax' => true]]]); ?>
+
+                    <?php $cardModel = new UserBasket() ?>
+
+                    <?= $form->field($cardModel, 'products_ids')->hiddenInput(['value' => json_encode([$model->id => ['id' => $model->id, 'number' => 1]])])->label(false) ?>
+
+                    <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
+
+                    <button type="submit" class="product-card-button product-card-button-add bg-warning add-button" id="add_<?=$model->id?>">
+                        <span class="fas fa-cart-plus"></span>
+                    </button>
+
+                    <?php ActiveForm::end(); ?>
+
+                    <?php Pjax::end()?>
+
+                </div>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+                <script>
+                    $( ".add-button" ).click(function() {
+                        $(this).animate({
+                            "top": "-=5px"
+                        }, 200).animate({
+                            "top": "+=5px"
+                        }, 200)
+                    });
+                </script>
             </div>
         </div>
     </a>

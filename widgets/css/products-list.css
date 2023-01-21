@@ -146,3 +146,7 @@
     background-color: #c4c4c4;
     margin-left: 10px;
 }
+
+.add-button {
+    position: absolute;
+}

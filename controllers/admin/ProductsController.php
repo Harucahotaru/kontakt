@@ -6,6 +6,7 @@ use app\models\Images;
 use app\models\Products;
 use app\models\ProductsImgs;
 use app\models\ProductsSearch;
+use app\models\UserBasket;
 use Yii;
 use yii\data\Pagination;
 use yii\db\StaleObjectException;

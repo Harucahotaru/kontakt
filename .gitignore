@@ -4,6 +4,7 @@
 # netbeans project files
 nbproject
 /public_html/index.php
+/public_html/dev.php
 
 # zend studio for eclipse project files
 .buildpath

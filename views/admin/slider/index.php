@@ -10,7 +10,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\SliderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Sliders';
+$this->title = 'Слайды';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container slider-index">
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'html',
                 'value' => function ($data) {
-                    return Html::img($data->imgPath,['style' => 'max-width: 250px']);
+                    return Html::img($data->imgPath, ['style' => 'max-width: 250px']);
                 }
             ],
             'sort',

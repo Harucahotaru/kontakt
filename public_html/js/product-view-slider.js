@@ -16,6 +16,7 @@ const sliderThumbs = new Swiper('.slider__thumbs .swiper-container', { // ище
 const sliderImages = new Swiper('.slider__images .swiper-container', { // ищем слайдер превью по селектору
     // задаем параметры
     direction: 'vertical', // вертикальная прокрутка
+    allowTouchMove: false, // запретить прокрутку мышкой
     slidesPerView: 1, // показывать по 1 изображению
     spaceBetween: 30, // расстояние между слайдами
     navigation: { // задаем кнопки навигации

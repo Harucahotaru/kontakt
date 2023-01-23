@@ -7,6 +7,7 @@ use app\classes\ParseExcel;
 use app\models\ControllerRules;
 use app\models\Pages;
 use app\models\PagesContent;
+use app\models\Products;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -63,8 +64,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $a = new ParseExcel();
-//        $a->parse();
+        $layout = 'main-menu';
         return $this->render('index', ['time' => date('H:i:s')]);
     }
 
@@ -87,5 +87,16 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about', ['content' => $this->content]);
+    }
+
+    public function actionSearch()
+    {
+        $string = '';
+
+        if (isset($_GET['string'])) {
+            $string = $_GET['string'];
+        }
+
+        return Products::getSearchList($string);
     }
 }

@@ -6,10 +6,13 @@ use app\classes\AccessControl;
 use app\models\Brands;
 use app\models\BrandsSearch;
 use app\models\ControllerRules;
+use app\models\Images;
+use app\models\Slider;
+use Throwable;
 use Yii;
+use yii\db\StaleObjectException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * BrandsController implements the CRUD actions for Brands model.
@@ -128,5 +131,37 @@ class BrandsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionSearch(): string
+    {
+        $string = '';
+
+        if (isset($_GET['string'])) {
+            $string = $_GET['string'];
+        }
+
+        return Brands::getSearchList($string);
+    }
+
+    /**
+     * @param int $brandId
+     *
+     * @return bool
+     *
+     * @throws Throwable
+     * @throws StaleObjectException
+     */
+    public function actionDeleteImg(int $brandId): bool
+    {
+        $brand = Brands::findOne(['id' => $brandId]);
+
+        if ($image = Images::findOne(['id' => $brand->img_id])) {
+            $image->delete();
+        }
+        $brand->img_id = null;
+        $brand->save();
+
+        return true;
     }
 }

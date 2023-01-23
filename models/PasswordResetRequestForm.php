@@ -34,6 +34,26 @@ class PasswordResetRequestForm extends Model
         ];
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'password_hash' => 'хэш',
+            'password_reset_token' => 'токен',
+            'email' => 'Почта',
+            'auth_key' => 'ключ авторизации',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата изменения',
+            'password' => 'Пароль',
+        ];
+    }
+
     /**
      * Sends an email with a link, for resetting the password.
      *

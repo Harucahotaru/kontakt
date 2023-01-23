@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 
 /**
@@ -49,6 +51,21 @@ class Brands extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'date_c',
+                ],
+                'value' => function () {
+                    return Yii::$app->formatter->asDate('now', 'php:Y-m-d H:i:s');
+                },
+            ]
+        ];
+    }
+
     public function beforeDelete()
     {
         if ($image = Images::findOne(['id' => $this->img_id])) {
@@ -64,19 +81,52 @@ class Brands extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'Id',
-            'name' => 'Путь',
+            'name' => 'Имя',
             'description' => 'Описание',
-            'urlname' => 'Размер',
+            'urlname' => 'Адрес',
             'date_c' => 'Дата создания',
-            'user_c' => 'Дата создания',
+            'user_c' => 'Id пользователя',
             'img_id' => 'ID изображения',
         ];
     }
     
-    public static function getBrandList(){
+    public static function getBrandList()
+    {
         return self::find()->all();
     }
 
+
+    /**
+     * Получение бренда по id
+     *
+     * @param $brandId
+     *
+     * @return Brands|null
+     */
+    public static function getBrandById($brandId): ?Brands
+    {
+        return self::find()->where(['id' => $brandId])->one();
+    }
+
+    /**
+     * Получение списка брендов в формате id => название
+     *
+     * @return array
+     */
+    public static function getBrandNamesList(): array
+    {
+        $brands = self::find()->select(['id', 'name'])->all();
+
+        if (empty($brands)) {
+            return [];
+        }
+
+        foreach ($brands as $brand) {
+            $brandsNameList[$brand->id] = $brand->name;
+        }
+
+        return $brandsNameList;
+    }
 
     public function getImgFile()
     {
@@ -93,11 +143,31 @@ class Brands extends \yii\db\ActiveRecord
         return $imgFile;
     }
     
-    public function getImg(){
-        return $this->hasOne(Images::class,['id' => 'img_id']);
+    public function getImg()
+    {
+        return $this->hasOne(Images::class, ['id' => 'img_id']);
     }
     
-    public function getImgPath(){
+    public function getImgPath()
+    {
         return $this->img ? $this->img->getFullPath() : '';
+    }
+
+    public static function getSearchList(string $searchString = ''): string
+    {
+        $searchList = [];
+
+        $query = self::find();
+        if (!empty($searchString)) {
+            $query->filterWhere(['like', 'name', $searchString]);
+        }
+        $brands = $query->all();
+
+        /** @var Brands $brand */
+        foreach ($brands as $brand) {
+            $searchList[] = ['value' => $brand->name, 'url' => "/catalog/brand/$brand->id"];
+        }
+
+        return json_encode($searchList);
     }
 }

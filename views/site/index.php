@@ -10,25 +10,25 @@ $this->title = 'Контакт "Электротовары"';
 ?>
     <div class="container-grey container-100">
         <div class="container container-grey py-4 ">
-<!--            <div class="row text-center ">-->
-<!--                <a class="col-lg-4 menu-text-size-title p-0 " href="#">-->
-<!--                    <div class="bg-warning products-button-r products-button">-->
-<!--                        <div>Товары по акции</div>-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--                <a class="col-lg-4 menu-text-size-title p-0 " href="#">-->
-<!--                    <div class="bg-warning products-button-c products-button">-->
-<!--                        <div>Новинки</div>-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--                <a class="col-lg-4 menu-text-size-title p-0 " href="#">-->
-<!--                    <div class="bg-warning products-button-l products-button">-->
-<!--                        <div>Рекомендуем</div>-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--            </div>-->
+            <div class="row text-center">
+                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/sale" style="cursor: default; pointer-events: none">
+                    <div class="bg-warning products-button-r products-button">
+                        <div>Товары по акции</div>
+                    </div>
+                </a>
+                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/new-products">
+                    <div class="bg-warning products-button-c products-button">
+                        <div>Новинки</div>
+                    </div>
+                </a>
+                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/handshake" style="cursor: default; pointer-events: none">
+                    <div class="bg-warning products-button-l products-button">
+                        <div>Рекомендуем</div>
+                    </div>
+                </a>
+            </div>
             <div class="py-4">
-                <?= ProductsList::widget(['maxPagination' => 4]) ?>
+                <?= ProductsList::widget(['maxPagination' => 8]) ?>
             </div>
             <div class="row text-center align-self-center">
                 <a class="col-lg-4 mx-auto menu-text-size-title p-0 " href="/catalog">

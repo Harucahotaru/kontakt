@@ -4,14 +4,15 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'layout'=>'main',
+    'language' => 'ru-RU',
+    'layout' => 'main',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-        '@resourses'   => '@app/resourses',
+        '@npm' => '@vendor/npm-asset',
+        '@resourses' => '@app/resourses',
     ],
     'components' => [
         'request' => [
@@ -38,7 +39,20 @@ $config = [
                 'news/<category>/<urlnews>' => 'news/detail-news',
                 'news' => 'news/categories',
                 'admin' => 'admin/main/index',
-                '<path:\w+>/<controller:\w+>/<action:\w+>'=>'<path>/<controller>/<action>',
+                'reviews/delete/<reviewId>' => 'admin/reviews/delete',
+                'reviews/accept/<reviewId>' => 'admin/reviews/accept',
+                'reviews' => 'admin/reviews/index',
+                'reviews/<reviewType>' => 'admin/reviews',
+                'catalog/search/<searchString>' => 'catalog/search',
+                'catalog/brand/<brandId>' => 'catalog/brand',
+                'brands/search/<searchString>' => 'brands/search',
+                'catalog/view/<productId>' => 'catalog/view',
+                [
+                    'pattern' => 'catalog/<mainCategory>/<subCategory>/<subCategory2>',
+                    'route' => 'catalog',
+                    'defaults' => ['mainCategory' => null, 'subCategory' => null, 'subCategory2' => null],
+                ],
+                '<path:\w+>/<controller:\w+>/<action:\w+>' => '<path>/<controller>/<action>',
             ],
             'showScriptName' => false,
         ],
@@ -74,14 +88,6 @@ $config = [
             'defaultTimeZone' => 'Europe/Moscow',
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
     ],
     'params' => $params,
 ];
@@ -92,14 +98,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['*'],
+        'allowedIPs' => ['127.0.0.1', '::1'],
     ];
 }
 

@@ -1,0 +1,10 @@
+.profile-image-box {
+    width: 100%;
+    max-height: 300px;
+}
+.profile-information {
+    font-size: 17px;
+}
+.line {
+    border-bottom: 2px solid #fdc007; /* Параметры линии */
+}

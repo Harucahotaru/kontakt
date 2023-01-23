@@ -6,6 +6,7 @@ use app\models\Images;
 use app\models\Products;
 use app\models\ProductsImgs;
 use app\models\ProductsSearch;
+use app\models\UserBasket;
 use Yii;
 use yii\data\Pagination;
 use yii\db\StaleObjectException;
@@ -119,7 +120,7 @@ class ProductsController extends Controller
      * @throws \Throwable
      * @throws StaleObjectException
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): Response
     {
         $this->actionDeleteImg($id);
         $this->findModel($id)->delete();

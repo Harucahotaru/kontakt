@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Slider */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Sliders', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Слайды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

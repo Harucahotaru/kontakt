@@ -136,7 +136,7 @@
 .submenu {
     position: absolute;
     right: -1959px;
-    top: 0px;
+    /*top: 0px;*/
     width: 973px;
     height: 350px;
     background: #fdc007;
@@ -149,8 +149,8 @@
 .submenu:before {
     position: absolute;
     left: 0;
-    top: 20px;
-    height: 310px;
+    top: 0;
+    height: 333px;
     width: 1px;
     background: black;
     content: '';
@@ -325,7 +325,16 @@
     margin-left: auto;
 }
 .main-alert {
-    background-color: #f8d7da;
     border: 0;
     border-radius: 0;
+}
+input::placeholder {
+    color: black !important;
+}
+.select2-search--inline {
+    display: block;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    max-width: 386px;
 }

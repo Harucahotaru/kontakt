@@ -25,7 +25,7 @@
     position: relative;
     overflow: hidden;
     list-style: none;
-    padding: 0;
+    padding: 0 !important;
     /* Fix of Webkit flickering */
     z-index: 1;
 }
@@ -585,7 +585,7 @@ button.swiper-pagination-bullet {
     opacity: 1;
 }
 .slider__images {
-    height: 380px;
+    height: 400px;
 }
 .slider-image-view {
     max-width: 400px;

@@ -16,7 +16,7 @@ class m220821_095807_add_brands_table extends Migration
     {
         $this->createTable(self::BRANDS_TABLE, [
             'id'          => $this->primaryKey()->comment('Id'),
-            'name'        => $this->string()->notNull()->unique()->comment('Путь'),
+            'name'        => $this->string()->notNull()->unique()->comment('Имя'),
             'description' => $this->string()->comment('Описание'),
             'urlname'     => $this->string()->notNull()->comment('Адрес'),
             'date_c'      => $this->dateTime()->comment('Дата создания'),

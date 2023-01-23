@@ -101,6 +101,20 @@ class Products extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getActiveFields(): array
+    {
+        return [
+            'name' => 'Наименование товара',
+            'description' => 'Описание товара',
+            'cost' => 'Цена',
+            'on_sale' => 'Статус скидки',
+            'sale' => 'Скидка',
+            'category_id' => 'id категории',
+            'parent_id' => 'id подходящих товаров',
+            'article' => 'Артикул'
+        ];
+    }
+
     /**
      * @param int $limit
      * @return array

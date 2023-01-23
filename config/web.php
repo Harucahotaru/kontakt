@@ -30,6 +30,7 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'rules' => [
+                'catalog/<q>/<w>' => 'site',
                 'about' => 'site/about',
                 'contacts' => 'site/contact',
                 'images' => 'images/index',
@@ -42,7 +43,7 @@ $config = [
             'showScriptName' => false,
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\DummyCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',

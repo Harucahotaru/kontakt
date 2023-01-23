@@ -3,20 +3,24 @@
 namespace app\classes;
 
 
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
 class ParseExcel
 {
-    public function parse(){
-        $a = __DIR__.'\pr.xlsx';
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $spreadsheet = $reader->load($a);
+    public function preview($path, $maxString = 10){
+        $reader = new Xlsx();
+        $spreadsheet = $reader->load($path);
         $worksheet = $spreadsheet->getActiveSheet();
-        foreach ($worksheet->getRowIterator() as $row) {
+        foreach ($worksheet->getRowIterator() as $rowKey => $row) {
+            if ($rowKey> $maxString) {
+                break;
+            }
             $cellIterator = $row->getCellIterator();
-            foreach ($cellIterator as $cell) {
-                var_dump($cell);exit;
-                $cell = $cell->getValue(); // Not sure what column this is looping through
-                // The $cell->getColumn() method will tell you the column
+            foreach ($cellIterator as $cellKey => $cell) {
+                $cell = $cell->getValue();
+                $res[$rowKey][$cellKey] = $cell;
             }
         }
+        return $res;
     }
 }

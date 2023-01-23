@@ -3,16 +3,44 @@
 namespace app\classes;
 
 
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ParseExcel
 {
-    public function preview($path, $maxString = 10){
+    public const HEADER_NOT_STATE = 'Не задано';
+
+    public const HEADER_NOT_STATE_KEY = '11';
+
+    public const MAX_PREVIEW_STRINGS = 10;
+
+    /**
+     * @param string $path
+     * @param int $maxString
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function preview(string$path, int $maxString = self::MAX_PREVIEW_STRINGS): array
+    {
+        return self::parseToArray($path, $maxString);
+    }
+
+    /**
+     * @param string $path
+     * @param int|null $maxString
+     * @param int|null $offset
+     * @return array
+     *
+     * @throws Exception
+     */
+    public function parseToArray(string $path, int $maxString = null, int $offset = null): array
+    {
         $reader = new Xlsx();
         $spreadsheet = $reader->load($path);
         $worksheet = $spreadsheet->getActiveSheet();
         foreach ($worksheet->getRowIterator() as $rowKey => $row) {
-            if ($rowKey> $maxString) {
+            if (!empty($maxString) && $rowKey > $maxString) {
                 break;
             }
             $cellIterator = $row->getCellIterator();
@@ -21,6 +49,25 @@ class ParseExcel
                 $res[$rowKey][$cellKey] = $cell;
             }
         }
+        if (!empty($offset)) {
+            $res = array_slice($res, $offset);
+        }
+
         return $res;
+    }
+
+    /**
+     * @param array $previewExcel
+     *
+     * @return array
+     */
+    public static function getExcelHeaderForCorrelate(array $previewExcel): array
+    {
+        foreach ($previewExcel[1] as $columnKey => $column) {
+            $headers[$columnKey] = "Колонка $columnKey";
+        }
+        $headers[self::HEADER_NOT_STATE_KEY] = self::HEADER_NOT_STATE;
+
+        return $headers;
     }
 }

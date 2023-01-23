@@ -28,6 +28,11 @@
                 </a>
             </div>
             <div class="row mt-2 text-center">
+                <a href="/admin/import-excel" data-bs-toggle="tooltip" data-bs-placement="left" title="Импорт товаров">
+                    <i class="fa-solid fa-file-import fa-4x"></i>
+                </a>
+            </div>
+            <div class="row mt-2 text-center">
                 <a href="/admin/products-categories" data-bs-toggle="tooltip" data-bs-placement="left" title="Категории товаров">
                     <i class="fa-solid fa-list fa-4x"></i>
                 </a>

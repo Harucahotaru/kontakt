@@ -15,7 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-3">
             <div class="py-3">
-                <img class="profile-image-box" src="/upload/images/base_photo.jpg">
+                <div class="<?= !file_exists('') ? 'no-image' : ''?> profile-image-box">
+                    <img <?= file_exists('') ? 'src="/"' : ''?>>
+                </div>
             </div>
             <h4>Данные пользователя</h4>
             <ul class="profile-information">

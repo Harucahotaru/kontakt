@@ -74,10 +74,38 @@ class UserBasket extends \yii\db\ActiveRecord
     public function addToCart(array $product): UserBasket
     {
         $cart = json_decode($this->products_ids, true);
-        $cart[] = $product;
+        $cart = $cart + $product;
         $this->products_ids = json_encode($cart);
         $this->save();
 
         return $this;
+    }
+
+    public static function getCartPrice($userId): int
+    {
+        $cartPrice = 0;
+
+        $cart = self::getByUser($userId);
+        if (empty($cart)) {
+            return $cartPrice;
+        }
+
+        $cartProducts = json_decode($cart->products_ids, true);
+        $products = Products::getProductByIds(array_keys($cartProducts));
+
+        foreach ($cartProducts as $cartProduct) {
+            /** @var Products $product */
+           foreach ($products as $product) {
+               if ($product->id === $cartProduct['id']) {
+                   if (!empty($product->sale) && $product->on_sale) {
+                       $cartPrice += ($product->sale * $cartProduct['number']);
+                   } else {
+                       $cartPrice += ($product->cost * $cartProduct['number']);
+                   }
+               }
+           }
+        }
+
+        return $cartPrice;
     }
 }

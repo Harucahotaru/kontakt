@@ -8,6 +8,7 @@ use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 use app\models\SignupForm;
 use app\models\User;
+use app\models\UserBasket;
 use app\models\UserSearch;
 use Yii;
 use yii\base\InvalidParamException;
@@ -250,10 +251,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionProfile()
+    public function actionProfile(): string
     {
         return $this->render('profile', [
+            'user' => User::findOne(Yii::$app->user->id),
+        ]);
+    }
 
+    public function actionCart(): string
+    {
+        return $this->render('cart', [
+            'user' => User::findOne(Yii::$app->user->id),
+            'cartPrice' => UserBasket::getCartPrice(Yii::$app->user->id)
         ]);
     }
 }

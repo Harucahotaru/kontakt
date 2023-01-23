@@ -6,7 +6,7 @@ use app\models\UserBasket;
 use Yii;
 use yii\web\Controller;
 
-class CardController extends Controller
+class CartController extends Controller
 {
     /**
      * @return string

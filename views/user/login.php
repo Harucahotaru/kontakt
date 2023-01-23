@@ -39,9 +39,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a('Создать аккаунт', ['/user/signup']) ?>.
             </div>
 
-            <div class="py-1">
-                <?= Html::a('Востановить пароль', ['/user/request-password-reset']) ?>.
-            </div>
+<!--            <div class="py-1">-->
+<!--                --><?php //Html::a('Востановить пароль', ['/user/request-password-reset']) ?><!--.-->
+<!--            </div>-->
 
             <?php ActiveForm::end(); ?>
         </div>

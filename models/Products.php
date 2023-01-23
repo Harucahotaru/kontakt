@@ -136,6 +136,22 @@ class Products extends \yii\db\ActiveRecord
         return $product;
     }
 
+    /**
+     * @param $ids
+     * @return array
+     *
+     * @throws Exception
+     */
+    public static function getProductByIds($ids): array
+    {
+        $product = self::find()->where(['id' => $ids])->all();
+        if (empty($product)) {
+            throw new Exception('Такого товара нет в нашей базе, извините');
+        }
+
+        return $product;
+    }
+
 
     /**
      * @param int|null $categoryId
@@ -489,10 +505,27 @@ class Products extends \yii\db\ActiveRecord
         $time -= (self::NEW_PRODUCTS_PERIOD_DAYS * 24 * 60 * 60);
 
         if (!$time) {
-            var_dump(1);exit();
-            throw new ProductException('ошибка при поиске товара, некоренная дата');
+            throw new ProductException('Ошибка при поиске товара, некоренная дата');
         }
 
         return date('Y-m-d h:i:s', $time);
+    }
+
+    public static function getCartProductsProvider(int $userId, ?int $pagination = 20): ActiveDataProvider
+    {
+        $productsIds = UserBasket::find()->select('products_ids')->where(['user_id' => $userId])->one();
+        $productsIds = array_keys(json_decode($productsIds->products_ids, true));
+
+        return new ActiveDataProvider([
+            'query' => self::find()->where(['id' => $productsIds]),
+            'pagination' => [
+                'pageSize' => $pagination,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'date_c' => SORT_DESC,
+                ]
+            ],
+        ]);
     }
 }

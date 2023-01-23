@@ -27,6 +27,7 @@ class AppAsset extends AssetBundle
         'css/catalog.css',
         'css/swiper.css',
         'css/adminReview.css',
+        'css/userProfile.css',
     ];
     public $js = [
         'js/site.js',

@@ -42,7 +42,7 @@ use yii\widgets\Pjax;
 
                     <?php Pjax::begin(['enablePushState' => false])?>
 
-                    <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/card/add-to-cart', 'options' => ['data' => ['pjax' => true]]]); ?>
+                    <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/cart/add-to-cart', 'options' => ['data' => ['pjax' => true]]]); ?>
 
                     <?php $cardModel = new UserBasket() ?>
 

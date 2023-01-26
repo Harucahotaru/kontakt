@@ -54,7 +54,7 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-lg-4">
-            <?= $form->field($model, 'cost')->textInput(['maxlength' => true,]) ?>
+            <?= $form->field($model, 'currency')->textInput(['maxlength' => true,]) ?>
         </div>
 
         <div class="col-lg-4">

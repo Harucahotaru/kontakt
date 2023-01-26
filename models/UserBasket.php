@@ -100,7 +100,7 @@ class UserBasket extends \yii\db\ActiveRecord
                    if (!empty($product->sale) && $product->on_sale) {
                        $cartPrice += ($product->sale * $cartProduct['number']);
                    } else {
-                       $cartPrice += ($product->cost * $cartProduct['number']);
+                       $cartPrice += ($product->currency * $cartProduct['number']);
                    }
                }
            }

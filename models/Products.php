@@ -17,7 +17,7 @@ use yii\web\UploadedFile;
  * @property int $id
  * @property string $name Наименование товара
  * @property string|null $description Описание товара
- * @property int $cost Цена
+ * @property int $currency Цена
  * @property int $on_sale Статус скидки(1-есть, 0-нету)
  * @property int|null $sale Скидка
  * @property int|null $img_id Изображение
@@ -79,7 +79,8 @@ class Products extends \yii\db\ActiveRecord
                 'tooBig' => 'Limit is 5 MB'
             ],
             [['name'], 'required'],
-            [['cost', 'on_sale', 'sale', 'active', 'brand_id', 'cost'], 'integer'],
+            [['on_sale', 'sale', 'active', 'brand_id'], 'integer'],
+            [['currency'], 'double'],
             [['date_c', 'date_m'], 'safe'],
             ['parent_id', 'each', 'rule' => ['integer']],
             [['description'], 'string'],
@@ -96,7 +97,7 @@ class Products extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Наименование товара',
             'description' => 'Описание товара',
-            'cost' => 'Цена',
+            'currency' => 'Цена',
             'on_sale' => 'Статус скидки',
             'sale' => 'Стоимость товара со скидкой',
             'img_id' => 'Изображение',
@@ -115,7 +116,7 @@ class Products extends \yii\db\ActiveRecord
         return [
             'name' => 'Наименование товара',
             'description' => 'Описание товара',
-            'cost' => 'Цена',
+            'currency' => 'Цена',
             'on_sale' => 'Статус скидки',
             'sale' => 'Скидка',
             'category_id' => 'id категории',

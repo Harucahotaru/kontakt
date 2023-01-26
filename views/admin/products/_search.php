@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'cost') ?>
+    <?= $form->field($model, 'currency') ?>
 
     <?= $form->field($model, 'on_sale') ?>
 

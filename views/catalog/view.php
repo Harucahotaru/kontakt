@@ -38,80 +38,89 @@ CatalogController::setViewedProductsCookie($model->id);
             ]); ?>
         </div>
         <a href="#reviews" class="col-lg-1 products-manufacturer align-self-center">
-            <?= WordsHelper::declinationAfterNumber($model->getReviewsCount(), array('отзыв', 'отзыва', 'отзывов'))?>
+            <?= WordsHelper::declinationAfterNumber($model->getReviewsCount(), array('отзыв', 'отзыва', 'отзывов')) ?>
         </a>
         <div class="col-lg-3 align-self-center">Артикул: <?= $model->article; ?>
         </div>
     </div>
     <div class="row py-3">
         <div class="col-lg-5">
-            <section class="slider">
-                <div class="container" style="height: 100%;">
-                    <div class="slider__flex">
-                        <div class="slider__col">
-                            <div class="slider__prev" style="color: black"><i class="fa-solid fa-chevron-up"></i></div>
-                            <div class="slider__thumbs">
-                                <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <?php foreach ($model->getThumbnailsPath() as $image): ?>
-                                            <!-- Превью слайда-->
-                                            <div class="swiper-slide">
-                                                <div class="slider__image slider-image-view-prew"><img
-                                                            src="<?= $image ?>" alt=""/></div>
+            <div class="<?= empty($model->getThumbnailsPath()) ? 'no-image-product-view m-auto' : '' ?>">
+                <div class="<?= empty($model->getThumbnailsPath()) ? 'product-view-hide' : '' ?>">
+                    <section class="slider">
+                        <div class="container" style="height: 100%;">
+                            <div class="slider__flex">
+                                <div class="slider__col">
+                                    <div class="slider__prev" style="color: black"><i
+                                                class="fa-solid fa-chevron-up"></i>
+                                    </div>
+                                    <div class="slider__thumbs">
+                                        <div class="swiper-container">
+                                            <div class="swiper-wrapper">
+                                                <?php foreach ($model->getThumbnailsPath() as $image): ?>
+                                                    <!-- Превью слайда-->
+                                                    <div class="swiper-slide">
+                                                        <div class="slider__image slider-image-view-prew"><img
+                                                                    src="<?= $image ?>" alt=""/></div>
+                                                    </div>
+                                                <?php endforeach; ?>
                                             </div>
-                                        <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                    <div class="slider__next" style="color: black"><i
+                                                class="fa-solid fa-chevron-down"></i>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="slider__next" style="color: black"><i class="fa-solid fa-chevron-down"></i>
-                            </div>
-                        </div>
-                        <div class="slider__images">
-                            <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <?php foreach ($model->getThumbnailsPath() as $key => $image): ?>
-                                        <!-- Большой слайд -->
-                                        <div class="swiper-slide">
-                                            <div class="slider__image slider-image-view"><img src="<?= $image ?>"
-                                                                                              data-bs-toggle="modal"
-                                                                                              data-bs-target="<?= '#Modal_' . $key ?>"/>
+                                <div class="slider__images">
+                                    <div class="swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <?php foreach ($model->getThumbnailsPath() as $key => $image): ?>
+                                                <!-- Большой слайд -->
+                                                <div class="swiper-slide">
+                                                    <div class="slider__image slider-image-view"><img
+                                                                src="<?= $image ?>"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="<?= '#Modal_' . $key ?>"/>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <?php foreach ($model->getImagesPath() as $key => $image): ?>
+                                        <!-- Модальное окно -->
+                                        <div class="modal fade" id="<?= 'Modal_' . $key ?>" tabindex="-1"
+                                             aria-labelledby="<?= 'Modal_' . $key, 'label' ?>" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <img src="<?= $image ?>"
+                                                             style="width: 100%">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
+                                                            Закрыть
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <?php foreach ($model->getImagesPath() as $key => $image): ?>
-                                <!-- Модальное окно -->
-                                <div class="modal fade" id="<?= 'Modal_' . $key ?>" tabindex="-1"
-                                     aria-labelledby="<?= 'Modal_' . $key, 'label' ?>" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <img src="<?= $image ?>"
-                                                     style="width: 100%">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                    Закрыть
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
+                    </section>
                 </div>
-            </section>
+            </div>
             <script type="module" src="/js/swiper.js"></script>
             <script type="module" src="/js/product-view-slider.js"></script>
         </div>
         <div class="col-lg-7">
             <div class="pb-2 <?= ($model->brand_id) ?? 'catalog-view-display-none' ?>">
                 <b>Производитель: </b>
-                <a href="/catalog/brand/<?=$model->brand_id?>" class="products-manufacturer">
+                <a href="/catalog/brand/<?= $model->brand_id ?>" class="products-manufacturer">
                     <?= ($model->brand_id) ? Brands::getBrandById($model->brand_id)->name : 'Не найдено' ?>
                 </a>
             </div>

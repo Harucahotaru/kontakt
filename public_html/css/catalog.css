@@ -192,3 +192,19 @@
     position: absolute;
     z-index: 4;
 }
+.no-image-product-view {
+    width: 400px;
+    height: 350px;
+    background: #dadada;
+    position: relative;
+}
+.no-image-product-view:before {
+    font: var(--fa-font-solid);
+    right: 110px;
+    top: 80px;
+    font-size: 190px;
+    color: #828282;
+    content: "\f030";
+    position: absolute;
+    z-index: 4;
+}

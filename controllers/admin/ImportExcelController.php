@@ -59,7 +59,6 @@ class ImportExcelController extends Controller
      */
     public function actionProductPreview(): string
     {
-        var_dump(Yii::$app->request->post());exit();
         $post = Yii::$app->request->post();
         $parsedExcel = json_decode(Yii::$app->request->post()['parsedExcel'], true);
         if (!empty($post['offset'])) {

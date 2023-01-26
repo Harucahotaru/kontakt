@@ -3,20 +3,21 @@
 namespace app\controllers\admin;
 
 use app\exceptions\ProductException;
+use app\models\Brands;
 use app\models\Images;
 use app\models\Products;
+use app\models\ProductsCategories;
 use app\models\ProductsImgs;
 use app\models\ProductsSearch;
-use app\models\UserBasket;
 use Exception;
 use Throwable;
 use Yii;
-use yii\data\Pagination;
 use yii\db\StaleObjectException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use function Symfony\Component\String\s;
 
 /**
  * ProductsController implements the CRUD actions for Products model.
@@ -174,7 +175,7 @@ class ProductsController extends Controller
             $result = $product->save();
 
             if (!empty($product->errors)) {
-               Yii::$app->session->setFlash('error', implode(', ', $product->errors));
+                Yii::$app->session->setFlash('error', implode(', ', $product->errors));
             }
         }
 
@@ -205,21 +206,65 @@ class ProductsController extends Controller
      * @throws ProductException
      * @throws Throwable
      */
-    public function actionMassDelete()
+    public function actionMassChange()
     {
+        $actionType = Yii::$app->request->post('actionType');
+        $value = Yii::$app->request->post('value');
+
+        if (empty(Yii::$app->request->post('selection'))) {
+            Yii::$app->session->setFlash('error', 'Товары не выбраны !');
+            return $this->redirect(['index']);
+        }
         $productsIds = Yii::$app->request->post('selection');
-        if (!empty($productsIds)) {
-            foreach ($productsIds as $productId) {
-                try {
-                    if ($this->deleteProduct($productId) === false) {
+
+        if (!isset($value) || !isset($actionType) || $actionType === 0) {
+            throw new ProductException('Неверные аргументы, попробуйте еще раз');
+        }
+
+        switch ($actionType) {
+            case Products::ACTION_DELETE:
+                foreach ($productsIds as $productId) {
+                    try {
+                        $result = $this->deleteProduct($productId);
+                    } catch (Exception $e) {
                         throw new ProductException('Ошибка удаления товара');
                     }
-                } catch (Exception $e) {
-                    throw new ProductException('Ошибка удаления товара');
+                    if ($result === false) {
+                        throw new ProductException('Ошибка удаления товара');
+                    }
                 }
-            }
+                break;
+            case Products::ACTION_SALE_STATUS:
+                Products::updateAll(['on_sale' => $value], ['id' => $productsIds]);
+                break;
+            case Products::ACTION_CHANGE_CATEGORY:
+                Products::updateAll(['category_id' => $value], ['id' => $productsIds]);
+                break;
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionGetList()
+    {
+        $action = Yii::$app->request->post('action');
+
+        switch ($action) {
+            case Products::ACTION_DELETE:
+                $list = [1 => 'Выбрать значение не требуется'];
+                break;
+            case Products::ACTION_CHANGE_CATEGORY:
+                $list = array_merge(['Выберите новую категорию ... '], ProductsCategories::getAllCategoriesList());
+                break;
+            case Products::ACTION_SALE_STATUS:
+                $list = [
+                    ['Выберите новую категорию ... '],
+                    Products::STATUS_ACTIVE => 'Скидка активна',
+                    Products::STATUS_DISABLE => 'Скидка не активна'
+                ];
+                break;
+
+        }
+        return json_encode($list);
     }
 }

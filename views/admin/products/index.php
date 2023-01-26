@@ -23,11 +23,33 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::begin(['id' => 'products']) ?>
 
-    <?= Html::beginForm('/admin/products/mass-delete', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+<!--    --><?php //Html::beginForm('/admin/products/mass-change', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
     <p>
-        <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success mx-2']) ?>
-        <?= Html::submitButton('Удалить выбранные товары', ['class' => 'btn btn-danger mx-2']); ?>
+        <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success mr-2']) ?>
+
+<!--        <button class="btn btn-primary mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"-->
+<!--                aria-expanded="false" aria-controls="collapseExample">-->
+<!--            Массовые действия-->
+<!--        </button>-->
+
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+
+            <?= Html::Label('Тип действия'); ?>
+            <?= Html::dropDownList('actionType', null, Products::actionList(), [
+                'class' => 'action-type-dropdown actionInput',
+            ]); ?>
+
+            <?= Html::Label('Новое значение'); ?>
+            <?= Html::dropDownList('value', null, [], ['class' => 'action-type-dropdown valueInput']); ?>
+
+            <p>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success mt-3']); ?>
+            </p>
+
+        </div>
+    </div>
     </p>
 
     <?= GridView::widget([
@@ -72,9 +94,17 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'html',
                 'attribute' => 'active',
-                'filter' => array(0 => "Не активен", 1 => "Активен"),
+                'filter' => \kartik\select2\Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'active',
+                    'data' => array(0 => "Не активен", 1 => "Активен"),
+                    'options' => ['placeholder' => 'Select a state ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]),
                 'value' => function ($data) {
-                    return ($data->on_sale === 0) ? 'Не активен' : 'Активен';
+                    return ($data->active === 0) ? 'Не активен' : 'Активен';
                 }
             ],
             [
@@ -90,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?= Html::endForm(); ?>
+<!--    --><?php //Html::endForm(); ?>
 
     <?php Pjax::end() ?>
 

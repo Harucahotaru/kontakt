@@ -28,10 +28,12 @@ class AppAsset extends AssetBundle
         'css/swiper.css',
         'css/adminReview.css',
         'css/userProfile.css',
+        'css/admin-products.css',
     ];
     public $js = [
         'js/site.js',
         'js/searchLine.js',
+        'js/massActions.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

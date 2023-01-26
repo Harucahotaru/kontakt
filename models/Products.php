@@ -39,6 +39,12 @@ class Products extends \yii\db\ActiveRecord
 
     const NEW_PRODUCTS_PERIOD_DAYS = 30;
 
+    const ACTION_DELETE = 'delete';
+
+    const ACTION_CHANGE_CATEGORY = 'change_category';
+
+    const ACTION_SALE_STATUS = 'change_sale_status';
+
     /**
      * {@inheritdoc}
      */
@@ -542,5 +548,15 @@ class Products extends \yii\db\ActiveRecord
                 ]
             ],
         ]);
+    }
+
+    public static function actionList()
+    {
+        return [
+            0 => 'Выберите действие ...',
+            self::ACTION_DELETE => 'Удаление',
+            self::ACTION_SALE_STATUS => 'Изменить статус скидки',
+            self::ACTION_CHANGE_CATEGORY => 'Изменить категорию',
+        ];
     }
 }

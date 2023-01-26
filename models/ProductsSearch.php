@@ -67,12 +67,10 @@ class ProductsSearch extends Products
             'date_m' => $this->date_m,
             'active' => $this->active,
         ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'category_id', $this->category_id])
             ->andFilterWhere(['like', 'parent_id', $this->parent_id]);
-
         return $dataProvider;
     }
 }

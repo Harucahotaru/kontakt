@@ -9,7 +9,9 @@ use yii\widgets\Pjax;
 ?>
 <div class="product-card my-3">
     <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
-        <section class="swiper-container pt-3">
+        <script type="module" src="/js/swiper.js"></script>
+        <script type="module" src="/js/product-list-slider.js"></script>
+        <section class="swiper-container swiper1 pt-3">
             <div class="swiper-wrapper">
                 <?php foreach ($model->getThumbnailsPath() as $image): ?>
                     <div class="swiper-slide" style="height: 250px">
@@ -19,8 +21,6 @@ use yii\widgets\Pjax;
             </div>
             <div class="swiper-pagination swiper-pagination-white"></div>
         </section>
-        <script type="module" src="/js/swiper.js"></script>
-        <script type="module" src="/js/product-list-slider.js"></script>
         <div class="product-card-body">
             <h5 class="product-card-title"><?= $model->name ?></h5>
             <div class="product-card-description"><?= $model->description ?></div>

@@ -10,7 +10,4 @@ class ProductsListAsset extends AssetBundle
     public $css = [
         'css/products-list.css',
     ];
-    public $js = [
-        'js/products-list.js',
-    ];
 }

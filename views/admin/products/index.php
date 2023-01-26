@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'    => ProductsCategories::getAllCategoriesList(),
                 'value' => function ($data) {
                     /** @var Products $data */
-                    return ProductsCategories::getById($data->category_id)->name;
+                    return !empty($data->category_id) ? ProductsCategories::getById($data->category_id)->name : '';
                 },
             ],
             [

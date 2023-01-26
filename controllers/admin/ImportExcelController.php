@@ -68,7 +68,7 @@ class ImportExcelController extends Controller
         $parsedExcelPreview = array_slice($parsedExcel, 0, 1);
         $previewProducts = $this->createProducts($parsedExcelPreview, $post['Products']);
 
-        return $this->renderAjax('products-preview', [
+        return $this->render('products-preview', [
             'parsedExcel' => $parsedExcel,
             'productsExample' => $post['Products'],
             'previewProducts' => $previewProducts,

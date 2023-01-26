@@ -84,10 +84,17 @@ class ImportExcelController extends Controller
         /** @var Products $product */
         foreach ($products as $product) {
             if (!$product->save()) {
-                throw new ImportException("не удалось сохранить товар $product->errors, импорт остановлен");
+                $errorMassage = "Ошибка импорта товаров, проверьте правильность заполнения полей\n\n";
+                foreach ($product->errors as $field => $error) {
+                    foreach ($error as $description)
+                       $errorMassage .= "Поле $field -> $description\n";
+                }
+
+                throw new ImportException($errorMassage);
+            } else {
+                Yii::$app->session->setFlash('success', 'Импорт прошел успешно');
             }
         }
-        Yii::$app->session->setFlash('success', 'Импорт прошел успешно');
 
         return $this->redirect('/admin/import-excel');
     }

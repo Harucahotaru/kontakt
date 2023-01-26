@@ -6,22 +6,14 @@
 /** @var Exception$exception */
 
 use yii\helpers\Html;
-
-$this->title = $name;
+$this->title = $name . ' <' . $exception->getCode() . '>';
 ?>
-<div class="site-error">
+<div class="site-error container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+    <div class="alert alert-danger" style="font-size: 17px">
+        <?= nl2br(Html::encode($exception->getMessage())) ?>
     </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
 
 </div>

@@ -25,7 +25,6 @@ use yii\widgets\ActiveForm;
         'size' => Select2::MEDIUM,
         'options' => [
             'placeholder' => 'Выбрать категорию выше по древу ...',
-            'multiple' => true
         ],
         'pluginOptions' => [
             'allowClear' => true

@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Products;
+use app\models\ProductsCategories;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -28,8 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'format'    => 'html',
-                'value'     => function ($data) {
+                'format' => 'html',
+                'value' => function ($data) {
                     return Html::img($data->getMainImagePath(), ['style' => 'max-width: 100px']);
                 }
             ],
@@ -38,20 +39,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'article',
             'currency',
             [
-                'format'    => 'html',
+                'format' => 'html',
                 'attribute' => 'on_sale',
-                'filter'    => array(0 => "Не активна", 1 => "Активна"),
-                'value'     => function ($data) {
+                'filter' => array(0 => "Не активна", 1 => "Активна"),
+                'value' => function ($data) {
                     return ($data->on_sale === 0) ? 'Не активна' : 'Активна';
                 },
             ],
             'sale',
-            'category_id',
             [
-                'format'    => 'html',
+                'format' => 'html',
+                'attribute' => 'category_id',
+                'filter'    => ProductsCategories::getAllCategoriesList(),
+                'value' => function ($data) {
+                    /** @var Products $data */
+                    return ProductsCategories::getById($data->category_id)->name;
+                },
+            ],
+            [
+                'format' => 'html',
                 'attribute' => 'active',
-                'filter'    => array(0 => "Не активен", 1 => "Активен"),
-                'value'     => function ($data) {
+                'filter' => array(0 => "Не активен", 1 => "Активен"),
+                'value' => function ($data) {
                     return ($data->on_sale === 0) ? 'Не активен' : 'Активен';
                 }
             ],
@@ -63,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Products $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

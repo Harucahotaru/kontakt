@@ -80,7 +80,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'parent_id')->widget(Select2::class, [
             'data' => $model->getParentProductsList(),
             'maintainOrder' => true,
-            'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
+            'options' => ['placeholder' => 'Выбрать подходящие товары ...', 'multiple' => true],
             'pluginOptions' => [
                 'tags' => true,
                 'maximumInputLength' => 10

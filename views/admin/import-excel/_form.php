@@ -6,7 +6,9 @@
 
 /** @var array $parsedExcel */
 
+use app\classes\ParseExcel;
 use app\models\Products;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 
 ?>
@@ -15,7 +17,18 @@ use yii\helpers\Html;
 <?php foreach ($model->ActiveFields as $value => $name): ?>
     <div class="py-1">
         <?= Html::activeLabel($model, $value); ?>
-        <?= Html::activeDropDownList($model, $value, $headers, ['class' => 'form-control']); ?>
+        <?= Select2::widget([
+            'name' => 'kv_1',
+            'model' => $model,
+            'value' => $headers[ParseExcel::HEADER_NOT_STATE_KEY],
+            'attribute' => $value,
+            'data' => $headers,
+            'pluginOptions' => [
+                'maximumInputLength' => 1,
+                'allowClear' => true
+            ],
+        ]);
+        ?>
     </div>
 <?php endforeach ?>
 <div class="py-1">

@@ -10,7 +10,7 @@ class ParseExcel
 {
     public const HEADER_NOT_STATE = 'Не задано';
 
-    public const HEADER_NOT_STATE_KEY = '11';
+    public const HEADER_NOT_STATE_KEY = 'NOT_STATED';
 
     public const MAX_PREVIEW_STRINGS = 10;
 
@@ -64,10 +64,10 @@ class ParseExcel
     public static function getExcelHeaderForCorrelate(array $previewExcel): array
     {
         foreach ($previewExcel[1] as $columnKey => $column) {
-            $headers[$columnKey] = "Колонка $columnKey";
+            $headers[$columnKey] = "$columnKey";
         }
         $headers[self::HEADER_NOT_STATE_KEY] = self::HEADER_NOT_STATE;
 
-        return $headers;
+        return array_reverse($headers);
     }
 }

@@ -43,7 +43,7 @@ class ImportExcelController extends Controller
             $parseExcel = new ParseExcel();
             $excel = $parseExcel->preview($filepath);
 
-            return $this->render('_preview', [
+            return $this->renderAjax('_preview', [
                 'previewExcel' => $excel,
                 'parsedExcel' => $parseExcel->parseToArray($filepath),
                 'model' => new Products()
@@ -59,6 +59,7 @@ class ImportExcelController extends Controller
      */
     public function actionProductPreview(): string
     {
+        var_dump(Yii::$app->request->post());exit();
         $post = Yii::$app->request->post();
         $parsedExcel = json_decode(Yii::$app->request->post()['parsedExcel'], true);
         if (!empty($post['offset'])) {
@@ -68,7 +69,7 @@ class ImportExcelController extends Controller
         $parsedExcelPreview = array_slice($parsedExcel, 0, 1);
         $previewProducts = $this->createProducts($parsedExcelPreview, $post['Products']);
 
-        return $this->render('products-preview', [
+        return $this->renderAjax('products-preview', [
             'parsedExcel' => $parsedExcel,
             'productsExample' => $post['Products'],
             'previewProducts' => $previewProducts,
@@ -84,8 +85,7 @@ class ImportExcelController extends Controller
         /** @var Products $product */
         foreach ($products as $product) {
             if (!$product->save()) {
-                var_dump($product->errors);exit();
-                throw new ImportException("не удалось сохранить товар $product->name, импорт остановлен");
+                throw new ImportException("не удалось сохранить товар $product->errors, импорт остановлен");
             }
         }
         Yii::$app->session->setFlash('success', 'Импорт прошел успешно');

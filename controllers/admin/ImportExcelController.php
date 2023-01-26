@@ -84,7 +84,6 @@ class ImportExcelController extends Controller
         /** @var Products $product */
         foreach ($products as $product) {
             if (!$product->save()) {
-                var_dump($product);exit();
                 throw new ImportException("не удалось сохранить товар $product->name, импорт остановлен");
             }
         }

@@ -17,7 +17,7 @@ class ProductsSearch extends Products
     public function rules()
     {
         return [
-            [['id', 'cost', 'on_sale', 'sale', 'img_id', 'active'], 'integer'],
+            [['id', 'currency', 'on_sale', 'sale', 'img_id', 'active'], 'integer'],
             [['name', 'description', 'category_id', 'parent_id', 'date_c', 'date_m'], 'safe'],
         ];
     }
@@ -59,7 +59,7 @@ class ProductsSearch extends Products
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'cost' => $this->cost,
+            'currency' => $this->currency,
             'on_sale' => $this->on_sale,
             'sale' => $this->sale,
             'img_id' => $this->img_id,

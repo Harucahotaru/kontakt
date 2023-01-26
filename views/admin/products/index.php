@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductsSearch */
@@ -22,6 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php Pjax::begin(['id' => 'products']) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -76,6 +79,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
+    <?php Pjax::end() ?>
 
 </div>

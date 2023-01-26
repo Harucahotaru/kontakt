@@ -2,11 +2,14 @@
 
 namespace app\controllers\admin;
 
+use app\exceptions\ProductException;
 use app\models\Images;
 use app\models\Products;
 use app\models\ProductsImgs;
 use app\models\ProductsSearch;
 use app\models\UserBasket;
+use Exception;
+use Throwable;
 use Yii;
 use yii\data\Pagination;
 use yii\db\StaleObjectException;
@@ -122,8 +125,7 @@ class ProductsController extends Controller
      */
     public function actionDelete(int $id): Response
     {
-        $this->actionDeleteImg($id);
-        $this->findModel($id)->delete();
+        $this->actionDelete($id);
 
         return $this->redirect(['index']);
     }
@@ -146,25 +148,78 @@ class ProductsController extends Controller
 
     /**
      * @param int $productId
-     * @return void
+     *
+     * @return bool
+     *
      * @throws StaleObjectException
      * @throws \Throwable
      */
-    public function actionDeleteImg(int $productId): void
+    public function actionDeleteImg(int $productId): bool
     {
+        $result = false;
+
         $product = Products::findOne(['id' => $productId]);
 
-        $imagesIds = ProductsImgs::findOne(['id' => $product->img_id]);
-        if (!empty($imagesIds)) {
-            $imagesIds->delete();
-            if ($images = Images::findAll(['id' => json_decode($imagesIds->imgs_ids)])) {
-                foreach ($images as $image) {
-                    $image->delete();
+        if ($product !== null) {
+            $imagesIds = ProductsImgs::findOne(['id' => $product->img_id]);
+            if (!empty($imagesIds)) {
+                $imagesIds->delete();
+                if ($images = Images::findAll(['id' => json_decode($imagesIds->imgs_ids)])) {
+                    foreach ($images as $image) {
+                        $image->delete();
+                    }
+                }
+            }
+            $product->img_id = null;
+            $result = $product->save();
+
+            if (!empty($product->errors)) {
+               Yii::$app->session->setFlash('error', implode(', ', $product->errors));
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return int|false
+     *
+     * @throws NotFoundHttpException
+     * @throws StaleObjectException
+     * @throws Throwable
+     */
+    public function deleteProduct(int $id)
+    {
+        if ($this->actionDeleteImg($id) === true) {
+            return $this->findModel($id)->delete();
+        }
+
+        return false;
+    }
+
+    /**
+     * Массовое удаление товаров
+     *
+     * @throws ProductException
+     * @throws Throwable
+     */
+    public function actionMassDelete()
+    {
+        $productsIds = Yii::$app->request->post('selection');
+        if (!empty($productsIds)) {
+            foreach ($productsIds as $productId) {
+                try {
+                    if ($this->deleteProduct($productId) === false) {
+                        throw new ProductException('Ошибка удаления товара');
+                    }
+                } catch (Exception $e) {
+                    throw new ProductException('Ошибка удаления товара');
                 }
             }
         }
-        $product->img_id = null;
-        $product->save();
-        $this->redirect('/products');
+
+        return $this->redirect(['index']);
     }
 }

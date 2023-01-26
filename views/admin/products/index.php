@@ -2,6 +2,7 @@
 
 use app\models\Products;
 use app\models\ProductsCategories;
+use yii\grid\CheckboxColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -20,17 +21,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?php Pjax::begin(['id' => 'products']) ?>
+
+    <?= Html::beginForm('/admin/products/mass-delete', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+
+    <p>
+        <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success mx-2']) ?>
+        <?= Html::submitButton('Удалить выбранные товары', ['class' => 'btn btn-danger mx-2']); ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => CheckboxColumn::class,
+                'checkboxOptions' => function ($model) {
+                    return ['value' => $model->id];
+                },
+            ],
             [
                 'format' => 'html',
                 'value' => function ($data) {
@@ -53,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'html',
                 'attribute' => 'category_id',
-                'filter'    => ProductsCategories::getAllCategoriesList(),
+                'filter' => ProductsCategories::getAllCategoriesList(),
                 'value' => function ($data) {
                     /** @var Products $data */
                     return !empty($data->category_id) ? ProductsCategories::getById($data->category_id)->name : '';
@@ -79,6 +89,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    <?= Html::endForm(); ?>
+
     <?php Pjax::end() ?>
 
 </div>

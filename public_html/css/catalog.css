@@ -176,3 +176,19 @@
 .catalog-brand-description {
     font-size: 18px;
 }
+.no-image-product {
+    width: 300px;
+    height: 250px;
+    background: #dadada;
+    position: relative;
+}
+.no-image-product:before {
+    font: var(--fa-font-solid);
+    right: 95px;
+    top: 60px;
+    font-size: 120px;
+    color: #828282;
+    content: "\f030";
+    position: absolute;
+    z-index: 4;
+}

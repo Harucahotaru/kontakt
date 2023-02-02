@@ -78,17 +78,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'layout' => "{summary}\n{pager}\n{items}\n{pager}",
         'pager' => [
             'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
             'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',
             'maxButtonCount' => 10,
             'options' => [
-                'class' => 'pagination parent-products-pagination pt-4'
+                'class' => 'pagination list-products-pagination pt-2'
             ],
-            'activePageCssClass' => 'parent-products-pagination-active',
-            'disabledPageCssClass' => 'parent-products-pagination-disable',
-            'prevPageCssClass' => 'parent-products-pagination-prev',
-            'nextPageCssClass' => 'parent-products-pagination-next',
+            'activePageCssClass' => 'list-products-pagination-active',
+            'disabledPageCssClass' => 'list-products-pagination-disable',
+            'prevPageCssClass' => 'list-products-pagination-prev',
+            'nextPageCssClass' => 'list-products-pagination-next',
         ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],

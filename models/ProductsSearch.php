@@ -45,10 +45,6 @@ class ProductsSearch extends Products
         $query = Products::find();
         $pageSize = User::getUserPagination();
 
-
-        // add conditions that should always apply here
-
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

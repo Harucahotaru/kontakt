@@ -71,6 +71,7 @@ class ProductsSearch extends Products
         ]);
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'article', $this->article])
             ->andFilterWhere(['like', 'category_id', $this->category_id])
             ->andFilterWhere(['like', 'parent_id', $this->parent_id]);
         return $dataProvider;

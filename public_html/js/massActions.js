@@ -47,7 +47,9 @@ $(document).ready(function ($) {
     function getProductsIds(productInput) {
         var result = []
         productInput.forEach(function (input) {
-            result.push(input.value)
+            if (input.checked === true) {
+                result.push(input.value)
+            }
 
         });
         return result

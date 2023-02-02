@@ -121,26 +121,27 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'html',
                 'attribute' => 'category_id',
-                'filter' => ProductsCategories::getAllCategoriesList(),
-                'value' => function ($data) {
-                    /** @var Products $data */
-                    return !empty($data->category_id) ? ProductsCategories::getById($data->category_id)->name : '';
-                },
-            ],
-            [
-                'format' => 'html',
-                'attribute' => 'active',
                 'filter' => Select2::widget([
                     'model' => $searchModel,
-                    'attribute' => 'active',
-                    'data' => array(0 => "Не активен", 1 => "Активен"),
+                    'attribute' => 'category_id',
+                    'data' => ProductsCategories::getAllCategoriesList(),
+                    'options' => ['placeholder' => ''],
                     'pluginOptions' => [
                         'allowClear' => true
                     ],
                 ]),
                 'value' => function ($data) {
-                    return ($data->active === 0) ? 'Не активен' : 'Активен';
+                    /** @var Products $data */
+                    return !empty($data->category_id) ? ProductsCategories::getById($data->category_id)->name : '';
                 }
+            ],
+            [
+                'format' => 'html',
+                'attribute' => 'active',
+                'filter' => array(0 => "Не активен", 1 => "Активна"),
+                'value' => function ($data) {
+                    return ($data->active === 0) ? 'Не активен' : 'Активен';
+                },
             ],
             [
                 'attribute' => 'date_m',

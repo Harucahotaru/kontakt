@@ -252,7 +252,10 @@ class User extends ActiveRecord implements IdentityInterface
         return true;
     }
 
-    public static function generateLogoutButton()
+    /**
+     * @return string
+     */
+    public static function generateLogoutButton(): string
     {
         $userName = Yii::$app->user->isGuest ? '': Yii::$app->user->identity->username;
         return Html::beginForm(['/user/logout'], 'post', ['class' => 'form-inline'])
@@ -261,6 +264,20 @@ class User extends ActiveRecord implements IdentityInterface
             ['class' => 'btn btn-link logout']
         )
         . Html::endForm();
+    }
+
+    /**
+     * @return int
+     */
+    public static function getUserPagination(): int
+    {
+        $pageSize = 40;
+        $userPagination = Yii::$app->request->cookies->get('productsPagination');
+        if (!empty($userPagination)) {
+            $pageSize = (int)$userPagination->value;
+        }
+
+        return $pageSize;
     }
 
 }

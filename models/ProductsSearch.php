@@ -2,7 +2,9 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
+use yii\base\UserException;
 use yii\data\ActiveDataProvider;
 use app\models\Products;
 
@@ -41,18 +43,22 @@ class ProductsSearch extends Products
     public function search($params)
     {
         $query = Products::find();
+        $pageSize = User::getUserPagination();
+
 
         // add conditions that should always apply here
 
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => $pageSize,
+            ],
         ]);
 
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 

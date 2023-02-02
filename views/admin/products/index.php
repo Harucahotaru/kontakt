@@ -2,6 +2,9 @@
 
 use app\models\Products;
 use app\models\ProductsCategories;
+use app\models\User;
+use kartik\depdrop\DepDrop;
+use kartik\select2\Select2;
 use yii\grid\CheckboxColumn;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -21,40 +24,72 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php Pjax::begin(['id' => 'products']) ?>
-
-<!--    --><?php //Html::beginForm('/admin/products/mass-change', 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
-
     <p>
         <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success mr-2']) ?>
 
-<!--        <button class="btn btn-primary mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"-->
-<!--                aria-expanded="false" aria-controls="collapseExample">-->
-<!--            Массовые действия-->
-<!--        </button>-->
+        <button class="btn btn-primary mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample" id="openButton">
+            Массовые действия
+        </button>
+
+        <?= Html::Label('Отображать по: '); ?>
+        <?= Html::dropDownList('paginationSize', User::getUserPagination(), Products::paginationList(), [
+            'class' => 'pagination-input',
+            'id' => 'pagination'
+        ]); ?>
+
+    </p>
 
     <div class="collapse" id="collapseExample">
         <div class="card card-body">
 
             <?= Html::Label('Тип действия'); ?>
             <?= Html::dropDownList('actionType', null, Products::actionList(), [
-                'class' => 'action-type-dropdown actionInput',
+                'class' => 'action-type-dropdown actionInput my-2',
+                'prompt' => 'Выберите тип действия... ',
+                'id' => 'cat'
             ]); ?>
 
-            <?= Html::Label('Новое значение'); ?>
-            <?= Html::dropDownList('value', null, [], ['class' => 'action-type-dropdown valueInput']); ?>
+            <div style="width: 400px" id="subDiv">
+                <?= Html::Label('Тип действия', 'sub-cat-2', ['class' => 'sub-label']); ?>
+                <?= DepDrop::widget([
+                    'name' => 'value',
+                    'options' => ['id' => 'sub-cat-2', 'class' => 'action-type-dropdown my-2'],
+                    'pluginOptions' => [
+                        'depends' => ['cat'],
+                        'placeholder' => 'Выберите значение',
+                        'url' => Url::to(['/admin/products/get-list'])
+                    ],
+                    'type' => DepDrop::TYPE_SELECT2,
+                ]); ?>
+            </div>
+            <div class="text-validation-error">
 
+            </div>
             <p>
-                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success mt-3']); ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success mt-3', 'id' => 'subButton']); ?>
             </p>
 
         </div>
     </div>
-    </p>
+
+    <?php Pjax::begin(['id' => 'products']) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
+            'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',
+            'maxButtonCount' => 10,
+            'options' => [
+                'class' => 'pagination parent-products-pagination pt-4'
+            ],
+            'activePageCssClass' => 'parent-products-pagination-active',
+            'disabledPageCssClass' => 'parent-products-pagination-disable',
+            'prevPageCssClass' => 'parent-products-pagination-prev',
+            'nextPageCssClass' => 'parent-products-pagination-next',
+        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
@@ -94,11 +129,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'format' => 'html',
                 'attribute' => 'active',
-                'filter' => \kartik\select2\Select2::widget([
+                'filter' => Select2::widget([
                     'model' => $searchModel,
                     'attribute' => 'active',
                     'data' => array(0 => "Не активен", 1 => "Активен"),
-                    'options' => ['placeholder' => 'Select a state ...'],
                     'pluginOptions' => [
                         'allowClear' => true
                     ],
@@ -119,8 +153,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-<!--    --><?php //Html::endForm(); ?>
 
     <?php Pjax::end() ?>
 

@@ -81,18 +81,16 @@ class ProductsCategories extends \yii\db\ActiveRecord
      */
     public static function getAllCategoriesList(): array
     {
-        $categories = self::find()->all();
+        return self::find()->indexBy('id')->select(['name'])->asArray()->column();
+    }
 
-        if (empty($categories)) {
-            return [];
+    public static function formatListToKartik(array $list): array
+    {
+        foreach ($list as $itemKey => $item) {
+            $newList[] = ['id' => $itemKey, 'name' => $item];
         }
 
-        /** @var ProductsCategories $category */
-        foreach ($categories as $category) {
-            $categoriesList[$category->id] = $category->name;
-        }
-
-        return $categoriesList;
+        return $newList;
     }
 
     /**

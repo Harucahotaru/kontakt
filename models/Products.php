@@ -45,6 +45,8 @@ class Products extends \yii\db\ActiveRecord
 
     const ACTION_SALE_STATUS = 'change_sale_status';
 
+    const ACTION_CHANGE_PROMOTION = 'change_promotion';
+
     /**
      * {@inheritdoc}
      */
@@ -553,10 +555,22 @@ class Products extends \yii\db\ActiveRecord
     public static function actionList()
     {
         return [
-            0 => 'Выберите действие ...',
             self::ACTION_DELETE => 'Удаление',
             self::ACTION_SALE_STATUS => 'Изменить статус скидки',
             self::ACTION_CHANGE_CATEGORY => 'Изменить категорию',
+//            self::ACTION_CHANGE_PROMOTION => 'Изменить акцию',
+        ];
+    }
+
+    public static function paginationList()
+    {
+        return [
+            20 => 20,
+            40 => 40,
+            80 => 80,
+            100 => 100,
+            200 => 200,
+            400 => 400,
         ];
     }
 }

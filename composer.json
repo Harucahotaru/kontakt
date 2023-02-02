@@ -29,7 +29,8 @@
         "la-haute-societe/yii2-save-relations-behavior": "*",
         "phpoffice/phpspreadsheet": "^1.23",
         "gumlet/php-image-resize": "2.0.*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "kartik-v/yii2-widget-depdrop": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

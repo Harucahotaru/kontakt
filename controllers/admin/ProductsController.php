@@ -238,6 +238,9 @@ class ProductsController extends Controller
             case Products::ACTION_CHANGE_CATEGORY:
                 Products::updateAll(['category_id' => $value], ['id' => $productsIds]);
                 break;
+            case Products::ACTION_CHANGE_ACTIVE:
+                Products::updateAll(['active' => $value], ['id' => $productsIds]);
+                break;
         }
 
         $searchModel = new ProductsSearch();
@@ -275,6 +278,12 @@ class ProductsController extends Controller
                 break;
             case Products::ACTION_DELETE:
                 $list = [['id' => 0, 'name' => 'Для этого действия не нужно выбирать значение']];
+                break;
+            case Products::ACTION_CHANGE_ACTIVE:
+                $list = [
+                    ['id' => Products::STATUS_ACTIVE, 'name' => 'Товар активен'],
+                    ['id' => Products::STATUS_DISABLE, 'name' => 'Товар не активен']
+                ];
                 break;
             default:
                 return null;

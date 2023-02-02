@@ -8,6 +8,7 @@ $(document).ready(function ($) {
     cat.change(function () {
         if (cat.val() === 'delete') {
             subDiv.addClass('hide-block');
+            submitButton.prop('disabled', false);
         } else {
             submitButton.prop('disabled', true);
             subDiv.removeClass('hide-block');
@@ -18,21 +19,13 @@ $(document).ready(function ($) {
         submitButton.prop('disabled', true);
     });
 
-    cat.change(function () {
-        if (cat.val() === 'delete') {
+    subCat.change(function () {
+        if (subCat.val() === '' && cat.val() !== 'delete') {
+            submitButton.prop('disabled', true);
+        } else {
             submitButton.prop('disabled', false);
         }
     })
-
-    subCat.change(function () {
-        submitButton.prop('disabled', false);
-    })
-
-    submitButton.on("submit", function (event, jqXHR, settings) {
-        event.preventDefault(); // 1
-        event.stopImmediatePropagation(); // 2
-        return false;
-    });
 
     function checkedInput(productInput) {
         var result = false

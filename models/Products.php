@@ -47,6 +47,8 @@ class Products extends \yii\db\ActiveRecord
 
     const ACTION_CHANGE_PROMOTION = 'change_promotion';
 
+    const ACTION_CHANGE_ACTIVE = 'change_active';
+
     /**
      * {@inheritdoc}
      */
@@ -103,11 +105,11 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Наименование товара',
+            'name' => 'Наименование',
             'description' => 'Описание товара',
             'currency' => 'Цена',
             'on_sale' => 'Статус скидки',
-            'sale' => 'Стоимость товара со скидкой',
+            'sale' => 'Цена со скидкой',
             'img_id' => 'Изображение',
             'category_id' => 'Категория',
             'parent_id' => 'Подходящие товары',
@@ -558,6 +560,7 @@ class Products extends \yii\db\ActiveRecord
             self::ACTION_DELETE => 'Удаление',
             self::ACTION_SALE_STATUS => 'Изменить статус скидки',
             self::ACTION_CHANGE_CATEGORY => 'Изменить категорию',
+            self::ACTION_CHANGE_ACTIVE => 'Изменить статус товара',
 //            self::ACTION_CHANGE_PROMOTION => 'Изменить акцию',
         ];
     }

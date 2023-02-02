@@ -2,11 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
-use yii\base\UserException;
 use yii\data\ActiveDataProvider;
-use app\models\Products;
 
 /**
  * ProductsSearch represents the model behind the search form of `app\models\Products`.
@@ -20,7 +17,7 @@ class ProductsSearch extends Products
     {
         return [
             [['id', 'currency', 'on_sale', 'sale', 'img_id', 'active'], 'integer'],
-            [['name', 'description', 'category_id', 'parent_id', 'date_c', 'date_m'], 'safe'],
+            [['name', 'description', 'category_id', 'parent_id', 'date_c', 'date_m', 'article'], 'safe'],
         ];
     }
 
@@ -29,7 +26,6 @@ class ProductsSearch extends Products
      */
     public function scenarios()
     {
-        // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
@@ -40,7 +36,7 @@ class ProductsSearch extends Products
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params): ActiveDataProvider
     {
         $query = Products::find();
         $pageSize = User::getUserPagination();
@@ -74,6 +70,7 @@ class ProductsSearch extends Products
             ->andFilterWhere(['like', 'article', $this->article])
             ->andFilterWhere(['like', 'category_id', $this->category_id])
             ->andFilterWhere(['like', 'parent_id', $this->parent_id]);
+
         return $dataProvider;
     }
 }

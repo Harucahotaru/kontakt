@@ -311,6 +311,6 @@ class ProductsController extends Controller
             'value' => $paginationSize,
         ]));
 
-        return $this->redirect('index');
+        return $this->redirect('/admin/products');
     }
 }

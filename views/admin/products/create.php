@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Products */
 
 $this->title = 'Добавление товара';
-$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="products-create container">

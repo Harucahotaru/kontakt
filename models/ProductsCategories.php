@@ -158,4 +158,25 @@ class ProductsCategories extends \yii\db\ActiveRecord
 
         return $breadCrumbs;
     }
+
+    public static function getSearchList(string $searchString = ''): string
+    {
+        $searchList = [];
+
+        $query = self::find();
+        if (!empty($searchString)) {
+            $query->filterWhere(['like', 'name', $searchString]);
+        }
+        $categories = $query->all();
+
+        /** @var ProductsCategories $categories*/
+        foreach ($categories as $category) {
+            $searchList[] = [
+                'value' => $category->name,
+            'url' => "/catalog/$category->id",
+            ];
+        }
+
+        return json_encode($searchList);
+    }
 }

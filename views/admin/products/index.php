@@ -78,13 +78,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'layout' => "{summary}\n{pager}\n{items}\n{pager}",
+        'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'pager' => [
             'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
             'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',
             'maxButtonCount' => 10,
             'options' => [
-                'class' => 'pagination list-products-pagination pt-2'
+                'class' => 'pagination list-products-pagination pt-4'
             ],
             'activePageCssClass' => 'list-products-pagination-active',
             'disabledPageCssClass' => 'list-products-pagination-disable',

@@ -25,7 +25,7 @@ use kartik\typeahead\Typeahead;
                             'display' => 'value',
                             'minLength' => 3,
                             'remote' => [
-                                'url' => '/site/search' . '?string=%QUERY',
+                                'url' => '/site/search-products' . '?string=%QUERY',
                                 'wildcard' => '%QUERY'
                             ]
                         ],
@@ -35,6 +35,15 @@ use kartik\typeahead\Typeahead;
                             'minLength' => 3,
                             'remote' => [
                                 'url' => '/brands/search' . '?string=%QUERY',
+                                'wildcard' => '%QUERY'
+                            ]
+                        ],
+                        [
+                            'datumTokenizer' => "Bloodhound.tokenizers.obj.whitespace('value')",
+                            'display' => 'value',
+                            'minLength' => 3,
+                            'remote' => [
+                                'url' => '/site/search-categories' . '?string=%QUERY',
                                 'wildcard' => '%QUERY'
                             ]
                         ]

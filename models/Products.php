@@ -451,8 +451,20 @@ class Products extends \yii\db\ActiveRecord
 
     public static function getProductsBySearchProvider(string $searchString, ?int $pagination = 20): ActiveDataProvider
     {
+        $categories = ProductsCategories::find()
+            ->select(['id'])
+            ->filterWhere(['like', 'name', $searchString])
+            ->asArray()
+            ->column();
+        if (!empty($categories)) {
+            $query = self::find()->where(['category_id' => $categories]);
+        } else {
+            $query = self::find()->filterWhere(['like', 'name', $searchString]);
+        }
+
         return new ActiveDataProvider([
-            'query' => self::find()->filterWhere(['like', 'name', $searchString]),
+            'query' => $query,
+
             'pagination' => [
                 'pageSize' => $pagination,
             ],

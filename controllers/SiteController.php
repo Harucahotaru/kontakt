@@ -8,6 +8,7 @@ use app\models\ControllerRules;
 use app\models\Pages;
 use app\models\PagesContent;
 use app\models\Products;
+use app\models\ProductsCategories;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -89,7 +90,10 @@ class SiteController extends Controller
         return $this->render('about', ['content' => $this->content]);
     }
 
-    public function actionSearch()
+    /**
+     * @return string
+     */
+    public function actionSearchProducts(): string
     {
         $string = '';
 
@@ -98,5 +102,19 @@ class SiteController extends Controller
         }
 
         return Products::getSearchList($string);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionSearchCategories(): string
+    {
+        $string = '';
+
+        if (isset($_GET['string'])) {
+            $string = $_GET['string'];
+        }
+
+        return ProductsCategories::getSearchList($string);
     }
 }

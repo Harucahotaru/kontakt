@@ -15,15 +15,13 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'status')->textInput() ?>
-    <?= $form->field($model, 'username')->textInput(['placeholder' => 'Title', 'disabled' => true]) ?>
-    <?= $form->field($model, 'email')->textInput(['placeholder' => 'Title', 'disabled' => true]) ?>
-    <?= $form->field($model, 'roles')->dropDownList(
-        $allRoles, ['multiple' => 'multiple']
-    ); ?>
 
+    <?= $form->field($model, 'username')->textInput([]) ?>
+
+    <?= $form->field($model, 'email')->textInput([]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success my-4']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -30,7 +30,9 @@
         "phpoffice/phpspreadsheet": "^1.23",
         "gumlet/php-image-resize": "2.0.*",
         "ext-json": "*",
-        "kartik-v/yii2-widget-depdrop": "dev-master"
+        "kartik-v/yii2-widget-depdrop": "dev-master",
+        "kartik-v/yii2-sortable": "dev-master",
+        "kartik-v/yii2-sortable-input": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

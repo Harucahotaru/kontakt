@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\AuthAssignment;
 use app\models\ControllerRules;
 use app\models\LoginForm;
 use app\models\PasswordResetRequestForm;
@@ -175,6 +176,7 @@ class UserController extends Controller
 
         return $this->goHome();
     }
+
     public function actionSignup()
     {
         $model = new SignupForm();
@@ -190,6 +192,7 @@ class UserController extends Controller
             'model' => $model,
         ]);
     }
+
     /**
      * Requests password reset.
      *
@@ -226,7 +229,7 @@ class UserController extends Controller
      *
      * @return mixed
      *
-     * @throws BadRequestHttpException
+     * @throws BadRequestHttpException|\yii\base\Exception
      */
 
     public function actionResetPassword($token)
@@ -251,6 +254,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionProfile(): string
     {
         return $this->render('profile', [
@@ -258,11 +264,45 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionCart(): string
     {
         return $this->render('cart', [
             'user' => User::findOne(Yii::$app->user->id),
             'cartPrice' => UserBasket::getCartPrice(Yii::$app->user->id)
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionEditRules(): string
+    {
+        return $this->render('rules', [
+            'user' => User::findOne(Yii::$app->request->get('id')),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionSaveRules(): string
+    {
+        $user = User::findOne(['id' => Yii::$app->request->post('user_id')]);
+        $userRules = explode(',', Yii::$app->request->post('rules'));
+        unset($userRules[0]);
+
+        $user->deleteAllUserRules();
+
+        foreach ($userRules as $userRule) {
+            $rulesModel = new AuthAssignment();
+            $rulesModel->user_id = (string)$user->id;
+            $rulesModel->item_name = $userRule;
+            $rulesModel->save();
+        }
+
+        return $this->actionIndex();
     }
 }

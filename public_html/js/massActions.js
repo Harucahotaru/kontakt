@@ -1,9 +1,9 @@
 $(document).ready(function ($) {
-    var subCat = $('#sub-cat-2')
-    var cat = $('#cat')
-    var submitButton = $('#subButton')
-    var openButton = $('#openButton')
-    var subDiv = $('#subDiv')
+    let subCat = $('#sub-cat-2');
+    let cat = $('#cat');
+    let submitButton = $('#subButton');
+    let openButton = $('#openButton');
+    let subDiv = $('#subDiv');
 
     cat.change(function () {
         if (cat.val() === 'delete') {
@@ -28,32 +28,32 @@ $(document).ready(function ($) {
     })
 
     function checkedInput(productInput) {
-        var result = false
+        let result = false;
         productInput.forEach(function (input) {
             if (input.checked === true) {
-                result = true
+                result = true;
             }
         });
-        return result
+        return result;
     }
 
     function getProductsIds(productInput) {
-        var result = []
+        let result = [];
         productInput.forEach(function (input) {
             if (input.checked === true) {
                 result.push(input.value)
             }
 
         });
-        return result
+        return result;
     }
 
     submitButton.on('click', function () {
 
-        var inputData = new FormData;
-        var productInput = document.getElementsByName('selection[]');
-        var validError = $('.text-validation-error')
-        var productsEmptyError = 'Для выполнение действия выберите товары!'
+        let inputData = new FormData;
+        let productInput = document.getElementsByName('selection[]');
+        let validError = $('.text-validation-error')
+        let productsEmptyError = 'Для выполнение действия выберите товары!'
 
         inputData.append('action', cat.val());
         inputData.append('value', subCat.val());
@@ -76,11 +76,11 @@ $(document).ready(function ($) {
         }
     })
 
-    var paginationSize = new $('#pagination');
+    let paginationSize = new $('#pagination');
 
     paginationSize.on('change', function () {
 
-        var inputData = new FormData;
+        let inputData = new FormData;
 
         inputData.append('paginationSize', paginationSize.val());
 

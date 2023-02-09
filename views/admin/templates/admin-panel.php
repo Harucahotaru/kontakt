@@ -1,4 +1,9 @@
-<?php if (Yii::$app->user->can('admin')): ?>
+<?php
+
+use app\classes\AdminMenu;
+$adminPanel = new AdminMenu();
+?>
+<?php if ($adminTiles = $adminPanel->getUserMenuTiles()): ?>
     <div class="offcanvas offcanvas-end" style="width: 150px" tabindex="-1" id="offcanvasExample"
          aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header text-center" style="display: block">
@@ -6,52 +11,14 @@
             </h5>
         </div>
         <div class="offcanvas-body">
-
-            <div class="row mt-2 text-center">
-                <a href="/admin/slider" data-bs-toggle="tooltip" data-bs-placement="left" title="Слайдер">
-                    <i class="fa-regular fa-images fa-4x"></i>
-                </a>
-            </div>
-<!--            <div class="row mt-2 text-center">-->
-<!--                <a href="/admin/news" data-bs-toggle="tooltip" data-bs-placement="left" title="Новости">-->
-<!--                    <i class="fa-solid fa-newspaper fa-4x"></i>-->
-<!--                </a>-->
-<!--            </div>-->
-            <div class="row mt-2 text-center">
-                <a href="/admin/pages" data-bs-toggle="tooltip" data-bs-placement="left" title="Контент страниц">
-                    <i class="fa-regular fa-file-word fa-4x"></i>
-                </a>
-            </div>
-            <div class="row mt-2 text-center">
-                <a href="/admin/products" data-bs-toggle="tooltip" data-bs-placement="left" title="Товары">
-                    <i class="fa-solid fa-basket-shopping fa-4x"></i>
-                </a>
-            </div>
-            <div class="row mt-2 text-center">
-                <a href="/admin/import-excel" data-bs-toggle="tooltip" data-bs-placement="left" title="Импорт товаров">
-                    <i class="fa-solid fa-file-import fa-4x"></i>
-                </a>
-            </div>
-            <div class="row mt-2 text-center">
-                <a href="/admin/products-categories" data-bs-toggle="tooltip" data-bs-placement="left" title="Категории товаров">
-                    <i class="fa-solid fa-list fa-4x"></i>
-                </a>
-            </div>
-            <div class="row mt-2 text-center">
-                <a href="/brands" data-bs-toggle="tooltip" data-bs-placement="left" title="Производители">
-                    <i class="fa-solid fa-industry fa-4x"></i>
-                </a>
-            </div>
-            <div class="row mt-2 text-center">
-                <a href="/reviews" data-bs-toggle="tooltip" data-bs-placement="left" title="Отзывы">
-                    <i class="fa-solid fa-users-line fa-4x"></i>
-                </a>
-            </div>
-            <div class="row mt-2 text-center">
-                <a href="/controller-rules" data-bs-toggle="tooltip" data-bs-placement="left" title="Управление доступом">
-                    <i class="fa-solid fa-pen-ruler fa-4x"></i>
-                </a>
-            </div>
+            <?php foreach ($adminTiles as $tile): ?>
+                <div class="row mt-2 text-center">
+                    <a href="<?= $tile['url'] ?>" data-bs-toggle="tooltip" data-bs-placement="left"
+                       title="<?= $tile['title'] ?>">
+                        <?= $tile['icon'] ?>
+                    </a>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
     <div class="position-fixed" style="right:10%; top:10%; z-index: 300">

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\classes\RecommendedProducts;
 use app\helpers\CookieHelper;
 use app\models\Brands;
 use app\models\Products;
@@ -61,6 +62,9 @@ class CatalogController extends Controller
             return $this->render('index', [
                 'model' => null
             ]);
+        }
+        if (!empty($product->category_id)) {
+            RecommendedProducts::addNewCategory($product->category_id);
         }
 
         return $this->render('view', [

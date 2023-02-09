@@ -36,7 +36,7 @@ use yii\widgets\Pjax;
                 </div>
             </div>
             <div class="row">
-                <a href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
+                <a data-pjax=0 href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
                 <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : ''?>">

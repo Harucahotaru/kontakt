@@ -4,6 +4,7 @@ use app\exceptions\ProductException;
 use app\models\Products;
 use app\models\ProductsCategories;
 use yii\widgets\ListView;
+use yii\widgets\Pjax;
 
 /* @var $pagination */
 
@@ -38,6 +39,9 @@ try {
     throw new ProductException('Не удалось найти товар');
 }
 ?>
+<?php Pjax::begin([
+    'timeout' => 1000
+]); ?>
 <?= ListView::widget([
     'dataProvider' => $provider,
     'itemView' => '_products_item',
@@ -62,4 +66,5 @@ try {
         'nextPageCssClass' => 'parent-products-pagination-next',
     ],
 ]);
+Pjax::end();
 ?>

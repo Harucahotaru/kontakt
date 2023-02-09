@@ -44,4 +44,3 @@ $this->params['breadcrumbs'] = isset($model)
         ) ?>
     </div>
 </div>
-

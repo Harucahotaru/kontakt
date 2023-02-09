@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\classes\Dropdown;
+use app\classes\RecommendedProducts;
 use app\exceptions\ProductException;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -494,7 +495,7 @@ class Products extends \yii\db\ActiveRecord
                 $query = self::find()->where(['on_sale' => self::STATUS_ACTIVE]);
                 break;
             case 'handshake':
-                $query = self::find()->where(['on_sale' => 1]);
+                $query = self::find()->where(['category_id' => RecommendedProducts::getViewedCategories()]);
                 break;
             default:
                 $query = self::find();

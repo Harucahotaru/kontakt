@@ -21,7 +21,7 @@ $this->title = 'Контакт "Электротовары"';
                         <div>Новинки</div>
                     </div>
                 </a>
-                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/handshake" style="cursor: default; pointer-events: none">
+                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/handshake">
                     <div class="bg-warning products-button-l products-button">
                         <div>Рекомендуем</div>
                     </div>

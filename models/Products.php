@@ -50,6 +50,8 @@ class Products extends \yii\db\ActiveRecord
 
     const ACTION_CHANGE_ACTIVE = 'change_active';
 
+    const BASE_PAGINATION = 40;
+
     /**
      * {@inheritdoc}
      */
@@ -195,7 +197,7 @@ class Products extends \yii\db\ActiveRecord
      * @param int|null $pagination
      * @return ActiveDataProvider
      */
-    public static function getAllProductsProvider(?int $pagination = 20): ActiveDataProvider
+    public static function getAllProductsProvider(?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
     {
         return new ActiveDataProvider([
             'query' => self::find(),
@@ -215,7 +217,7 @@ class Products extends \yii\db\ActiveRecord
      * @param int|null $catalogId
      * @return ActiveDataProvider
      */
-    public static function getProductsByCategoryProvider(?int $pagination = 20, ?int $categoryId = null): ActiveDataProvider
+    public static function getProductsByCategoryProvider(?int $pagination = self::BASE_PAGINATION, ?int $categoryId = null): ActiveDataProvider
     {
         return new ActiveDataProvider([
             'query' => self::find()->where(['category_id' => $categoryId]),
@@ -420,9 +422,9 @@ class Products extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return string[]
+     * @return array
      */
-    public static function UseTermList()
+    public static function UseTermList(): array
     {
         return [
             'Менее месяца',
@@ -450,7 +452,7 @@ class Products extends \yii\db\ActiveRecord
         return json_encode($searchList);
     }
 
-    public static function getProductsBySearchProvider(string $searchString, ?int $pagination = 20): ActiveDataProvider
+    public static function getProductsBySearchProvider(string $searchString, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
     {
         $categories = ProductsCategories::find()
             ->select(['id'])
@@ -485,7 +487,7 @@ class Products extends \yii\db\ActiveRecord
      *
      * @throws ProductException
      */
-    public static function getProductsBySystemCategoryProvider(string $categoryName, ?int $pagination = 20): ActiveDataProvider
+    public static function getProductsBySystemCategoryProvider(string $categoryName, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
     {
         switch ($categoryName) {
             case 'new-products':
@@ -515,7 +517,7 @@ class Products extends \yii\db\ActiveRecord
         ]);
     }
 
-    public static function getProductsByBrandProvider(int $brandId, ?int $pagination = 20): ActiveDataProvider
+    public static function getProductsByBrandProvider(int $brandId, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
     {
         return new ActiveDataProvider([
             'query' => self::find()->where(['brand_id' => $brandId]),
@@ -549,7 +551,7 @@ class Products extends \yii\db\ActiveRecord
         return date('Y-m-d h:i:s', $time);
     }
 
-    public static function getCartProductsProvider(int $userId, ?int $pagination = 20): ActiveDataProvider
+    public static function getCartProductsProvider(int $userId, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
     {
         $productsIds = UserBasket::find()->select('products_ids')->where(['user_id' => $userId])->one();
         $productsIds = array_keys(json_decode($productsIds->products_ids, true));

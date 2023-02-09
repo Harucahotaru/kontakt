@@ -1,5 +1,6 @@
 <?php
 
+use app\controllers\CatalogController;
 use app\exceptions\ProductException;
 use app\models\Products;
 use app\models\ProductsCategories;
@@ -19,8 +20,17 @@ use yii\widgets\Pjax;
 /* @var ProductsCategories $category */
 
 $category = !empty($categoryId) ? ProductsCategories::getById($categoryId) : null;
+
+if (!empty($category)) {
+    $label = $category->name;
+} elseif (!empty($systemCategory)) {
+    $label = CatalogController::getLabelBySystemCategory($systemCategory);
+} else {
+    $label = 'Каталог';
+}
 ?>
-<h2 class="py-3"><?= !empty($category) ? $category->name : 'Каталог' ?></h2>
+
+<h2 class="py-3"><?= $label ?></h2>
 
 <?php
 try {
@@ -51,12 +61,12 @@ try {
     'options' => [
         'class' => 'row'
     ],
-    'layout' => "{pager}\n{items}\n",
+    'layout' => "{pager}\n{summary}\n{items}\n{pager}",
     'emptyText' => 'Мы не смогли найти тут товары ...',
     'pager' => [
         'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
         'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',
-        'maxButtonCount' => 10,
+        'maxButtonCount' => 30,
         'options' => [
             'class' => 'pagination parent-products-pagination pt-4'
         ],

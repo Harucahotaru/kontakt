@@ -20,6 +20,11 @@ class CatalogController extends Controller
         'sale',
         'handshake',
     ];
+    public const SYSTEM_CATEGORIES_LABELS = [
+        'new-products' => 'Новинки',
+        'sale' => 'Товары по акции',
+        'handshake' => 'Подобрано специально для вас',
+    ];
 
     /**
      * @param $mainCategory
@@ -125,8 +130,23 @@ class CatalogController extends Controller
         return array_diff(self::getCookieValue(), array($productId));
     }
 
-    private function isSystemCategories($categoryName): bool
+    /**
+     * @param string $categoryName
+     *
+     * @return bool
+     */
+    private function isSystemCategories(string $categoryName): bool
     {
         return in_array($categoryName, self::SYSTEM_CATEGORIES);
+    }
+
+    /**
+     * @param string $systemCategory
+     *
+     * @return string
+     */
+    public static function getLabelBySystemCategory(string $systemCategory): string
+    {
+        return self::SYSTEM_CATEGORIES_LABELS[$systemCategory];
     }
 }

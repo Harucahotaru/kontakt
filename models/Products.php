@@ -8,8 +8,10 @@ use app\exceptions\ProductException;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
+use yii\db\Expression;
 use yii\web\UploadedFile;
 
 /**
@@ -194,42 +196,22 @@ class Products extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param int|null $pagination
-     * @return ActiveDataProvider
+     *
+     * @return ActiveQuery
      */
-    public static function getAllProductsProvider(?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
+    public static function getAllProductsProvider(): ActiveQuery
     {
-        return new ActiveDataProvider([
-            'query' => self::find(),
-            'pagination' => [
-                'pageSize' => $pagination,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'date_c' => SORT_DESC,
-                ]
-            ],
-        ]);
+        return self::find();
     }
 
     /**
-     * @param int|null $pagination
-     * @param int|null $catalogId
-     * @return ActiveDataProvider
+     * @param int|null $categoryId
+     *
+     * @return ActiveQuery
      */
-    public static function getProductsByCategoryProvider(?int $pagination = self::BASE_PAGINATION, ?int $categoryId = null): ActiveDataProvider
+    public static function getProductsByCategoryProvider(?int $categoryId = null): ActiveQuery
     {
-        return new ActiveDataProvider([
-            'query' => self::find()->where(['category_id' => $categoryId]),
-            'pagination' => [
-                'pageSize' => $pagination,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'date_c' => SORT_DESC,
-                ]
-            ],
-        ]);
+        return self::find()->where(['category_id' => $categoryId]);
     }
 
     /**
@@ -452,7 +434,73 @@ class Products extends \yii\db\ActiveRecord
         return json_encode($searchList);
     }
 
-    public static function getProductsBySearchProvider(string $searchString, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
+    public static function addSortToQuery(ActiveQuery $query, array $sort): ActiveQuery
+    {
+        foreach ($sort as $name => $item) {
+            switch ($name) {
+                case 'sort_type':
+                    if (!empty($item)) {
+                        $query = Products::sortBySortType($query, $item);
+                    }
+                    break;
+                case 'in_stock':
+                    break;
+                case 'cost':
+                    if (!empty($item['from'])) {
+                        $query->andWhere(['>=', 'currency', $item['from']]);
+                    }
+                    if (!empty($item['to'])) {
+                        $query->andWhere(['<=', 'currency', $item['to']]);
+                    }
+                    break;
+                case 'brand':
+                    if (!empty($item)) {
+                        $query->where(['brand_id' => $item]);
+                    }
+                    break;
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param ActiveQuery $query
+     * @param string $item
+     *
+     * @return ActiveQuery
+     */
+    public static function sortBySortType(ActiveQuery $query, string $item): ActiveQuery
+    {
+        switch ($item) {
+            case 'new':
+                $query->orderBy('date_c DESC');
+                break;
+            case 'popularity':
+                $query->leftJoin('reviews', 'reviews.entity_id = products.id')
+                    ->select(['COUNT(reviews.id) as cnt', 'products.*'])
+                    ->groupBy('products.id')
+                    ->orderBy('cnt DESC');
+                break;
+            case 'cost_desc':
+                $query->select(['products.*', new Expression('IF(products.on_sale = 0, products.currency, products.sale) as settlement_price')])
+                    ->orderBy('settlement_price DESC');
+                break;
+            case 'cost_asc':
+                $query->select(['products.*', new Expression('IF(products.on_sale = 0, products.currency, products.sale) as settlement_price')])
+                    ->orderBy('settlement_price ASC');
+                break;
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param string $searchString
+     *
+     * @return ActiveQuery
+     */
+    public static function getProductsBySearchProvider(string $searchString): ActiveQuery
     {
         $categories = ProductsCategories::find()
             ->select(['id'])
@@ -465,33 +513,20 @@ class Products extends \yii\db\ActiveRecord
             $query = self::find()->filterWhere(['like', 'name', $searchString]);
         }
 
-        return new ActiveDataProvider([
-            'query' => $query,
-
-            'pagination' => [
-                'pageSize' => $pagination,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'date_c' => SORT_DESC,
-                ]
-            ],
-        ]);
+        return $query;
     }
 
     /**
      * @param string $categoryName
-     * @param int|null $pagination
-     *
-     * @return ActiveDataProvider
+     * @return ActiveQuery
      *
      * @throws ProductException
      */
-    public static function getProductsBySystemCategoryProvider(string $categoryName, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
+    public static function getProductsBySystemCategoryProvider(string $categoryName): ActiveQuery
     {
         switch ($categoryName) {
             case 'new-products':
-                $query = self::find()->where(['>=', 'date_c', (new Products)->getNewProductsLastDay()]);
+                $query = self::find()->where(['>=', 'products.date_c', (new Products)->getNewProductsLastDay()]);
                 break;
             case 'sale':
                 $query = self::find()->where(['on_sale' => self::STATUS_ACTIVE]);
@@ -504,32 +539,17 @@ class Products extends \yii\db\ActiveRecord
                 break;
         }
 
-        return new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => $pagination,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'date_c' => SORT_DESC,
-                ]
-            ],
-        ]);
+        return $query;
     }
 
-    public static function getProductsByBrandProvider(int $brandId, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
+    /**
+     * @param int $brandId
+     *
+     * @return ActiveQuery
+     */
+    public static function getProductsByBrandProvider(int $brandId): ActiveQuery
     {
-        return new ActiveDataProvider([
-            'query' => self::find()->where(['brand_id' => $brandId]),
-            'pagination' => [
-                'pageSize' => $pagination,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'date_c' => SORT_DESC,
-                ]
-            ],
-        ]);
+        return  self::find()->where(['brand_id' => $brandId]);
     }
 
     /**
@@ -589,6 +609,16 @@ class Products extends \yii\db\ActiveRecord
             100 => 100,
             200 => 200,
             400 => 400,
+        ];
+    }
+
+    public static function sortList(): array
+    {
+        return [
+            'new' => 'По новинкам',
+            'popularity' => 'По популярности',
+            'cost_desc' => 'По убыванию цен',
+            'cost_asc' => 'По возрастанию цен',
         ];
     }
 }

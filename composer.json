@@ -32,7 +32,8 @@
         "ext-json": "*",
         "kartik-v/yii2-widget-depdrop": "dev-master",
         "kartik-v/yii2-sortable": "dev-master",
-        "kartik-v/yii2-sortable-input": "dev-master"
+        "kartik-v/yii2-sortable-input": "dev-master",
+        "kartik-v/yii2-money": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

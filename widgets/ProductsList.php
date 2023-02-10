@@ -18,6 +18,8 @@ class ProductsList extends Widget
 
     public ?int $brandId = null;
 
+    public ?array $sort = null;
+
     public function init()
     {
         parent::init();
@@ -26,14 +28,13 @@ class ProductsList extends Widget
 
     public function run()
     {
-        $products = Products::getProductsByCategory($this->categoryId);
         return $this->render('products-list/index', [
             'categoryId' => $this->categoryId,
-            'products'  => $products,
             'pagination' => $this->maxPagination,
             'searchString' => $this->searchString,
             'systemCategory' => $this->systemCategory,
             'brandId' => $this->brandId,
+            'sort' => $this->sort,
         ]);
     }
 }

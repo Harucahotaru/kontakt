@@ -50,7 +50,24 @@ class CatalogController extends Controller
         return $this->render('index', [
             'model' => $model,
             'systemCategory' => $systemCategory,
+            'sort' => $this->formCatalogSort(),
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function formCatalogSort(): array
+    {
+        return [
+            'sort_type' => Yii::$app->request->get('sort_type'),
+            'in_stock' => (bool)Yii::$app->request->get('in_stock'),
+            'cost' => [
+                'from' => Yii::$app->request->get('cost_from'),
+                'to' => Yii::$app->request->get('cost_to'),
+            ],
+            'brand' => Yii::$app->request->get('brand'),
+        ];
     }
 
     /**
@@ -102,7 +119,7 @@ class CatalogController extends Controller
     {
         $cookieOldValue = self::getCookieValue();
         if (CookieHelper::checkCookieValueRepeat($cookieOldValue, $productId)) {
-          return false;
+            return false;
         }
         CookieHelper::setCookie($productId, self::VIEWED_PRODUCTS_COOKIE, 36000, $cookieOldValue);
 

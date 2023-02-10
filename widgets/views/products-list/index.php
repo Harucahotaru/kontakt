@@ -4,6 +4,7 @@ use app\controllers\CatalogController;
 use app\exceptions\ProductException;
 use app\models\Products;
 use app\models\ProductsCategories;
+use yii\data\ActiveDataProvider;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
@@ -16,6 +17,8 @@ use yii\widgets\Pjax;
 /* @var $systemCategory */
 
 /* @var $brandId */
+
+/* @var $sort */
 
 /* @var ProductsCategories $category */
 
@@ -35,19 +38,43 @@ if (!empty($category)) {
 <?php
 try {
     if (!empty($searchString)) {
-        $provider = Products::getProductsBySearchProvider($searchString, $pagination);
+        $query = Products::getProductsBySearchProvider($searchString);
     } elseif (!empty($categoryId)) {
-        $provider = Products::getProductsByCategoryProvider($pagination, $categoryId);
+        $query = Products::getProductsByCategoryProvider($categoryId);
     } elseif (!empty($systemCategory)) {
-        $provider = Products::getProductsBySystemCategoryProvider($systemCategory, $pagination);
+        $query = Products::getProductsBySystemCategoryProvider($systemCategory);
     } elseif (!empty($brandId)) {
-        $provider = Products::getProductsByBrandProvider($brandId, $pagination);
+        $query = Products::getProductsByBrandProvider($brandId);
     } else {
-        $provider = Products::getAllProductsProvider($pagination);
+        $query = Products::getAllProductsProvider();
     }
+
+    if (!empty($sort)) {
+        $query = Products::addSortToQuery($query, $sort);
+    }
+
+//    var_dump($query->createCommand()->rawSql);exit();
+
 } catch (ProductException $e) {
     throw new ProductException('Не удалось найти товар');
 }
+
+if (empty($pagination)) {
+    $pagination = Products::BASE_PAGINATION;
+}
+
+$provider = new ActiveDataProvider([
+    'query' => $query,
+
+    'pagination' => [
+        'pageSize' => $pagination,
+    ],
+    'sort' => [
+        'defaultOrder' => [
+            'date_c' => SORT_DESC,
+        ]
+    ],
+]);
 ?>
 <?php Pjax::begin([
     'timeout' => 1000

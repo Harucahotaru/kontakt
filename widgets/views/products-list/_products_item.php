@@ -5,6 +5,7 @@
 use app\models\UserBasket;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
+
 ?>
 <div class="product-card my-3">
     <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
@@ -25,23 +26,25 @@ use yii\widgets\Pjax;
         <div class="product-card-body">
             <h5 class="product-card-title"><?= $model->name ?></h5>
             <div class="product-card-description"><?= $model->description ?></div>
-            <div class="row py-3 row">
-                <!--            <div class="col-lg-6 card-price -->
-                <?php //($model->on_sale == 0) ? '': 'card-price-on-sale'; ?><!--">-->
-                <!--                <s class="card-price-past">--><?php //$model->sale?><!--</s>-->
-                <!--                --><?php //$model->cost?>
-                <!--                <i class="fas fa-ruble-sign card-price-icon"></i>-->
-                <!--            </div>-->
-                <div class="card-basket col-lg-6">
-                </div>
+            <div class="row py-3">
+<!--                --><?php //if (!empty($model->currency)): ?>
+<!--                <div class="col-lg-12 card-price-->
+<!--                --><?php //echo ($model->on_sale == 0) ? '' : 'card-price-on-sale'; ?><!--">-->
+<!--                    --><?php //if ($model->on_sale == 1): ?>
+<!--                    <s class="card-price-past">--><?php //echo $model->currency ?><!--</s>-->
+<!--                    --><?php //endif ?>
+<!--                    --><?php //echo ($model->on_sale == 1) ? $model->sale : $model->currency ?>
+<!--                    <i class="fas fa-ruble-sign card-price-icon"></i>-->
+<!--                </div>-->
+<!--                --><?php //endif ?>
             </div>
             <div class="row">
                 <a data-pjax=0 href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
-                <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : ''?>">
+                <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>">
 
-                    <?php Pjax::begin(['enablePushState' => false])?>
+                    <?php Pjax::begin(['enablePushState' => false]) ?>
 
                     <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/cart/add-to-cart', 'options' => ['data' => ['pjax' => true]]]); ?>
 
@@ -51,18 +54,19 @@ use yii\widgets\Pjax;
 
                     <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
 
-                    <button type="submit" class="product-card-button product-card-button-add bg-warning add-button" id="add_<?=$model->id?>">
+                    <button type="submit" class="product-card-button product-card-button-add bg-warning add-button"
+                            id="add_<?= $model->id ?>">
                         <span class="fas fa-cart-plus"></span>
                     </button>
 
                     <?php ActiveForm::end(); ?>
 
-                    <?php Pjax::end()?>
+                    <?php Pjax::end() ?>
 
                 </div>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
                 <script>
-                    $( ".add-button" ).click(function() {
+                    $(".add-button").click(function () {
                         $(this).animate({
                             "top": "-=5px"
                         }, 200).animate({

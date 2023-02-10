@@ -34,6 +34,7 @@ class AppAsset extends AssetBundle
         'js/site.js',
         'js/searchLine.js',
         'js/massActions.js',
+        'js/productsSort.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

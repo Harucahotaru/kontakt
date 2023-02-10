@@ -3,6 +3,7 @@
 use app\classes\AdminMenu;
 $adminPanel = new AdminMenu();
 ?>
+<?php if (Yii::$app->user->isGuest): ?>
 <?php if ($adminTiles = $adminPanel->getUserMenuTiles()): ?>
     <div class="offcanvas offcanvas-end" style="width: 150px" tabindex="-1" id="offcanvasExample"
          aria-labelledby="offcanvasExampleLabel">
@@ -27,4 +28,5 @@ $adminPanel = new AdminMenu();
             <i class="fa-solid fa-gear"></i>
         </a>
     </div>
+<?php endif; ?>
 <?php endif; ?>

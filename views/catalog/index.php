@@ -16,7 +16,8 @@ use yii\bootstrap5\Html;
 
 /* @var $sort */
 
-$url = '/catalog' . '/' . $systemCategory . (!empty($model)) ?? $model->id;
+$url = (!empty($model)) ? "/catalog/$model->url_name" : "/catalog/$systemCategory" ;
+
 $urlPattern = "/catalog";
 $this->params['breadcrumbs'] = isset($model)
     ? array_reverse($model->breadCrumbs)

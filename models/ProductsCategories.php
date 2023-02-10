@@ -169,9 +169,9 @@ class ProductsCategories extends \yii\db\ActiveRecord
         }
         $categories = $query->all();
 
-        /** @var ProductsCategories $categories*/
+        /** @var ProductsCategories $category*/
         foreach ($categories as $category) {
-            $searchList[] = ['value' => "Категория - $category->name", 'url' => "/catalog/$category->id",];
+            $searchList[] = ['value' => "Категория - $category->name", 'url' => "/catalog/$category->url_name",];
         }
 
         return json_encode($searchList);

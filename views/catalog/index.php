@@ -16,13 +16,14 @@ use yii\bootstrap5\Html;
 
 /* @var $sort */
 
-$url = (!empty($model)) ? "/catalog/$model->url_name" : "/catalog/$systemCategory" ;
+$url = (!empty($model)) ? $model->getFullUrlString() : "/catalog/$systemCategory" ;
 
 $urlPattern = "/catalog";
 $this->params['breadcrumbs'] = isset($model)
     ? array_reverse($model->breadCrumbs)
     : [['label' => 'Каталог', 'url' => '/catalog']];
 ?>
+
 <div class="container-grey">
     <div class="container-catalog p-5">
         <div class="row">

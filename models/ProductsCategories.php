@@ -159,6 +159,40 @@ class ProductsCategories extends \yii\db\ActiveRecord
         return $breadCrumbs;
     }
 
+    /**
+     * @param $id
+     * @param $url
+     *
+     * @return array|mixed
+     */
+    public function getFullUrl($id = null, $url = []): array
+    {
+        $model = ($id !== null) ? self::findOne(['id' => $id]) : $this;
+
+        $url[] = [$model->url_name];
+
+        if ($model->parent_id !== null) {
+            $url = array_reverse($this->getFullUrl($model->parent_id, $url));
+        }
+
+        return array_reverse($url);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullUrlString(): string
+    {
+        $url = '/catalog';
+        $categories = $this->getFullUrl();
+
+        foreach ($categories as $category) {
+            $url .= "/$category[0]";
+        }
+
+        return $url;
+    }
+
     public static function getSearchList(string $searchString = ''): string
     {
         $searchList = [];

@@ -17,11 +17,14 @@ class RecommendedProducts
     public static function addNewCategory(int $category_id)
     {
         $oldCookie = Yii::$app->request->cookies->getValue(self::RECOMMENDED_CATEGORIES_COOKIE, '[]');
+        if (is_string($oldCookie)) {
+            $oldCookie = json_decode($oldCookie);
+        }
         $newCookie = array_merge($oldCookie, array($category_id));
 
         Yii::$app->response->cookies->add(new \yii\web\Cookie([
             'name' => self::RECOMMENDED_CATEGORIES_COOKIE,
-            'value' => (count($newCookie) >= 4) ? array_slice($newCookie, 1) : $newCookie,
+            'value' => json_encode((count($newCookie) >= 4) ? array_slice($newCookie, 1) : $newCookie),
         ]));
     }
 
@@ -30,7 +33,11 @@ class RecommendedProducts
      */
     public static function getViewedCategories(): array
     {
-        var_dump(Yii::$app->request->cookies->getValue(self::RECOMMENDED_CATEGORIES_COOKIE, '[]'));exit();
-        return Yii::$app->request->cookies->getValue(self::RECOMMENDED_CATEGORIES_COOKIE, '[]');
+        $cookie = Yii::$app->request->cookies->getValue(self::RECOMMENDED_CATEGORIES_COOKIE, '[]');
+
+        if (is_string($cookie)) {
+            $cookie = json_decode($cookie);
+        }
+        return $cookie;
     }
 }

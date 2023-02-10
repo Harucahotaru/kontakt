@@ -46,16 +46,15 @@ $this->params['breadcrumbs'] = isset($model)
                     </div>
                 </div>
                 <div class="py-3">
-                    <b class="py-1">Производители:</b>
-                    <?= Html::checkboxList('brand', $sort['brand'], Brands::getBrandNamesList(), [
-                        'id' => 'productsSortDropdown'
-                    ]) ?>
+                    <b class="py-3">Производители:</b>
+                    <div class="brands-input-scroll">
+                        <?= Html::checkboxList('brand', $sort['brand'], Brands::getBrandNamesList(), [
+                            'id' => 'productsSortDropdown'
+                        ]) ?>
+                    </div>
                 </div>
                 <div>
-                    <?= Html::a('Отчистить фильтр',
-                        $url,
-                        ['type' => 'button', 'class' => 'btn btn-secondary w-100 my-2']
-                    ) ?>
+                    <?= Html::a('Отчистить фильтр', $url, ['type' => 'button', 'class' => 'btn btn-secondary w-100 my-2']) ?>
                 </div>
                 <div>
                     <?= Html::submitButton('Показать', ['class' => 'btn btn-warning w-100 my-2   ']) ?>

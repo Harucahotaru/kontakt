@@ -33,7 +33,7 @@ class CatalogController extends Controller
      *
      * @return string
      */
-    public function actionIndex($mainCategory, $subCategory = null, $subCategory2 = null): string
+    public function actionIndex($mainCategory = null, $subCategory = null, $subCategory2 = null): string
     {
         $model = null;
         $systemCategory = null;

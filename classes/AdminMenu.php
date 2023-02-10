@@ -64,10 +64,10 @@ class AdminMenu
     public function getMainUserRole(): AuthAssignment
     {
         $userRoles = AuthAssignment::find()->where(['user_id' => Yii::$app->user->id])->all();
+        var_dump($userRoles);exit();
         if (count($userRoles) === 1) {
             return $userRoles[0];
         }
-        var_dump($userRoles);exit();
         /** @var AuthAssignment $role */
         foreach ($userRoles as $roleKey => $role) {
            if ($role->item_name === 'admin') {

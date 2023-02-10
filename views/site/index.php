@@ -11,7 +11,7 @@ $this->title = 'Контакт "Электротовары"';
     <div class="container-grey container-100">
         <div class="container container-grey py-4 ">
             <div class="row text-center">
-                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/sale" style="cursor: default; pointer-events: none">
+                <a class="col-lg-4 menu-text-size-title p-0 " href="/catalog/sale">
                     <div class="bg-warning products-button-r products-button">
                         <div>Товары по акции</div>
                     </div>

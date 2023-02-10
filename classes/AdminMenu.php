@@ -67,6 +67,7 @@ class AdminMenu
         if (count($userRoles) === 1) {
             return $userRoles[0];
         }
+        var_dump($userRoles);exit();
         /** @var AuthAssignment $role */
         foreach ($userRoles as $roleKey => $role) {
            if ($role->item_name === 'admin') {
@@ -82,27 +83,25 @@ class AdminMenu
      */
     public function getUserMenuTiles()
     {
-//        $menuTiles = [];
-//
-//        $userRole = $this->getMainUserRole();
-//        $authItem = AuthItem::findOne(['name' => $userRole->item_name]);
-//
-//
-//        if (!empty($authItem->admin_tiles)) {
-//            if ($authItem->name === 'admin') {
-//                return self::ADMIN_TILES;
-//            }
-//            $tilesNames =  json_decode($authItem->admin_tiles);
-//            foreach ($tilesNames as $tileName) {
-//                if (isset(self::ADMIN_TILES[$tileName])) {
-//                    $menuTiles[$tileName] = self::ADMIN_TILES[$tileName];
-//                }
-//            }
-//
-//            return $menuTiles;
-//        }
+        $menuTiles = [];
 
-        return self::ADMIN_TILES;
+        $userRole = $this->getMainUserRole();
+        $authItem = AuthItem::findOne(['name' => $userRole->item_name]);
+
+
+        if (!empty($authItem->admin_tiles)) {
+            if ($authItem->name === 'admin') {
+                return self::ADMIN_TILES;
+            }
+            $tilesNames =  json_decode($authItem->admin_tiles);
+            foreach ($tilesNames as $tileName) {
+                if (isset(self::ADMIN_TILES[$tileName])) {
+                    $menuTiles[$tileName] = self::ADMIN_TILES[$tileName];
+                }
+            }
+
+            return $menuTiles;
+        }
 
         return false;
     }

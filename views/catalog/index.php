@@ -46,8 +46,8 @@ $this->params['breadcrumbs'] = isset($model)
                     </div>
                 </div>
                 <div class="py-3">
-                    <b class="py-3">Производители:</b>
-                    <div class="brands-input-scroll">
+                    <b class="pm-3">Производители:</b>
+                    <div class="brands-input-scroll px-1">
                         <?= Html::checkboxList('brand', $sort['brand'], Brands::getBrandNamesList(), [
                             'id' => 'productsSortDropdown'
                         ]) ?>

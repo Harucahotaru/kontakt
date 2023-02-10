@@ -64,7 +64,6 @@ class AdminMenu
     public function getMainUserRole(): AuthAssignment
     {
         $userRoles = AuthAssignment::find()->where(['user_id' => Yii::$app->user->id])->all();
-        var_dump($userRoles);exit();
         if (count($userRoles) === 1) {
             return $userRoles[0];
         }
@@ -83,25 +82,27 @@ class AdminMenu
      */
     public function getUserMenuTiles()
     {
-        $menuTiles = [];
+//        $menuTiles = [];
+//
+//        $userRole = $this->getMainUserRole();
+//        $authItem = AuthItem::findOne(['name' => $userRole->item_name]);
+//
+//
+//        if (!empty($authItem->admin_tiles)) {
+//            if ($authItem->name === 'admin') {
+//                return self::ADMIN_TILES;
+//            }
+//            $tilesNames =  json_decode($authItem->admin_tiles);
+//            foreach ($tilesNames as $tileName) {
+//                if (isset(self::ADMIN_TILES[$tileName])) {
+//                    $menuTiles[$tileName] = self::ADMIN_TILES[$tileName];
+//                }
+//            }
+//
+//            return $menuTiles;
+//        }
 
-        $userRole = $this->getMainUserRole();
-        $authItem = AuthItem::findOne(['name' => $userRole->item_name]);
-
-
-        if (!empty($authItem->admin_tiles)) {
-            if ($authItem->name === 'admin') {
-                return self::ADMIN_TILES;
-            }
-            $tilesNames =  json_decode($authItem->admin_tiles);
-            foreach ($tilesNames as $tileName) {
-                if (isset(self::ADMIN_TILES[$tileName])) {
-                    $menuTiles[$tileName] = self::ADMIN_TILES[$tileName];
-                }
-            }
-
-            return $menuTiles;
-        }
+        return self::ADMIN_TILES;
 
         return false;
     }

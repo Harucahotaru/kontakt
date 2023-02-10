@@ -30,6 +30,7 @@ class RecommendedProducts
      */
     public static function getViewedCategories(): array
     {
+        var_dump(Yii::$app->request->cookies->getValue(self::RECOMMENDED_CATEGORIES_COOKIE, '[]'));exit();
         return Yii::$app->request->cookies->getValue(self::RECOMMENDED_CATEGORIES_COOKIE, '[]');
     }
 }

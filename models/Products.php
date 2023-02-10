@@ -428,7 +428,7 @@ class Products extends \yii\db\ActiveRecord
 
         /** @var Products $product */
         foreach ($products as $product) {
-            $searchList[] = ['value' => $product->name, 'url' => "/catalog/view/$product->id"];
+            $searchList[] = ['value' => "товар - $product->name", 'url' => "/catalog/view/$product->id"];
         }
 
         return json_encode($searchList);

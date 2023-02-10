@@ -171,10 +171,7 @@ class ProductsCategories extends \yii\db\ActiveRecord
 
         /** @var ProductsCategories $categories*/
         foreach ($categories as $category) {
-            $searchList[] = [
-                'value' => $category->name,
-            'url' => "/catalog/$category->id",
-            ];
+            $searchList[] = ['value' => "Категория - $category->name", 'url' => "/catalog/$category->id",];
         }
 
         return json_encode($searchList);

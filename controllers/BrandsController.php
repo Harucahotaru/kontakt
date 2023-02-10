@@ -37,7 +37,7 @@ class BrandsController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new BrandsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -51,10 +51,12 @@ class BrandsController extends Controller
     /**
      * Displays a single Brands model.
      * @param int $id Id
+     *
      * @return string
+     *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -64,6 +66,7 @@ class BrandsController extends Controller
     /**
      * Creates a new Brands model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return string|\yii\web\Response
      */
     public function actionCreate()

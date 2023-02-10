@@ -165,7 +165,7 @@ class Brands extends \yii\db\ActiveRecord
 
         /** @var Brands $brand */
         foreach ($brands as $brand) {
-            $searchList[] = ['value' => $brand->name, 'url' => "/catalog/brand/$brand->id"];
+            $searchList[] = ['value' => "Производитель - $brand->name", 'url' => "/catalog/brand/$brand->id"];
         }
 
         return json_encode($searchList);

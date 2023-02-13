@@ -1,11 +1,14 @@
 <?php
 
-/** @var \app\models\Products $model * */
+/** @var Products $model * */
 
+use app\models\Products;
+use app\models\User;
 use app\models\UserBasket;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
+$user = new User()
 ?>
 <div class="product-card my-3">
     <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
@@ -27,16 +30,18 @@ use yii\widgets\Pjax;
             <h5 class="product-card-title"><?= $model->name ?></h5>
             <div class="product-card-description"><?= $model->description ?></div>
             <div class="row py-3">
-<!--                --><?php //if (!empty($model->currency)): ?>
-<!--                <div class="col-lg-12 card-price-->
-<!--                --><?php //echo ($model->on_sale == 0) ? '' : 'card-price-on-sale'; ?><!--">-->
-<!--                    --><?php //if ($model->on_sale == 1): ?>
-<!--                    <s class="card-price-past">--><?php //echo $model->currency ?><!--</s>-->
-<!--                    --><?php //endif ?>
-<!--                    --><?php //echo ($model->on_sale == 1) ? $model->sale : $model->currency ?>
-<!--                    <i class="fas fa-ruble-sign card-price-icon"></i>-->
-<!--                </div>-->
-<!--                --><?php //endif ?>
+                <?php if ($user->canUser(User::CAN_VIEW_COST)): ?>
+                    <?php if (!empty($model->currency)): ?>
+                        <div class="col-lg-12 card-price
+                <?php echo ($model->on_sale == 0) ? '' : 'card-price-on-sale'; ?>">
+                            <?php if ($model->on_sale == 1): ?>
+                                <s class="card-price-past"><?php echo $model->currency ?></s>
+                            <?php endif ?>
+                            <?php echo ($model->on_sale == 1) ? $model->sale : $model->currency ?>
+                            <i class="fas fa-ruble-sign card-price-icon"></i>
+                        </div>
+                    <?php endif ?>
+                <?php endif; ?>
             </div>
             <div class="row">
                 <a data-pjax=0 href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
@@ -54,11 +59,12 @@ use yii\widgets\Pjax;
 
                     <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
 
-                    <button type="submit" class="product-card-button product-card-button-add bg-warning add-button"
-                            id="add_<?= $model->id ?>">
-                        <span class="fas fa-cart-plus"></span>
-                    </button>
-
+                    <?php if ($user->canUser(User::CAN_USE_CART)): ?>
+                        <button type="submit" class="product-card-button product-card-button-add bg-warning add-button"
+                                id="add_<?= $model->id ?>">
+                            <span class="fas fa-cart-plus"></span>
+                        </button>
+                    <?php endif; ?>
                     <?php ActiveForm::end(); ?>
 
                     <?php Pjax::end() ?>

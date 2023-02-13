@@ -11,6 +11,7 @@ use app\models\SignupForm;
 use app\models\User;
 use app\models\UserBasket;
 use app\models\UserSearch;
+use Exception;
 use Yii;
 use yii\base\InvalidParamException;
 use app\classes\AccessControl;
@@ -70,7 +71,10 @@ class UserController extends Controller
     /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return string|\yii\web\Response
+     *
+     * @throws Exception
      */
     public function actionCreate()
     {
@@ -78,6 +82,7 @@ class UserController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                $model->addRoles([User::BASE_USER_ROLE]);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -170,7 +175,7 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 
@@ -182,6 +187,7 @@ class UserController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
+                $user->addRoles([User::BASE_USER_ROLE]);
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }

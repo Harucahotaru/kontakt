@@ -3,7 +3,6 @@
 namespace app\widgets;
 
 use app\assets\widget\ProductsListAsset;
-use app\models\Products;
 use yii\base\Widget;
 
 class ProductsList extends Widget

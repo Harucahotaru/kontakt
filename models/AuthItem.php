@@ -14,6 +14,7 @@ use yii\base\InvalidConfigException;
  * @property string|null $description
  * @property string|null $rule_name
  * @property resource|null $data
+ * @property string|null $rules
  * @property string|null $admin_tiles
  * @property int|null $created_at
  * @property int|null $updated_at
@@ -43,7 +44,7 @@ class AuthItem extends \yii\db\ActiveRecord
         return [
             [['name', 'type'], 'required'],
             [['type', 'created_at', 'updated_at'], 'integer'],
-            [['description', 'data', 'admin_tiles'], 'string'],
+            [['description', 'data', 'admin_tiles', 'rules'], 'string'],
             [['name', 'rule_name'], 'string', 'max' => 64],
             [['name'], 'unique'],
             [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthRule::class, 'targetAttribute' => ['rule_name' => 'name']],
@@ -61,6 +62,7 @@ class AuthItem extends \yii\db\ActiveRecord
             'description' => 'Description',
             'rule_name' => 'Rule Name',
             'data' => 'Data',
+            'rules' => 'Правила роли',
             'admin_tiles' => 'Доступные поля в меню админа',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -166,5 +168,10 @@ class AuthItem extends \yii\db\ActiveRecord
         }
 
         return $list;
+    }
+
+    public static function getByRolesNames(array $rolesNames): array
+    {
+        return self::find()->where(['name' => $rolesNames])->all();
     }
 }

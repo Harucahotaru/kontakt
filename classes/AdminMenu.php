@@ -4,6 +4,7 @@ namespace app\classes;
 
 use app\models\AuthAssignment;
 use app\models\AuthItem;
+use app\models\User;
 use Yii;
 
 class AdminMenu
@@ -66,21 +67,29 @@ class AdminMenu
         ],
     ];
 
-    public function getMainUserRole(): AuthAssignment
+    /**
+     * @return AuthAssignment|null
+     */
+    public function getMainUserRole(): ?AuthAssignment
     {
-        $userRoles = AuthAssignment::find()->where(['user_id' => Yii::$app->user->id])->all();
+        $user = new User();
+        $userRoles = $user->getUserRoles();
 
-        if (count($userRoles) === 1) {
+        if (!empty($userRoles)) {
+            if (count($userRoles) === 1) {
+                return $userRoles[0];
+            }
+            /** @var AuthAssignment $role */
+            foreach ($userRoles as $roleKey => $role) {
+                if ($role->item_name === 'admin') {
+                    return $role;
+                }
+            }
+
             return $userRoles[0];
         }
-        /** @var AuthAssignment $role */
-        foreach ($userRoles as $roleKey => $role) {
-           if ($role->item_name === 'admin') {
-               return $role;
-           }
-        }
 
-        return $userRoles[0];
+        return null;
     }
 
     /**
@@ -91,7 +100,9 @@ class AdminMenu
         $menuTiles = [];
 
         $userRole = $this->getMainUserRole();
-        $authItem = AuthItem::findOne(['name' => $userRole->item_name]);
+        if (!empty($userRole)) {
+            $authItem = AuthItem::findOne(['name' => $userRole->item_name]);
+        }
 
 
         if (!empty($authItem->admin_tiles)) {

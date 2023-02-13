@@ -155,6 +155,8 @@ class AuthItemController extends Controller
      */
     public function actionSaveTiles(): string
     {
+        $authRules = [];
+
         $authItem = $this->findModel(Yii::$app->request->post('auth_item_name'));
         $newAdminTiles = explode(',', Yii::$app->request->post('rules'));
         if (is_string($authItem->admin_tiles)) {
@@ -163,11 +165,23 @@ class AuthItemController extends Controller
         if (!empty($authItem->admin_tiles)) {
             $authItem->admin_tiles = json_encode(array_unique(array_merge($newAdminTiles, $authItem->admin_tiles)));
         } else {
-            $authItem->admin_tiles =  json_encode($newAdminTiles);
+            $authItem->admin_tiles = json_encode($newAdminTiles);
         }
+
+        if (Yii::$app->request->post('can_view_cost') == 1) {
+            $authRules['can_view_cost'] = (bool)Yii::$app->request->post('can_view_cost');
+        }
+
+        if (Yii::$app->request->post('can_use_cart') == 1) {
+            $authRules['can_use_cart'] = (bool)Yii::$app->request->post('can_use_cart');
+        }
+
+        $authItem->rules = json_encode($authRules);
+
         $authItem->save();
+
         if (!empty($authItem->errors)) {
-            throw new Exception("Не удалось права роли $authItem->name");
+            throw new Exception("Не удалось сохранить права роли $authItem->name");
         }
 
         return $this->actionIndex();

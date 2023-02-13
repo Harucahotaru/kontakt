@@ -31,7 +31,13 @@ class User extends ActiveRecord implements IdentityInterface
 
     const STATUS_ACTIVE = 10;
 
+    const BASE_USER_ROLE = 'base_user';
+
     public array $rules = [];
+
+    const CAN_USE_CART = 'can_use_cart';
+
+    const CAN_VIEW_COST = 'can_view_cost';
 
     /**
      * @inheritdoc
@@ -185,7 +191,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -260,13 +266,13 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function generateLogoutButton(): string
     {
-        $userName = Yii::$app->user->isGuest ? '': Yii::$app->user->identity->username;
+        $userName = Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->username;
         return Html::beginForm(['/user/logout'], 'post', ['class' => 'form-inline'])
-        . Html::submitButton(
-            "Logout ($userName)",
-            ['class' => 'btn btn-link logout']
-        )
-        . Html::endForm();
+            . Html::submitButton(
+                "Logout ($userName)",
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm();
     }
 
     /**
@@ -283,8 +289,49 @@ class User extends ActiveRecord implements IdentityInterface
         return $pageSize;
     }
 
+    /**
+     * @return int
+     */
     public function deleteAllUserRules(): int
     {
         return AuthAssignment::deleteAll(['user_id' => $this->id]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserRoles(): array
+    {
+        return AuthAssignment::find()->where(['user_id' => Yii::$app->user->id])->all();
+    }
+
+    public function canUser(string $ruleName): bool
+    {
+        $access = false;
+
+        if (Yii::$app->user->isGuest) {
+            return $access;
+        }
+
+        $userRoles = $this->getUserRoles();
+
+        /** @var AuthAssignment $role */
+        foreach ($userRoles as $role) {
+            $rolesIds[] = $role->item_name;
+        }
+
+        $userAuthItems = AuthItem::getByRolesNames($rolesIds);
+
+        /** @var AuthItem $role */
+        if (!empty($userAuthItems)) {
+            foreach ($userAuthItems as $userAuthItem) {
+                $rules = json_decode($userAuthItem->rules, true);
+                if (isset($rules[$ruleName]) && $rules[$ruleName] === true) {
+                    $access = true;
+                }
+            }
+        }
+
+        return $access;
     }
 }

@@ -42,11 +42,27 @@ class NewsController extends Controller
             ],
         ];
     }
-    public function actionCategories($category = null){
+
+    /**
+     * @param $category
+     *
+     * @return string
+     */
+    public function actionCategories($category = null): string
+    {
         return $this->render('index');
     }
-    public function actionDetailNews($category, $urlnews){
+
+    /**
+     * @param $category
+     * @param $urlnews
+     *
+     * @return string
+     */
+    public function actionDetailNews($category, $urlnews): string
+    {
         $model = News::find()->where(['url_name' => $urlnews])->one();
-        return $this->render('detail',['model' => $model]);
+
+        return $this->render('detail', ['model' => $model]);
     }
 }

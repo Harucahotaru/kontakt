@@ -21,7 +21,7 @@ class AdminMenu
         ],
         'news' => [
             'title' => 'Новости',
-            'url' => '/admin/news',
+            'url' => '/news',
             'icon' => '<i class="fa-solid fa-newspaper fa-4x"></i>'
         ],
         'pages' => [

@@ -19,11 +19,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->textInput() ?>
 
-    <?=
-     $form->field($model, 'content[main][content]')->widget(Summernote::class, [
+    <?= $form->field($model, 'content[main][content]')->widget(Summernote::class, [
         'useKrajeePresets' => true,
-    ]);
-    ?>
+    ]); ?>
+
     <?= $form->field($model, 'content[main][name]')->hiddenInput()->label('') ?>
 
     <div class="form-group">

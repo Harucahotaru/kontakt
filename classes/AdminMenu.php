@@ -59,6 +59,11 @@ class AdminMenu
             'url' => '/controller-rules',
             'icon' => '<i class="fa-solid fa-pen-ruler fa-4x"></i>'
         ],
+        'helpers' => [
+            'title' => 'Подсказки',
+            'url' => '/admin/helpers',
+            'icon' => '<i class="fas fa-info fa-4x"></i>'
+        ],
     ];
 
     public function getMainUserRole(): AuthAssignment

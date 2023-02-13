@@ -65,7 +65,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $layout = 'main-menu';
+        $this->layout = 'main-menu';
         return $this->render('index', ['time' => date('H:i:s')]);
     }
 

@@ -5,13 +5,8 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
-use app\models\Brands;
 use app\widgets\Alert;
-use app\widgets\BrandList;
-use app\widgets\BrandsList;
-use app\widgets\NewsList;
-use app\widgets\ProductsList;
-use app\widgets\Slides;
+use app\widgets\HelpersWidget;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 
@@ -57,6 +52,11 @@ AppAsset::register($this);
             ],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
+    </div>
+    <div class="container p-0 py-2">
+        <div class="accordion" id="accordionExample">
+            <?=HelpersWidget::widget(['url' => '/' . Yii::$app->controller->id . '/' . Yii::$app->controller->action->id])?>
+        </div>
     </div>
     <div>
         <?= $content ?>

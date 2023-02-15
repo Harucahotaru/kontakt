@@ -58,7 +58,7 @@ $user = new User();
     </div>
     <div class="col-lg-1 align-self-center">
         <?php if ($user->canUser(User::CAN_USE_CART)): ?>
-        <a class="fa-stack menu-icon" href="<?= Yii::$app->user->isGuest ? '/user/login' : '#/user/cart' ?>"
+        <a class="fa-stack menu-icon" href="<?= Yii::$app->user->isGuest ? '/user/login' : '/user/cart' ?>"
            style="vertical-align: top;">
             <i class="fa-regular fa-circle fa-stack-2x"></i>
             <i class="fa-solid fa-cart-shopping fa-stack-1x"></i>

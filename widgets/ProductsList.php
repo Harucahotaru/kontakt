@@ -19,6 +19,10 @@ class ProductsList extends Widget
 
     public ?array $sort = null;
 
+    public ?int $limitButtons = null;
+
+    public string $layout = "{pager}\n{summary}\n{items}\n{pager}";
+
     public function init()
     {
         parent::init();
@@ -34,6 +38,8 @@ class ProductsList extends Widget
             'systemCategory' => $this->systemCategory,
             'brandId' => $this->brandId,
             'sort' => $this->sort,
+            'limitButtons' => $this->limitButtons,
+            'layout' => $this->layout,
         ]);
     }
 }

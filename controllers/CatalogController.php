@@ -7,6 +7,7 @@ use app\helpers\CookieHelper;
 use app\models\Brands;
 use app\models\Products;
 use app\models\ProductsCategories;
+use app\models\UserBasket;
 use Yii;
 use yii\db\Exception;
 use yii\web\Controller;
@@ -165,5 +166,34 @@ class CatalogController extends Controller
     public static function getLabelBySystemCategory(string $systemCategory): string
     {
         return self::SYSTEM_CATEGORIES_LABELS[$systemCategory];
+    }
+
+    /**
+     * @return string
+     */
+    public function actionAddToCart(): string
+    {
+        if ($this->request->isPost) {
+            $newProduct = $this->request->post('UserBasket');
+            $cart = UserBasket::getByUser($newProduct['user_id']);
+
+            if (empty($cart)) {
+                $cart = new UserBasket();
+                $cart->createNewCart($newProduct['user_id'], $newProduct['products_ids']);
+            } elseif ($cart instanceof UserBasket) {
+                $addProduct = json_decode($newProduct['products_ids'], true);
+                $products = json_decode($cart->products_ids, true);
+
+                if (array_key_exists(key($addProduct), $products)) {
+                    $products[key($addProduct)]['number']++;
+                    $cart->updateCart($products);
+                } else {
+                    $cart->addToCart($addProduct);
+                }
+
+            }
+        }
+
+        return $this->actionIndex();
     }
 }

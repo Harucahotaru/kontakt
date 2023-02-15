@@ -47,32 +47,35 @@ $user = new User()
                 <a data-pjax=0 href="/catalog/view/<?= $model->id ?>" class="col-lg-9 ">
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
-                <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>">
+                <?php if (Yii::$app->request->url !== Yii::$app->homeUrl): ?>
+                <?php if ($user->canUser(User::CAN_USE_CART)): ?>
+                    <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>">
 
-                    <?php Pjax::begin(['enablePushState' => false]) ?>
+                        <?php Pjax::begin(['enablePushState' => false]) ?>
 
-                    <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/cart/add-to-cart', 'options' => ['data' => ['pjax' => true]]]); ?>
+                        <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/catalog/add-to-cart', 'options' => ['data-pjax' => true]]); ?>
 
-                    <?php $cardModel = new UserBasket() ?>
+                        <?php $cardModel = new UserBasket() ?>
 
-                    <?= $form->field($cardModel, 'products_ids')->hiddenInput(['value' => json_encode([$model->id => ['id' => $model->id, 'number' => 1]])])->label(false) ?>
+                        <?= $form->field($cardModel, 'products_ids')->hiddenInput(['value' => json_encode([$model->id => ['id' => $model->id, 'number' => 1]])])->label(false) ?>
 
-                    <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
+                        <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
 
-                    <?php if ($user->canUser(User::CAN_USE_CART)): ?>
                         <button type="submit" class="product-card-button product-card-button-add bg-warning add-button"
                                 id="add_<?= $model->id ?>">
                             <span class="fas fa-cart-plus"></span>
                         </button>
-                    <?php endif; ?>
-                    <?php ActiveForm::end(); ?>
+                        <?php ActiveForm::end(); ?>
 
-                    <?php Pjax::end() ?>
+                        <?php Pjax::end() ?>
 
-                </div>
+                    </div>
+                <?php endif; ?>
+                <?php endif; ?>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
                 <script>
                     $(".add-button").click(function () {
+                        console.log(1)
                         $(this).animate({
                             "top": "-=5px"
                         }, 200).animate({

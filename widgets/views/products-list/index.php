@@ -20,6 +20,10 @@ use yii\widgets\Pjax;
 
 /* @var $sort */
 
+/* @var $limitButtons */
+
+/* @var $layout */
+
 /* @var ProductsCategories $category */
 
 $category = !empty($categoryId) ? ProductsCategories::getById($categoryId) : null;
@@ -52,8 +56,6 @@ try {
     if (!empty($sort)) {
         $query = Products::addSortToQuery($query, $sort);
     }
-
-//    var_dump($query->createCommand()->rawSql);exit();
 
 } catch (ProductException $e) {
     throw new ProductException('Не удалось найти товар');
@@ -88,12 +90,12 @@ $provider = new ActiveDataProvider([
     'options' => [
         'class' => 'row'
     ],
-    'layout' => "{pager}\n{summary}\n{items}\n{pager}",
+    'layout' => $layout,
     'emptyText' => 'Мы не смогли найти тут товары ...',
     'pager' => [
         'prevPageLabel' => '<i class="fa-solid fa-chevron-left"></i>',
         'nextPageLabel' => '<i class="fa-solid fa-chevron-right"></i>',
-        'maxButtonCount' => 30,
+        'maxButtonCount' => !empty($limitButtons) ? $limitButtons : 30,
         'options' => [
             'class' => 'pagination parent-products-pagination pt-4'
         ],

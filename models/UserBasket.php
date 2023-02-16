@@ -49,11 +49,22 @@ class UserBasket extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @param $userId
+     *
+     * @return array|\yii\db\ActiveRecord|null
+     */
     public static function getByUser($userId)
     {
         return self::find()->where(['user_id' => $userId])->one();
     }
 
+    /**
+     * @param int $userId
+     * @param string $product
+     *
+     * @return $this
+     */
     public function createNewCart(int $userId, string $product): UserBasket
     {
         $this->user_id = $userId;
@@ -63,6 +74,11 @@ class UserBasket extends \yii\db\ActiveRecord
         return $this;
     }
 
+    /**
+     * @param array $products
+     *
+     * @return $this
+     */
     public function updateCart(array $products): UserBasket
     {
         $this->products_ids = json_encode($products);
@@ -71,6 +87,11 @@ class UserBasket extends \yii\db\ActiveRecord
         return $this;
     }
 
+    /**
+     * @param array $product
+     *
+     * @return $this
+     */
     public function addToCart(array $product): UserBasket
     {
         $cart = json_decode($this->products_ids, true);
@@ -81,7 +102,14 @@ class UserBasket extends \yii\db\ActiveRecord
         return $this;
     }
 
-    public static function getCartPrice($userId): int
+    /**
+     * @param $userId
+     *
+     * @return string
+     *
+     * @throws \yii\db\Exception
+     */
+    public static function getCartPrice($userId): string
     {
         $cartPrice = 0;
 

@@ -656,7 +656,7 @@ class Products extends \yii\db\ActiveRecord
      *
      * @return string
      */
-    protected function prepareNumberForDisplay($number): string
+    public function prepareNumberForDisplay($number): string
     {
         $viewCostString = '';
 
@@ -675,10 +675,19 @@ class Products extends \yii\db\ActiveRecord
 
         $viewCostString = strrev($viewCostString);
 
-        if ($viewCost[1] !== '00') {
+        if (!empty($viewCost[1]) && $viewCost[1] !== '00') {
             $viewCostString .= ".$viewCost[1]";
         }
 
         return $viewCostString;
+    }
+
+    public function getCartNumber(): int
+    {
+        $userCart = UserBasket::getByUser(Yii::$app->user->id);
+
+        $cartProducts = json_decode($userCart->products_ids, true);
+
+        return $cartProducts[$this->id]['number'];
     }
 }

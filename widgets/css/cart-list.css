@@ -35,3 +35,13 @@
 .card-all-cost {
     font-size: 20px;
 }
+.card-price-on-sale{
+    color: red;
+}
+.card-price-past{
+    font-size: 14px;
+    color: black;
+}
+.card-price{
+    font-size: 22px;
+}

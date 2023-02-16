@@ -1,16 +1,23 @@
 <?php
 
 use app\models\Products;
+use app\models\UserBasket;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 /* @var $userId */
 
 /* @var $activeForm */
+
+$cartPrice = (new app\models\Products)->prepareNumberForDisplay(UserBasket::getCartPrice(Yii::$app->user->id))
 ?>
 <?php Pjax::begin([
-    'timeout' => 10000
+    'timeout' => 10000,
+    'id' => 'cart_pjax_container'
 ]); ?>
+<div class="card-all-cost">Общая стоимость:
+    <?= !empty($cartPrice) ? "$cartPrice руб" : ''?>
+</div>
 <?= ListView::widget([
     'dataProvider' => Products::getCartProductsProvider($userId),
     'itemView'     => '_product_item',

@@ -8,5 +8,4 @@ use yii\web\Controller;
 
 class CartController extends Controller
 {
-
 }

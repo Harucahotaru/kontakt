@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\controllers\admin\ProductsController;
 use app\models\AuthAssignment;
 use app\models\ControllerRules;
 use app\models\LoginForm;
@@ -277,7 +278,6 @@ class UserController extends Controller
     {
         return $this->render('cart', [
             'user' => User::findOne(Yii::$app->user->id),
-            'cartPrice' => UserBasket::getCartPrice(Yii::$app->user->id)
         ]);
     }
 
@@ -310,5 +310,38 @@ class UserController extends Controller
         }
 
         return $this->actionIndex();
+    }
+
+    public function actionAddToCartOne(): string
+    {
+        if (Yii::$app->request->isPost) {
+            $newProduct['products_ids'] = json_encode([$this->request->post('product_id') => [
+                'id' => (int)$this->request->post('product_id'),
+                'number' => $this->request->post('number')
+            ]]);
+
+            $newProduct['user_id'] = $this->request->post('user_id');
+
+            CatalogController::addProductToCart($newProduct);
+        }
+
+        return $this->actionCart();
+    }
+
+    public function actionAddToCartSome():string
+    {
+        if (!empty($this->request->post())) {
+            $newProduct = [$this->request->post('product_id') => [
+                'id' => (int)$this->request->post('product_id'),
+                'number' => $this->request->post('number')
+            ]];
+            $basket = UserBasket::getByUser($this->request->post('user_id'));
+            $products = json_decode($basket->products_ids, true);
+            $products[key($newProduct)] = $newProduct[key($newProduct)];
+
+            $basket->updateCart($products);
+        }
+
+        return $this->actionCart();
     }
 }

@@ -182,6 +182,9 @@ class CatalogController extends Controller
         return $this->actionIndex();
     }
 
+    /**
+     * @return string
+     */
     public function actionAddToCartByView(): string
     {
         if ($this->request->isPost) {
@@ -197,9 +200,15 @@ class CatalogController extends Controller
         return json_encode(['status' => 'success']);
     }
 
-    public function addProductToCart($newProduct): bool
+    /**
+     * @param array $newProduct
+     *
+     * @return bool
+     */
+    public static function addProductToCart(array $newProduct): bool
     {
         $cart = UserBasket::getByUser($newProduct['user_id']);
+
         if (empty($cart)) {
             $cart = new UserBasket();
             $cart->createNewCart($newProduct['user_id'], $newProduct['products_ids']);

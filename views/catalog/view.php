@@ -127,20 +127,25 @@ $value = json_encode([$model->id => ['id' => $model->id, 'number' => 1]]);
                     <?= ($model->brand_id) ? Brands::getBrandById($model->brand_id)->name : 'Не найдено' ?>
                 </a>
             </div>
-            <div class="py-4" style="overflow: hidden; width: 100%">
-                <div style="padding-top: 8px;" class="product-view-cost-item product-view-additional
-            <?= ($model->on_sale == 0)
-                    ? 'product-view-cost-large'
-                    : 'product-view-cost-small product-view-cost-through'
-                ?>"> <?= $model->displayCurrency(); ?> Руб</div>
-                <div class="product-view-cost-item <?= ($model->on_sale == 1)
-                    ? 'product-view-cost-large product-view-cost-on-sale'
-                    : 'product-view-hide'
-                ?>"> <?= $model->displaySale(); ?> </div>
-                <div class="product-view-cost-item product-view-currency-small product-view-additional
+            <?php if (!empty($model->currency)): ?>
+                <div class="py-4" style="overflow: hidden; width: 100%">
+                    <div style="padding-top: 8px;" class="product-view-cost-item product-view-additional
+            <?= ($model->on_sale === 0 || empty($model->sale))
+                        ? 'product-view-cost-large'
+                        : 'product-view-cost-small product-view-cost-through'
+                    ?>"> <?= $model->displayCurrency(); ?> Руб
+                    </div>
+                    <div class="product-view-cost-item <?= ($model->on_sale == 1)
+                        ? 'product-view-cost-large product-view-cost-on-sale'
+                        : 'product-view-hide'
+                    ?>"> <?= $model->displaySale(); ?> </div>
+                    <?php if (!empty($model->on_sale == 1 && !empty($model->sale))): ?>
+                        <div class="product-view-cost-item product-view-currency-small product-view-additional
                             <?= ($model->on_sale == 1) ? 'product-view-text-on-sale' : '' ?>"> Руб
+                        </div>
+                    <?php endif; ?>
                 </div>
-            </div>
+            <?php endif; ?>
             <?= Html::beginForm('/catalog/add-to-cart-by-view', 'POST', ['class' => 'input-group search-group py-2', 'style' => 'width: 280px', 'id' => 'add_to_card_form']) ?>
             <?= Html::input('number', 'number', 1, [
                 'class' => 'form-control',

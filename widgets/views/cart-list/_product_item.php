@@ -16,7 +16,8 @@ $user = new User()
             </div>
             <div class="col-lg-5">
                 <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
-                    <div class="small-product-card-title"><?= $model->name ?></div>
+                    <div class="small-product-card-title" style="
+                        height: 29px; display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;line-height: 1.5em;overflow: hidden;"><?= $model->name ?></div>
                 </a>
                 <div class="small-product-card-truncate-text py-2"><?= $model->description ?></div>
                 <div class="pt-3">

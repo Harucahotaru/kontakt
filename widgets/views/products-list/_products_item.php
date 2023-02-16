@@ -32,13 +32,12 @@ $user = new User()
             <div class="row py-3">
                 <?php if ($user->canUser(User::CAN_VIEW_COST)): ?>
                     <?php if (!empty($model->currency)): ?>
-                        <div class="col-lg-12 card-price
-                <?php echo ($model->on_sale == 0) ? '' : 'card-price-on-sale'; ?>">
-                            <?php if ($model->on_sale == 1): ?>
-                                <s class="card-price-past"><?php echo $model->currency ?></s>
+                        <div class="col-lg-12 card-price <?php echo ($model->on_sale == 0 || empty($model->sale)) ? '' : 'card-price-on-sale'; ?>">
+                            <?php if ($model->on_sale == 1 && !empty($model->sale)): ?>
+                                <s class="card-price-past"><?= $model->displayCurrency() ?> Руб</s>
                             <?php endif ?>
-                            <?php echo ($model->on_sale == 1) ? $model->sale : $model->currency ?>
-                            <i class="fas fa-ruble-sign card-price-icon"></i>
+                            <?= ($model->on_sale == 1 && !empty($model->sale)) ? $model->displaySale() : $model->displayCurrency() ?>
+                            Руб
                         </div>
                     <?php endif ?>
                 <?php endif; ?>
@@ -48,29 +47,30 @@ $user = new User()
                     <div class="bg-warning product-card-button product-card-button-bottom">На страницу товара</div>
                 </a>
                 <?php if (Yii::$app->request->url !== Yii::$app->homeUrl): ?>
-                <?php if ($user->canUser(User::CAN_USE_CART)): ?>
-                    <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>">
+                    <?php if ($user->canUser(User::CAN_USE_CART)): ?>
+                        <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>">
 
-                        <?php Pjax::begin(['enablePushState' => false, 'id' => "product $model->id"]) ?>
+                            <?php Pjax::begin(['enablePushState' => false, 'id' => "product $model->id"]) ?>
 
-                        <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/catalog/add-to-cart', 'options' => ['data-pjax' => true]]); ?>
+                            <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/catalog/add-to-cart', 'options' => ['data-pjax' => true]]); ?>
 
-                        <?php $cardModel = new UserBasket() ?>
+                            <?php $cardModel = new UserBasket() ?>
 
-                        <?= $form->field($cardModel, 'products_ids')->hiddenInput(['value' => json_encode([$model->id => ['id' => $model->id, 'number' => 1]])])->label(false) ?>
+                            <?= $form->field($cardModel, 'products_ids')->hiddenInput(['value' => json_encode([$model->id => ['id' => $model->id, 'number' => 1]])])->label(false) ?>
 
-                        <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
+                            <?= $form->field($cardModel, 'user_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false) ?>
 
-                        <button type="submit" class="product-card-button product-card-button-add bg-warning add-button"
-                                id="add_<?= $model->id ?>">
-                            <span class="fas fa-cart-plus"></span>
-                        </button>
-                        <?php ActiveForm::end(); ?>
+                            <button type="submit"
+                                    class="product-card-button product-card-button-add bg-warning add-button"
+                                    id="add_<?= $model->id ?>">
+                                <span class="fas fa-cart-plus"></span>
+                            </button>
+                            <?php ActiveForm::end(); ?>
 
-                        <?php Pjax::end() ?>
+                            <?php Pjax::end() ?>
 
-                    </div>
-                <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                 <?php endif; ?>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
                 <script>

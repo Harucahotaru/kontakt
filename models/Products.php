@@ -549,7 +549,7 @@ class Products extends \yii\db\ActiveRecord
      */
     public static function getProductsByBrandProvider(int $brandId): ActiveQuery
     {
-        return  self::find()->where(['brand_id' => $brandId]);
+        return self::find()->where(['brand_id' => $brandId]);
     }
 
     /**
@@ -628,19 +628,27 @@ class Products extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function displayCurrency(): string
+    public function displayCurrency()
     {
-        return $this->prepareNumberForDisplay($this->currency);
+        if (!empty($this->currency)) {
+            return $this->prepareNumberForDisplay($this->currency);
+        }
+
+        return $this->currency;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function displaySale(): string
+    public function displaySale()
     {
-        return $this->prepareNumberForDisplay($this->sale);
+        if (!empty($this->sale)) {
+            return $this->prepareNumberForDisplay($this->sale);
+        }
+
+        return $this->sale;
     }
 
     /**
@@ -648,7 +656,7 @@ class Products extends \yii\db\ActiveRecord
      *
      * @return string
      */
-    protected function prepareNumberForDisplay(string $number): string
+    protected function prepareNumberForDisplay($number): string
     {
         $viewCostString = '';
 

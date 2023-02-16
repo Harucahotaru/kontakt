@@ -11,10 +11,10 @@ $user = new User()
 <div class="product-card my-3 p-0">
     <div class="small-product-card p-3">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <img class="small-product-card-img" src="<?= $model->getMainImagePath() ?>">
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-6">
                 <a data-pjax=0 href="/catalog/view/<?= $model->id ?>">
                     <div class="small-product-card-title" style="
                         height: 29px; display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;line-height: 1.5em;overflow: hidden;"><?= $model->name ?></div>
@@ -34,7 +34,7 @@ $user = new User()
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="col-lg-2 align-self-center">
+            <div class="col-lg-3 align-self-center">
                 <div class="row justify-content-center">
                     <div class="col-lg-auto small-product-card-button-main">
                         <?= Html::beginForm('/user/add-to-cart-one', 'POST', ['id' => "add_to_card_form_plus_$model->id", 'data-pjax' => true]) ?>

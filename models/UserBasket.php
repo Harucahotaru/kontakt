@@ -136,4 +136,23 @@ class UserBasket extends \yii\db\ActiveRecord
 
         return $cartPrice;
     }
+
+    /**
+     * @param int $userId
+     *
+     * @return string
+     */
+    public static function getCartCount(int $userId): string
+    {
+        $cartCount = '0';
+
+        $cart = self::getByUser($userId);
+        if (empty($cart)) {
+            return $cartCount;
+        }
+
+        $cartCount = (string)count(json_decode($cart->products_ids, true));
+
+        return $cartCount;
+    }
 }

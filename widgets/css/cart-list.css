@@ -32,9 +32,6 @@
 .small-product-card-button:hover {
     border-width: 1px;
 }
-.card-all-cost {
-    font-size: 20px;
-}
 .card-price-on-sale{
     color: red;
 }

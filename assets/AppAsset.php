@@ -29,13 +29,14 @@ class AppAsset extends AssetBundle
         'css/adminReview.css',
         'css/userProfile.css',
         'css/admin-products.css',
+        'css/cart.css',
     ];
     public $js = [
         'js/site.js',
         'js/searchLine.js',
         'js/massActions.js',
         'js/productsSort.js',
-        'js/cartNumberInput.js',
+        'js/cart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

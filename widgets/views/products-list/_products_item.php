@@ -51,7 +51,7 @@ $user = new User()
                 <?php if ($user->canUser(User::CAN_USE_CART)): ?>
                     <div class="col-lg-3 <?= Yii::$app->user->isGuest ? 'catalog-view-display-none' : '' ?>">
 
-                        <?php Pjax::begin(['enablePushState' => false]) ?>
+                        <?php Pjax::begin(['enablePushState' => false, 'id' => "product $model->id"]) ?>
 
                         <?php $form = ActiveForm::begin(['id' => 'test-form', 'action' => '/catalog/add-to-cart', 'options' => ['data-pjax' => true]]); ?>
 

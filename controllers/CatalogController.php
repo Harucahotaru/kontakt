@@ -175,25 +175,45 @@ class CatalogController extends Controller
     {
         if ($this->request->isPost) {
             $newProduct = $this->request->post('UserBasket');
-            $cart = UserBasket::getByUser($newProduct['user_id']);
 
-            if (empty($cart)) {
-                $cart = new UserBasket();
-                $cart->createNewCart($newProduct['user_id'], $newProduct['products_ids']);
-            } elseif ($cart instanceof UserBasket) {
-                $addProduct = json_decode($newProduct['products_ids'], true);
-                $products = json_decode($cart->products_ids, true);
-
-                if (array_key_exists(key($addProduct), $products)) {
-                    $products[key($addProduct)]['number']++;
-                    $cart->updateCart($products);
-                } else {
-                    $cart->addToCart($addProduct);
-                }
-
-            }
+            $this->addProductToCart($newProduct);
         }
 
         return $this->actionIndex();
+    }
+
+    public function actionAddToCartByView(): string
+    {
+        if ($this->request->isPost) {
+            $newProduct['products_ids'] = json_encode([$this->request->post('product_id') => [
+                'id' => (int)$this->request->post('product_id'),
+                'number' => $this->request->post('number')
+            ]]);
+            $newProduct['user_id'] =  $this->request->post('user_id');
+
+            $this->addProductToCart($newProduct);
+        }
+
+        return json_encode(['status' => 'success']);
+    }
+
+    public function addProductToCart($newProduct): bool
+    {
+        $cart = UserBasket::getByUser($newProduct['user_id']);
+        if (empty($cart)) {
+            $cart = new UserBasket();
+            $cart->createNewCart($newProduct['user_id'], $newProduct['products_ids']);
+        } elseif ($cart instanceof UserBasket) {
+            $addProduct = json_decode($newProduct['products_ids'], true);
+            $products = json_decode($cart->products_ids, true);
+            if (array_key_exists(key($addProduct), $products)) {
+                $products[key($addProduct)]['number'] += $addProduct[key($addProduct)]['number'];
+                $cart->updateCart($products);
+            } else {
+                $cart->addToCart($addProduct);
+            }
+        }
+
+        return true;
     }
 }

@@ -8,6 +8,7 @@ use app\models\Reviews;
 use app\widgets\ParentProducts;
 use app\widgets\ViewedProducts;
 use kartik\rating\StarRating;
+use yii\helpers\Html;
 
 /** @var  Products $model */
 
@@ -16,6 +17,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['index'
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 CatalogController::setViewedProductsCookie($model->id);
+
+$value = json_encode([$model->id => ['id' => $model->id, 'number' => 1]]);
 
 ?>
 <div class="container catalog-view-container">
@@ -124,34 +127,65 @@ CatalogController::setViewedProductsCookie($model->id);
                     <?= ($model->brand_id) ? Brands::getBrandById($model->brand_id)->name : 'Не найдено' ?>
                 </a>
             </div>
-            <!--            <div class="py-4" style="overflow: hidden; width: 100%">-->
-            <!--                <div class="product-view-cost-item product-view-additional -->
-            <?php //($model->on_sale == 0)
-            //                    ? 'product-view-cost-large'
-            //                    : 'product-view-cost-small product-view-cost-through'
-            //                ?><!--"> --><?php //$model->cost; ?><!-- </div>-->
-            <!--                <div class="product-view-cost-item --><?php //($model->on_sale == 1)
-            //                    ? 'product-view-cost-large product-view-cost-on-sale'
-            //                    : 'product-view-hide'
-            //                ?><!--"> --><?php //$model->sale; ?><!-- </div>-->
-            <!--                <div class="product-view-cost-item product-view-cost-small product-view-additional-->
-            <!--                --><?php //($model->on_sale == 1) ? 'product-view-text-on-sale' : '' ?><!--"> Руб-->
-            <!--                </div>-->
-            <!--            </div>-->
-            <!--            <form class="input-group search-group py-2" style="width: 280px">-->
-            <!--                <input type="number" class="form-control" id="add_to_card" name="add_to_card"-->
-            <!--                       aria-describedby="basic-addon2" value="1" min="0" step="1">-->
-            <!--                <div class="input-group-append input-button menu-btn-input">-->
-            <!--                    <button type="submit" class="btn btn-dark">-->
-            <!--                        <b>Добавить в корзину</b>-->
-            <!--                        <i class="fas fa-cart-plus"></i>-->
-            <!--                    </button>-->
-            <!--                </div>-->
-            <!--            </form>-->
+            <div class="py-4" style="overflow: hidden; width: 100%">
+                <div class="product-view-cost-item product-view-additional
+            <?= ($model->on_sale == 0)
+                    ? 'product-view-cost-large'
+                    : 'product-view-cost-small product-view-cost-through'
+                ?>"> <?= $model->currency; ?> </div>
+                <div class="product-view-cost-item <?= ($model->on_sale == 1)
+                    ? 'product-view-cost-large product-view-cost-on-sale'
+                    : 'product-view-hide'
+                ?>"> <?= $model->sale; ?> </div>
+                <div class="product-view-cost-item product-view-cost-small product-view-additional
+                            <?= ($model->on_sale == 1) ? 'product-view-text-on-sale' : '' ?>"> Руб
+                </div>
+            </div>
+            <?= Html::beginForm('/catalog/add-to-cart-by-view', 'POST', ['class' => 'input-group search-group py-2', 'style' => 'width: 280px', 'id' => 'add_to_card_form']) ?>
+            <?= Html::input('number', 'number', 1, [
+                'class' => 'form-control',
+                'id' => 'addToCardNumberInput',
+            ]) ?>
+            <?= Html::hiddenInput('user_id', Yii::$app->user->id, ['id' => 'addToCardUserIdInput']) ?>
+            <?= Html::hiddenInput('product_id', $model->id, ['id' => 'addToCardProductIdInput']) ?>
+            <div class="input-group-append input-button menu-btn-input">
+                <button type="submit" class="btn btn-dark" id="addToCartButton">
+                    <b>Добавить в корзину</b>
+                    <i class="fas fa-cart-plus"></i>
+                </button>
+            </div>
+            <?= Html::endForm() ?>
+            <script>
+                $(document).ready(function () {
+                    $("#add_to_card_form").submit(function (event) {
+                        let addToCardInputProduct = $('#addToCardProductIdInput');
+                        let addToCardInputNumber = $('#addToCardNumberInput');
+                        let addToCardInputUser = $('#addToCardUserIdInput');
+                        let inputData = new FormData;
+
+                        inputData.append('number', addToCardInputNumber.val());
+                        inputData.append('product_id', addToCardInputProduct.val());
+                        inputData.append('user_id', addToCardInputUser.val());
+
+                        $.ajax({
+                            url: '/catalog/add-to-cart-by-view',
+                            data: inputData,
+                            processData: false,
+                            contentType: false,
+                            type: 'POST',
+                            success: function (response) {
+                            }
+                        });
+
+                        event.preventDefault();
+                    });
+                });
+            </script>
             <div class="py-3">
                 <b>Описание товара: </b>
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-8"
+                         style="overflow: hidden;display: -webkit-box;-webkit-line-clamp: 9;-webkit-box-orient: vertical;line-height: 1.3em;height: 11.9em;">
                         <?= $model->description ?>
                     </div>
                 </div>

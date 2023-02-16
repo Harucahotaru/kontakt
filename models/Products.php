@@ -574,10 +574,15 @@ class Products extends \yii\db\ActiveRecord
     public static function getCartProductsProvider(int $userId, ?int $pagination = self::BASE_PAGINATION): ActiveDataProvider
     {
         $productsIds = UserBasket::find()->select('products_ids')->where(['user_id' => $userId])->one();
-        $productsIds = array_keys(json_decode($productsIds->products_ids, true));
+
+        if (!empty($productsIds)) {
+            $productsIds = array_keys(json_decode($productsIds->products_ids, true));
+        }
+
+        $query = self::find()->where(['id' => $productsIds]);
 
         return new ActiveDataProvider([
-            'query' => self::find()->where(['id' => $productsIds]),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => $pagination,
             ],

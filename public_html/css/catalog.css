@@ -90,10 +90,13 @@
     text-decoration-color: #fdc007;
 }
 .product-view-cost-large {
-    font-size: 40px;
+    font-size: 35px;
 }
 .product-view-cost-small {
-    font-size: 35px;
+    font-size: 25px;
+}
+.product-view-currency-small {
+    font-size: 31px;
 }
 .product-view-cost-on-sale {
     color: red;

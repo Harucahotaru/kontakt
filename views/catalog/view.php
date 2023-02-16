@@ -128,16 +128,16 @@ $value = json_encode([$model->id => ['id' => $model->id, 'number' => 1]]);
                 </a>
             </div>
             <div class="py-4" style="overflow: hidden; width: 100%">
-                <div class="product-view-cost-item product-view-additional
+                <div style="padding-top: 8px;" class="product-view-cost-item product-view-additional
             <?= ($model->on_sale == 0)
                     ? 'product-view-cost-large'
                     : 'product-view-cost-small product-view-cost-through'
-                ?>"> <?= $model->currency; ?> </div>
+                ?>"> <?= $model->displayCurrency(); ?> Руб</div>
                 <div class="product-view-cost-item <?= ($model->on_sale == 1)
                     ? 'product-view-cost-large product-view-cost-on-sale'
                     : 'product-view-hide'
-                ?>"> <?= $model->sale; ?> </div>
-                <div class="product-view-cost-item product-view-cost-small product-view-additional
+                ?>"> <?= $model->displaySale(); ?> </div>
+                <div class="product-view-cost-item product-view-currency-small product-view-additional
                             <?= ($model->on_sale == 1) ? 'product-view-text-on-sale' : '' ?>"> Руб
                 </div>
             </div>

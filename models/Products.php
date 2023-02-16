@@ -94,8 +94,8 @@ class Products extends \yii\db\ActiveRecord
                 'tooBig' => 'Limit is 5 MB'
             ],
             [['name'], 'required'],
-            [['on_sale', 'sale', 'active', 'brand_id'], 'integer'],
-            [['currency'], 'double'],
+            [['on_sale', 'active', 'brand_id'], 'integer'],
+            [['currency', 'sale'], 'double'],
             [['date_c', 'date_m'], 'safe'],
             ['parent_id', 'each', 'rule' => ['integer']],
             [['description'], 'string'],
@@ -625,5 +625,52 @@ class Products extends \yii\db\ActiveRecord
             'cost_desc' => 'По убыванию цен',
             'cost_asc' => 'По возрастанию цен',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function displayCurrency(): string
+    {
+        return $this->prepareNumberForDisplay($this->currency);
+    }
+
+    /**
+     * @return string
+     */
+    public function displaySale(): string
+    {
+        return $this->prepareNumberForDisplay($this->sale);
+    }
+
+    /**
+     * @param string $number
+     *
+     * @return string
+     */
+    protected function prepareNumberForDisplay(string $number): string
+    {
+        $viewCostString = '';
+
+        $viewCost = $number;
+        $viewCost = explode('.', $viewCost);
+        $viewCost[0] = strrev($viewCost[0]);
+        $viewCostFirst = str_split($viewCost[0], 3);
+
+        foreach ($viewCostFirst as $key => $item) {
+            if ($key == array_key_last($viewCostFirst)) {
+                $viewCostString .= "$item";
+            } else {
+                $viewCostString .= "$item ";
+            }
+        }
+
+        $viewCostString = strrev($viewCostString);
+
+        if ($viewCost[1] !== '00') {
+            $viewCostString .= ".$viewCost[1]";
+        }
+
+        return $viewCostString;
     }
 }

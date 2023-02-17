@@ -167,4 +167,13 @@ class BrandsController extends Controller
 
         return true;
     }
+
+    public function actionList()
+    {
+        $brands = Brands::getBrandList();
+
+        return $this->render('list', [
+            'brands' => $brands,
+        ]);
+    }
 }

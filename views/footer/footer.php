@@ -20,19 +20,22 @@
                                 <a class="footer-list-text" href="/contacts">Контакты</a>
                             </li>
                             <li>
+                                <a class="footer-list-text" href="/about">О нас</a>
+                            </li>
+                            <li>
                                 <a class="footer-list-text" href="/news">Новости</a>
                             </li>
-<!--                            <li>-->
-<!--                                <a class="footer-list-text" href="#">Доставка</a>-->
-<!--                            </li>-->
                         </ul>
                     </div>
                     <div class="col-lg-3">
-                        <div class="menu-text-size-title text-white">Сервисы</div>
+                        <div class="menu-text-size-title text-white">Товары</div>
                         <ul>
-<!--                            <li>-->
-<!--                                <a class="footer-list-text" href="#">Производители</a>-->
-<!--                            </li>-->
+                            <li>
+                                <a class="footer-list-text" href="/brands/list">Производители</a>
+                            </li>
+                            <li>
+                                <a class="footer-list-text" href="/catalog">Каталог</a>
+                            </li>
                             <li>
                                 <a class="footer-list-text" href="/catalog/new-products">Новинки</a>
                             </li>
@@ -44,20 +47,17 @@
                             </li>
                         </ul>
                     </div>
-<!--                    <div class="col-lg-3">-->
-<!--                        <div class="menu-text-size-title text-white">Личные</div>-->
-<!--                        <ul>-->
-<!--                            <li>-->
-<!--                                <a class="footer-list-text" href="#">Личный кабинет</a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a class="footer-list-text" href="#">Заказы</a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a class="footer-list-text" href="#">Корзина</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
+                    <div class="col-lg-3">
+                        <div class="menu-text-size-title text-white">Личные</div>
+                        <ul>
+                            <li>
+                                <a class="footer-list-text" href="/user/profile">Личный кабинет</a>
+                            </li>
+                            <li>
+                                <a class="footer-list-text" href="/user/cart ">Корзина</a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="col-lg-3">
                         <div class="menu-text-size-title text-white">Обратная связь</div>
                         <div class="text-white">

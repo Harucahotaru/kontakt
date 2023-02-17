@@ -1,6 +1,8 @@
 <?php
 
 use app\models\User;
+use app\models\UserBasket;
+use kartik\icons\Icon;
 use kartik\typeahead\Typeahead;
 
 $user = new User();
@@ -56,13 +58,18 @@ $user = new User();
             </div>
         </div>
     </div>
-    <div class="col-lg-1 align-self-center">
+    <div class="col-lg-1 align-self-center" style="position:relative;">
         <?php if ($user->canUser(User::CAN_USE_CART)): ?>
-        <a class="fa-stack menu-icon" href="<?= Yii::$app->user->isGuest ? '/user/login' : '/user/cart' ?>"
-           style="vertical-align: top;">
-            <i class="fa-regular fa-circle fa-stack-2x"></i>
-            <i class="fa-solid fa-cart-shopping fa-stack-1x"></i>
-        </a>
+            <a class="fa-stack menu-icon" href="<?= Yii::$app->user->isGuest ? '/user/login' : '/user/cart' ?>"
+               style="vertical-align: top;">
+                <i class="fa-regular fa-circle fa-stack-2x"></i>
+                <i class="fa-solid fa-cart-shopping fa-stack-1x"></i>
+                <div class="header-cart-icon-number-box">
+                    <div class="<?= UserBasket::getCartCount(Yii::$app->user->id) >= 10 ? 'header-cart-icon-number-number-two' : 'header-cart-icon-number-number-one'?>">
+                        <?= UserBasket::getCartCount(Yii::$app->user->id) ?>
+                    </div>
+                </div>
+            </a>
         <?php endif; ?>
         <a class="fa-stack menu-icon" href="<?= Yii::$app->user->isGuest ? '/user/login' : '/user/profile' ?>"
            style="vertical-align: top;">

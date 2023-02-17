@@ -102,11 +102,9 @@ class CatalogController extends Controller
         ]);
     }
 
-    public function actionBrand($brandId): string
+    public function actionBrand($brandId): \yii\web\Response
     {
-        return $this->render('brand-view', [
-            'brand' => Brands::getBrandById($brandId),
-        ]);
+        return $this->redirect("/catalog?&brand%5B%5D=$brandId");
     }
 
     /**

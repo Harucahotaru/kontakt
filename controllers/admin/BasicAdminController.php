@@ -4,6 +4,7 @@ namespace app\controllers\admin;
 
 use app\classes\AccessControl;
 use app\models\ControllerRules;
+use Yii;
 use yii\web\Controller;
 
 class BasicAdminController extends Controller

@@ -2,8 +2,10 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
 use app\models\AuthItem;
 use app\models\AuthItemSearch;
+use app\models\ControllerRules;
 use app\models\User;
 use Exception;
 use Yii;
@@ -14,26 +16,8 @@ use yii\filters\VerbFilter;
 /**
  * AuthItemController implements the CRUD actions for AuthItem model.
  */
-class AuthItemController extends Controller
+class AuthItemController extends BasicAdminController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all AuthItem models.
      *

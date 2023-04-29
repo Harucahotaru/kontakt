@@ -2,6 +2,8 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\Images;
 use app\models\Slider;
 use app\models\SliderSearch;
@@ -16,26 +18,8 @@ use yii\web\UploadedFile;
 /**
  * SliderController implements the CRUD actions for Slider model.
  */
-class SliderController extends Controller
+class SliderController extends BasicAdminController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-    
     /**
      * Lists all Slider models.
      *

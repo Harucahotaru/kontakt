@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\Reviews;
 use Yii;
 use yii\web\Controller;
@@ -10,6 +12,19 @@ class ProductsReviewsController extends Controller
 {
     private const CREATE_ERROR = 'Не удалось сохранить отзыв';
     private const CATALOG_URL = 'catalog/view/';
+
+    /**
+     * @inheritDoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
+            ],
+        ];
+    }
 
     public function actionCreate()
     {

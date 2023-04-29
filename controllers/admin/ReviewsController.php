@@ -2,6 +2,8 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\Products;
 use app\models\Reviews;
 use Throwable;
@@ -10,7 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
-class ReviewsController extends Controller
+class ReviewsController extends BasicAdminController
 {
     public function actionIndex($reviewType = 0)
     {

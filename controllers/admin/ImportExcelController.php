@@ -2,15 +2,17 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
 use app\classes\ParseExcel;
 use app\exceptions\ImageException;
 use app\exceptions\ImportException;
+use app\models\ControllerRules;
 use app\models\Products;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use Yii;
 use yii\web\Controller;
 
-class ImportExcelController extends Controller
+class ImportExcelController extends BasicAdminController
 {
     /**
      * @return string

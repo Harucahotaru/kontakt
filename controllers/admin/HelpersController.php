@@ -2,6 +2,8 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\Helpers;
 use app\models\HelpersSearch;
 use yii\web\Controller;
@@ -11,26 +13,8 @@ use yii\filters\VerbFilter;
 /**
  * HelpersController implements the CRUD actions for Helpers model.
  */
-class HelpersController extends Controller
+class HelpersController extends BasicAdminController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all Helpers models.
      *

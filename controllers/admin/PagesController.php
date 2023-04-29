@@ -15,21 +15,8 @@ use yii\filters\VerbFilter;
 /**
  * PagesController implements the CRUD actions for Pages model.
  */
-class PagesController extends Controller
+class PagesController extends BasicAdminController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
-            ],
-        ];
-    }
-
     /**
      * Lists all Pages models.
      *

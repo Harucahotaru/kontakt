@@ -2,7 +2,9 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
 use app\exceptions\ProductException;
+use app\models\ControllerRules;
 use app\models\Images;
 use app\models\Products;
 use app\models\ProductsCategories;
@@ -20,26 +22,8 @@ use yii\web\Response;
 /**
  * ProductsController implements the CRUD actions for Products model.
  */
-class ProductsController extends Controller
+class ProductsController extends BasicAdminController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all Products models.
      *

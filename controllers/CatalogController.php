@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\classes\AccessControl;
 use app\classes\RecommendedProducts;
 use app\helpers\CookieHelper;
 use app\models\Brands;
+use app\models\ControllerRules;
 use app\models\Products;
 use app\models\ProductsCategories;
 use app\models\UserBasket;
@@ -26,6 +28,19 @@ class CatalogController extends Controller
         'sale' => 'Товары по акции',
         'handshake' => 'Подобрано специально для вас',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
+            ],
+        ];
+    }
 
     /**
      * @param $mainCategory

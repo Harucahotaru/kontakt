@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\Images;
 use app\models\ImagesSearch;
 use app\models\Slider;
@@ -22,17 +24,12 @@ class ImagesController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => ControllerRules::getControllerRules(Yii::$app->controller->id),
+            ],
+        ];
     }
     
     /**

@@ -2,6 +2,8 @@
 
 namespace app\controllers\admin;
 
+use app\classes\AccessControl;
+use app\models\ControllerRules;
 use app\models\ProductsCategories;
 use app\models\ProductsCategoriesSearch;
 use yii\web\Controller;
@@ -11,26 +13,8 @@ use yii\filters\VerbFilter;
 /**
  * ProductsCategoriesController implements the CRUD actions for ProductsCategories model.
  */
-class ProductsCategoriesController extends Controller
+class ProductsCategoriesController extends BasicAdminController
 {
-    /**
-     * @inheritDoc
-     */
-    public function behaviors()
-    {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * Lists all ProductsCategories models.
      *
